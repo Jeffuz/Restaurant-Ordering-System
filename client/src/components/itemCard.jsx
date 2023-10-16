@@ -1,9 +1,15 @@
 import React from 'react'
 
-const itemCard = () => {
+const ItemCard = ({ image, itemName, itemPrice }) => {
     return (
-        <div>itemCard</div>
+        <div className=''>
+            <img src={image} alt={itemName} />
+            <div className=''>
+                <div>{itemName}</div>
+                <div>${itemPrice}</div>
+            </div>
+        </div>
     )
 }
 
-export default itemCard
+export default ItemCard
