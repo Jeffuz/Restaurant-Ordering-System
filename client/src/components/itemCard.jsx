@@ -1,15 +1,15 @@
-import React from 'react'
+import React from 'react';
 
 const ItemCard = ({ image, itemName, itemPrice }) => {
     return (
-        <div className=''>
-            <img src={image} alt={itemName} />
-            <div className=''>
-                <div>{itemName}</div>
-                <div>${itemPrice}</div>
+        <div className="bg-white rounded-lg overflow-hidden shadow-md">
+            <img src={image} alt={itemName} className="w-full h-64 object-cover" />
+            <div className="p-6">
+                <div className="text-lg font-semibold">{itemName}</div>
+                <div className="text-gray-600">${itemPrice}</div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default ItemCard
+export default ItemCard;
