@@ -112,7 +112,8 @@ const MenuManager = () => {
             <div className="addEditItemButton flex justify-end p-4">
             
                 {showForm && (
-                    <ReactModal  isOpen={isFormOpen} onRequestClose={closeModal }>
+                    <ReactModal  isOpen={isFormOpen} onRequestClose={closeModal}
+                    >
                         {/* <div>
                             <button onClick={closeModal} className="text-xl font-bold">
                                 X
@@ -122,6 +123,7 @@ const MenuManager = () => {
                             selectedItem={selectedItem}
                             addMenuItem={addMenuItem}
                             editMenuItem={editMenuItem}
+                            setIsOpen={setIsOpen}
                             deleteMenuItem={deleteMenuItem}
                             
                         />
@@ -148,7 +150,9 @@ const MenuManager = () => {
 
             {selectedItem && (
             
-                <ReactModal isOpen={isOpen} onRequestClose={closeModal}>
+                <ReactModal isOpen={isOpen} onRequestClose={closeModal}
+                    
+                >
                     {/* <div className="flex justify-end p-4">
                         <button onClick={closeModal} className="close-button text-xl font-bold">
                             X

@@ -1,8 +1,21 @@
-import React, { useState } from 'react';
-import ReactModal from 'react-modal';
+import React, { useState, useEffect } from 'react';
+import Camera from '../admin-menu/camera-circle.png'
 
-const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMenuItem }) => {
+const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMenuItem, setIsOpen }) => {
     const [itemData, setItemData] = useState(selectedItem || {});
+
+
+    useEffect(() => {
+        if (!selectedItem) {
+            setItemData({
+                name: '',
+                price: '',
+                description: '',
+                photo: '', 
+            });
+        }
+    }, [selectedItem]);
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -20,7 +33,9 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
 
     const handleDelete = () => {
         if (selectedItem) {
+           
             deleteMenuItem(selectedItem.id);
+            setIsOpen(false); 
         }
     };
 
@@ -40,16 +55,40 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
     
     return (
         <div className="flex">
-            
-            <div className="w-1/2 p-4">
-                <img
-                    src={itemData.photo}
-                    alt={itemData.name}
-                    className="w-full h-auto"
-                />
+            <div className="w-2/5 p-8 bg-gray-100 relative">
+                {itemData.photo ? (
+                    <div>
+                        <img
+                            src={itemData.photo}
+                            alt="Selected Image"
+                            className="w-full h-auto"
+                        />
+                        <button
+                            className="bg-gray-200 text-black font-semibold py-2 px-4 rounded-md mr-2 text-center text-xl font-montserrat font-medium"
+                            onClick={() => setItemData({ ...itemData, photo: '' })}
+                        >
+                            X
+                        </button>
+                    </div>
+                ) : (
+                    <label className="custom-file-label">
+                        <img
+                            src={Camera}
+                            alt="Choose File"
+                            className="file-button"
+                        />
+                        <input
+                            type="file"
+                            name="photo"
+                            accept="image/*"
+                            onChange={(e) => handleImageUpload(e.target.files)}
+                            className="custom-file-input"
+                        />
+                    </label>
+                )}
             </div>
 
-            <div className="w-1/2 p-4">
+            <div className="w-3/5 p-4">
                 <div className="mb-2">
                     <input
                         type="text"
@@ -79,23 +118,21 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
                         className="w-full p-2 border border-gray-300 rounded"
                     />
                 </div>
-                <div className="mb-2">
-                    <input
-                        type="file"
-                        name="photo"
-                        accept="image/*"
-                        onChange={(e) => handleImageUpload(e.target.files)}
-                        className="w-full p-2 border border-gray-300 rounded"
-                    />
-                </div>
-                <button className="bg-blue-500 text-white font-semibold py-2 px-4 rounded" onClick={handleSubmit}>
+               
+
+                <button className="bg-gray-200 text-black font-semibold py-2 px-4 rounded-md mr-2 text-center text-xl font-montserrat font-medium" onClick={handleSubmit}>
                     {selectedItem ? 'Save' : 'Add Item'}
                 </button>
-                {selectedItem && (
-                    <button className="bg-red-500 text-white font-semibold py-2 px-4 rounded" onClick={handleDelete}>
+
+                {/* {selectedItem && ( */}
+                    <button className="bg-gray-200 text-black font-semibold py-2 px-4 rounded-md mr-2 text-center text-xl font-montserrat font-medium" onClick={handleDelete}>
                         Delete
                     </button>
-                )}
+
+
+                {/* )} */}
+                
+            
             </div>
         </div>
     );
