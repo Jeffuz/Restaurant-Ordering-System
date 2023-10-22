@@ -97,9 +97,9 @@ const MenuManager = () => {
 
 
     return (
-        <div>
+        <div >
 
-            <h1 className="text-center mt-27 text-black font-Montserrat text-4xl font-bold">Menu</h1>
+            <h1 className="text-center mt-27 text-black font-Montserrat text-4xl font-bold py-6">Menu</h1>
 
 
             <CategoryNavBar
@@ -113,6 +113,16 @@ const MenuManager = () => {
             
                 {showForm && (
                     <ReactModal  isOpen={isFormOpen} onRequestClose={closeModal}
+                        style={{
+                            overlay: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                            },
+                            content: {
+                            width: '70%',  // Adjust the width as needed, e.g., '50%' for 50% of the parent container's width
+                            height: '70%', // Adjust the height as needed, e.g., '50%' for 50% of the parent container's height
+                            margin: 'auto', // Center the modal horizontally
+                            },
+                        }}
                     >
                         {/* <div>
                             <button onClick={closeModal} className="text-xl font-bold">
@@ -151,7 +161,16 @@ const MenuManager = () => {
             {selectedItem && (
             
                 <ReactModal isOpen={isOpen} onRequestClose={closeModal}
-                    
+                    style={{
+                        overlay: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                        },
+                        content: {
+                        width: '70%',  // Adjust the width as needed, e.g., '50%' for 50% of the parent container's width
+                        height: '70%', // Adjust the height as needed, e.g., '50%' for 50% of the parent container's height
+                        margin: 'auto', // Center the modal horizontally
+                        },
+                    }}
                 >
                     {/* <div className="flex justify-end p-4">
                         <button onClick={closeModal} className="close-button text-xl font-bold">

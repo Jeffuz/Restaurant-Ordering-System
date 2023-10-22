@@ -9,7 +9,7 @@ const AddButtonCard = ({ onClick }) => {
     >
       <div className="flex items-center justify-center h-full">
         <img src={AddCircle} className="w-101 h-101"/>
-        {/* <button className="text-2xl font-bold">Add Item +</button> */}
+        
       </div>
     </div>
   );

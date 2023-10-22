@@ -11,7 +11,7 @@ const CategoryNavBar = ({ categories, selectedCategory, onSelectCategory, onAddC
   };
 
   return (
-    <div className="category-nav-bar flex space-x-14 bg-white w-1286 h-50">
+    <div className="category-nav-bar flex space-x-14 bg-white w-1286 h-50 rounded-lg mx-4">
       <button
         className={`p-2 ${selectedCategory === 'All' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}
         onClick={() => onSelectCategory('All')}
