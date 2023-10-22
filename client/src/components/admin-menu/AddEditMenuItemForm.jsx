@@ -1,7 +1,7 @@
 import {React, useState}  from 'react'
+import ReactModal from 'react-modal';
 
-
-const AddEditMenuItemForm = ({selectedItem, addMenuItem, editMenuItem} ) =>{
+const AddEditMenuItemForm = ({selectedItem, addMenuItem, editMenuItem, deleteMenuItem} ) =>{
 
     const [itemData ,setItemData] = useState(selectedItem || {}) // either edit or adding new item
 
@@ -22,11 +22,11 @@ const AddEditMenuItemForm = ({selectedItem, addMenuItem, editMenuItem} ) =>{
         }
     };
 
-    // const handleDelete = () => {
-    //     if (selectedItem) {
-    //       deleteMenuItem(selectedItem.id);
-    //     }
-    // };
+    const handleDelete = () => {
+        if (selectedItem) {
+          deleteMenuItem(selectedItem.id);
+        }
+    };
 
     return (
         <div className="itemCardContainer">
@@ -35,6 +35,13 @@ const AddEditMenuItemForm = ({selectedItem, addMenuItem, editMenuItem} ) =>{
                 name="name"
                 placeholder="Item Name"
                 value={itemData.name}
+                onChange={handleChange}
+            />
+            <input
+                type="text"
+                name="price"
+                placeholder="Item Price"
+                value={itemData.price}
                 onChange={handleChange}
             />
             <input
@@ -51,16 +58,16 @@ const AddEditMenuItemForm = ({selectedItem, addMenuItem, editMenuItem} ) =>{
                 onChange={handleChange}
             />
 
-            <button onClick={handleSubmit}>
-                {selectedItem ? 'Save Changes' : 'Add Item'}
+            <button class="bg-blue-500 text-white font-semibold py-2 px-4 rounded" onClick={handleSubmit}>
+                {selectedItem ? 'Save' : 'Add Item'}
             </button>
 
 
-            {/* {selectedItem && (
-                <button className="delete-button" onClick={handleDelete}>
-                    Delete Item
+            {selectedItem && (
+                <button class="bg-blue-500 text-white font-semibold py-2 px-4 rounded" onClick={handleDelete}>
+                    Delete
                 </button>
-            )} */}
+            )}
 
         </div>
 
