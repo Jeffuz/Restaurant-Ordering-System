@@ -31,7 +31,8 @@ class Server {
 
     // Connection close handler
     client.on('close', () => {
-      this.clients.splice(this.clients.indexOf(client));
+      //this.clients.splice(this.clients.indexOf(client));
+      this.clients = this.clients.filter(item => item !== client);
       console.log(`${client.id} disconnected. Connected clients: ${this.clients.length}`);
       return;
     })
