@@ -9,7 +9,7 @@ const MenuManager = () => {
     const [showForm, setShowForm] = useState(false)
     const [menuItems, setMenuItems] = useState([])
     const [selectedItem, setSelectedItem] = useState(null);
-    const [categories, setCategories] = useState(['All', 'Breakfast', 'Lunch', 'Dinner', 'Supper', 'Beverages', 'Dessert']);
+    //const [categories, setCategories] = useState(['All', 'Breakfast', 'Lunch', 'Dinner', 'Supper', 'Beverages', 'Dessert']);
 
 
 
@@ -88,12 +88,7 @@ const MenuManager = () => {
     }
 
 
-    const handleAddCategory = (newCategory) => {
-        // Ensure the new category doesn't already exist
-        if (!categories.includes(newCategory)) {
-          setCategories([...categories, newCategory]);
-        }
-    };
+  
 
 
     return (
@@ -102,12 +97,6 @@ const MenuManager = () => {
             <h1 className="text-center mt-27 text-black font-Montserrat text-4xl font-bold py-6">Menu</h1>
 
 
-            <CategoryNavBar
-                categories={categories}
-                
-                
-                onAddCategory={handleAddCategory}
-            />
 
             <div className="addEditItemButton flex justify-end p-4">
             
