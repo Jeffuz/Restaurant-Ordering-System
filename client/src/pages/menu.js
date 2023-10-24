@@ -1,5 +1,6 @@
 import React from 'react'
 import ItemCard from '../components/itemCard'
+import Filterbar from '../components/filterbar';
 
 const Menu = () => {
     const items = [
@@ -66,18 +67,26 @@ const Menu = () => {
     ];
 
     return (
-        <div>
-            <div className='grid grid-cols-5 gap-x-12 gap-y-9 mx-16 my-8 w-[75%]'>
-                {items.map((item) => (
-                    <ItemCard
-                        id={item.id}
-                        image={item.image}
-                        itemName={item.itemName}
-                        itemPrice={item.itemPrice}
-                    />
-                ))}
+
+        <>
+            <div className='flex'>
+                <div className='flex flex-col w-[75%] gap-8'>
+                    <Filterbar />
+                    <div className='grid grid-cols-5 gap-x-12 gap-y-9'>
+                        {items.map((item) => (
+                            <ItemCard
+                                id={item.id}
+                                image={item.image}
+                                itemName={item.itemName}
+                                itemPrice={item.itemPrice}
+                            />
+                        ))}
+                    </div>
+
+                </div>
             </div>
-        </div>
+        </>
+
     )
 }
 
