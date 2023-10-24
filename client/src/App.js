@@ -7,6 +7,7 @@ import Home from './pages/home'
 import Login from './pages/login';
 import Menu from './pages/menu';
 import Table from './pages/table';
+import NoPage from './pages/noPage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/menu' element={<Menu />} />
           <Route path='/table' element={<Table />} />
+          <Route path='*' element={<NoPage />} />
         </Routes>
       </HashRouter>
     </div>
