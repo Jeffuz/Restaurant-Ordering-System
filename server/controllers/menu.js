@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const { Menu, MenuItem, MenuString } = require("../models");
 
 function getMenus(ws, message) {
-    // const restaurantId = new mongoose.Types.ObjectId(message.restaurantId);
     const restaurantId = message.restaurantId;
 
     Menu.findById(restaurantId)
@@ -39,7 +38,7 @@ function getMenu(ws, message) {
                 ws.send(JSON.stringify(response));
             } else {
                 const menuItem = menu.menuList.find(
-                    (menuItem) => menuItem._id == menuId
+                    (menuItem) => menuItem.id == menuId
                 );
                 const response = { menuItem: menuItem };
                 ws.send(JSON.stringify(response));
@@ -54,12 +53,16 @@ function getMenu(ws, message) {
 
 function createMenu(ws, message) {
     const restaurantId = message.restaurantId;
-    const { name, price, description } = message;
+    const { menuId, image, filter, name, price, description, diet } = message;
 
     const newMenuItem = new MenuItem({
+        menuId,
+        image,
+        filter,
         name,
         price,
         description,
+        diet,
     });
 
     Menu.findById(restaurantId)
@@ -95,7 +98,7 @@ function createMenu(ws, message) {
 
 function updateMenu(ws, message) {
     const restaurantId = message.restaurantId;
-    const { menuId, name, price, description } = message;
+    const { menuId, image, filter, name, price, description, diet } = message;
 
     Menu.findById(restaurantId).then((menu) => {
         if (!menu) {
@@ -103,15 +106,18 @@ function updateMenu(ws, message) {
             ws.send(JSON.stringify(response));
         }
         const menuItem = menu.menuList.find(
-            (menuItem) => String(menuItem._id) == menuId
+            (menuItem) => String(menuItem.menuId) == menuId
         );
         if (!menuItem) {
             const response = { error: "Menu item not found" };
             ws.send(JSON.stringify(response));
         }
+        if (image) menuItem.image = image;
+        if (filter) menuItem.filter = filter;
         if (name) menuItem.name = name;
         if (price) menuItem.price = price;
         if (description) menuItem.description = description;
+        if (diet) menuItem.diet = diet;
 
         menu.save()
             .then(() => {
@@ -138,10 +144,10 @@ function deleteMenu(ws, message) {
             ws.send(JSON.stringify(response));
         }
         const menuItem = menu.menuList.find(
-            (menuItem) => menuItem._id == menuId
+            (menuItem) => menuItem.menuId == menuId
         );
         menu.menuList = menu.menuList.filter(
-            (menuItem) => menuItem._id !== menuId
+            (menuItem) => menuItem.menuId !== menuId
         );
         menu.totalItemCount--;
 

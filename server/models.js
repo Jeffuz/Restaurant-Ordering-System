@@ -3,17 +3,26 @@
 const mongoose = require("./db");
 
 const menuItemSchema = new mongoose.Schema({
+    menuId: {
+        type: String,
+        required: true,
+    },
+    image: {
+        type: String,
+    },
+    filter: [String],
     name: {
         type: String,
         required: true,
     },
     price: {
-        type: String,
+        type: Number,
         required: true,
     },
     description: {
         type: String,
     },
+    diet: [String],
 });
 
 const menuSchema = new mongoose.Schema({
@@ -24,16 +33,7 @@ const menuSchema = new mongoose.Schema({
     menuList: [menuItemSchema],
 });
 
-const menuSchemaString = new mongoose.Schema({
-    totalItemCount: {
-        type: Number,
-        required: true,
-    },
-    menuList: [String],
-});
-
 const Menu = mongoose.model("Menu", menuSchema);
 const MenuItem = mongoose.model("MenuItem", menuItemSchema);
-const MenuString = mongoose.model("MenuString", menuSchemaString);
 
-module.exports = { Menu, MenuItem, MenuString };
+module.exports = { Menu, MenuItem };
