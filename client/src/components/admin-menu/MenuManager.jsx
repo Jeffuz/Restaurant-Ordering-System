@@ -115,12 +115,13 @@ const MenuManager = () => {
                     <ReactModal  isOpen={isFormOpen} onRequestClose={closeModal}
                         style={{
                             overlay: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                                backgroundColor: 'rgba(0, 0, 0, 0.6)',
                             },
-                            content: {
-                            width: '70%',  // Adjust the width as needed, e.g., '50%' for 50% of the parent container's width
-                            height: '70%', // Adjust the height as needed, e.g., '50%' for 50% of the parent container's height
-                            margin: 'auto', // Center the modal horizontally
+                                content: {
+                                width: '70%',  
+                                height: '70%', 
+                                margin: 'auto', // Center the modal horizontally
+                                borderRadius: '1rem',
                             },
                         }}
                     >
@@ -163,12 +164,13 @@ const MenuManager = () => {
                 <ReactModal isOpen={isOpen} onRequestClose={closeModal}
                     style={{
                         overlay: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                            backgroundColor: 'rgba(0, 0, 0, 0.6)',
                         },
                         content: {
-                        width: '70%',  // Adjust the width as needed, e.g., '50%' for 50% of the parent container's width
-                        height: '70%', // Adjust the height as needed, e.g., '50%' for 50% of the parent container's height
-                        margin: 'auto', // Center the modal horizontally
+                            width: '70%',  // Adjust the width as needed, e.g., '50%' for 50% of the parent container's width
+                            height: '70%', // Adjust the height as needed, e.g., '50%' for 50% of the parent container's height
+                            margin: 'auto', // Center the modal horizontally
+                            borderRadius: '1rem',
                         },
                     }}
                 >
