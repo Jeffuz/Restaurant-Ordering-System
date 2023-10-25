@@ -7,11 +7,8 @@ import Home from './pages/home'
 import Login from './pages/login';
 import Menu from './pages/menu';
 import Table from './pages/table';
-<<<<<<< HEAD
 import AdminMenu from './pages/admin-menu';
-=======
 import NoPage from './pages/noPage';
->>>>>>> main
 
 function App() {
   return (
@@ -24,12 +21,8 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/menu' element={<Menu />} />
           <Route path='/table' element={<Table />} />
-<<<<<<< HEAD
-          
           <Route path='/admin-menu' element={<AdminMenu />} />
-=======
           <Route path='*' element={<NoPage />} />
->>>>>>> main
         </Routes>
       </HashRouter>
     </div>
