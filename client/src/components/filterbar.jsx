@@ -1,7 +1,16 @@
 import React ,{useState, useEffect} from 'react';
 import CategoryOptionsMenu from './FilterOptionsMenu';
 import { IoIosAddCircle } from 'react-icons/io'
-const Filterbar = ({filterCategories, onEdit, onDelete, onAddFilter}) => {
+import AddCategoryTextBox from './AddCategoryTextBox';
+const Filterbar = ({filterCategories, onEdit, onDelete, onAddCategory}) => {
+    const [showAddCategoryTextBox, setShowAddCategoryTextBox] = useState(false);
+
+    const handleAddCategory = (newCategory) => {
+        onAddCategory(newCategory);
+        setShowAddCategoryTextBox(false);
+    };
+
+
     const filter = [
         {
             id: "1",
@@ -33,8 +42,8 @@ const Filterbar = ({filterCategories, onEdit, onDelete, onAddFilter}) => {
 
 
     return (
-        <div className='flex bg-white rounded-lg py-4 overflow-x-auto'>
-            <div>
+        <div className='flex items-center bg-white rounded-lg py-4 overflow-x-auto inline-block mr-4'>
+            <div className="flex  gap-4 flex-row content-between">
                 <ul className='flex gap-28 px-10'>
                     {filterCategories.map((category, index) => (
                         <li key={index}>
@@ -47,9 +56,17 @@ const Filterbar = ({filterCategories, onEdit, onDelete, onAddFilter}) => {
                         </li>
                     ))}
                 </ul>
-                {/* //<button className="add-filter-button" onClick={onAddFilter}>Add Filter</button> */}
+                
+                
             
             </div>
+            <div className="ml-auto mr-2"> 
+                    {showAddCategoryTextBox ? (
+                        <AddCategoryTextBox onAddCategory={handleAddCategory} />
+                    ) : (
+                        <button onClick={() => setShowAddCategoryTextBox(true)}><IoIosAddCircle /></button>
+                    )}
+                </div>
         </div>
     );
 }

@@ -4,7 +4,7 @@ import AddItemButton from '../admin-menu/AddItemButton';
 import MainMenuCard from '../admin-menu/MainMenuCard';
 import ReactModal from 'react-modal';
 import FilterBar from '../filterbar';
-import AddCategoryTextBox from '../AddCategoryModal';
+import AddCategoryTextBox from '../AddCategoryTextBox';
 import { IoIosAddCircle } from 'react-icons/io'
 const MenuManager = () => {
 
@@ -145,9 +145,12 @@ const MenuManager = () => {
         setFilterCategories(updatedCategories);
     };
 
+    // const handleAddCategory = (newCategory) => {
+    //     setFilterCategories([...filterCategories, newCategory]);
+    //     setShowAddCategoryTextBox(false);
+    // };
     const handleAddCategory = (newCategory) => {
         setFilterCategories([...filterCategories, newCategory]);
-        setShowAddCategoryTextBox(false);
     };
 
     
@@ -158,15 +161,20 @@ const MenuManager = () => {
         <div >
 
             <h1 className="text-center mt-27 text-black font-Montserrat text-4xl font-bold py-6">Menu</h1>
-            <div className="addFilterCategory">
-                <FilterBar filterCategories={filterCategories} onEdit={onEditCategory} onDelete={onDeleteCategory} />
+            <div className="mx-4">
+                <FilterBar
+                    filterCategories={filterCategories}
+                    onEdit={onEditCategory}
+                    onDelete={onDeleteCategory}
+                    onAddCategory={handleAddCategory}
+                />
 
-                {showAddCategoryTextBox ? (
+                {/* {showAddCategoryTextBox ? (
                     <AddCategoryTextBox onAddCategory={handleAddCategory} />
                         ) : (
                             <button onClick={() => setShowAddCategoryTextBox(true)}><IoIosAddCircle /></button>
                         )}
-                    {/* <button onClick={addFilterCategory}> <IoIosAddCircle /> </button> */}
+                    <button onClick={addFilterCategory}> <IoIosAddCircle /> </button> */}
             </div>
             
             </div>
@@ -208,7 +216,7 @@ const MenuManager = () => {
             </div>
 
             
-            <div className="menu-list flex flex-wrap p-4">
+            <div className="menu-list flex flex-wrap p-4 inline-block">
                     <AddItemButton onClick={openModalAdd} />
                     {menuItems.map((item) => (
                         <MainMenuCard
