@@ -1,12 +1,11 @@
 const mongoose = require("mongoose");
-const { Menu, MenuItem, MenuString } = require("../models");
+const { Menu, MenuItem } = require("../models");
 
 function getMenus(ws, message) {
     const restaurantId = message.restaurantId;
 
     Menu.findById(restaurantId)
         .then((menu) => {
-            console.log(menu);
             if (!menu) {
                 const response = {
                     error: "Menus not found for restaurantId: " + restaurantId,
@@ -38,7 +37,7 @@ function getMenu(ws, message) {
                 ws.send(JSON.stringify(response));
             } else {
                 const menuItem = menu.menuList.find(
-                    (menuItem) => menuItem.id == menuId
+                    (menuItem) => menuItem.menuId == menuId
                 );
                 const response = { menuItem: menuItem };
                 ws.send(JSON.stringify(response));

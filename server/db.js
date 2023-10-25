@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
-const dbUrl =
-    "mongodb+srv://user02:h6GzOzxJa3c9fGtL@restaurant-ordering-sys.wiy8h0z.mongodb.net/";
+const fs = require("fs");
+
+const dbUrl = JSON.parse(fs.readFileSync("./secret/secret.json")).dburl;
 
 mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 
