@@ -45,7 +45,7 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
     const handleDelete = () => {
         if (selectedItem) {
             deleteMenuItem(selectedItem.id); // Delete the selected item
-            //setIsOpen(false);
+            
         }
     };
 
