@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const fs = require("fs");
+require("dotenv").config();
 
-const dbUrl = JSON.parse(fs.readFileSync("./secret/secret.json")).dburl;
+const dbUrl = process.env.DB_URL;
 
 mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 
