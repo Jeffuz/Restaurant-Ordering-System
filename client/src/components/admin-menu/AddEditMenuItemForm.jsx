@@ -33,17 +33,19 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
 
     const handleSubmit = () => {
         if (selectedItem) {
-            editMenuItem(itemData);
+            editMenuItem(itemData); // Update the selected item
         } else {
             itemData.id = Date.now();
-            addMenuItem(itemData);
+            addMenuItem(itemData); // Add a new item
         }
+        // Close the modal
+        //setIsOpen(false);
     };
 
     const handleDelete = () => {
         if (selectedItem) {
-            deleteMenuItem(selectedItem.id);
-            // setIsOpen(false);
+            deleteMenuItem(selectedItem.id); // Delete the selected item
+            //setIsOpen(false);
         }
     };
 

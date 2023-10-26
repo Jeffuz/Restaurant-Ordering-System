@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import AddEditMenuItemForm from '../admin-menu/AddEditMenuItemForm'
 import AddItemButton from '../admin-menu/AddItemButton';
-import MainMenuCard from '../admin-menu/MainMenuCard';
 import ReactModal from 'react-modal';
+import ItemModal from '../itemModal';
+import ItemCard from '../itemCard';
 import FilterBar from '../filterbar';
 import AddCategoryTextBox from '../AddCategoryTextBox';
 import { IoIosAddCircle } from 'react-icons/io'
@@ -11,7 +12,7 @@ const MenuManager = () => {
     const [showForm, setShowForm] = useState(false)
     const [menuItems, setMenuItems] = useState([])
     const [selectedItem, setSelectedItem] = useState(null);
-    //const [categories, setCategories] = useState(['All', 'Breakfast', 'Lunch', 'Dinner', 'Supper', 'Beverages', 'Dessert']);
+    const [isAdmin, setIsAdmin] = useState(true); 
     
     //filterbar stuff
     const [filterCategories, setFilterCategories] = useState([
@@ -96,9 +97,10 @@ const MenuManager = () => {
         setIsFormOpen(true);
     }
     const openModalEdit = (item) => {
+        console.log("Trying to open the modal for editing:", item);
         setSelectedItem(item);
-        setShowForm(true)
-        setIsOpen(true)
+        setShowForm(true);
+        setIsOpen(true);
         setIsFormOpen(true);
     }
 
@@ -133,9 +135,9 @@ const MenuManager = () => {
             const updatedCategoryName = prompt("Edit category name:", categoryToEdit);
     
             if (updatedCategoryName !== null && updatedCategoryName.trim() !== '') {
-                // Update the category name in the array
+          
                 filterCategories[categoryIndex] = updatedCategoryName;
-                setFilterCategories([...filterCategories]); // Trigger a state update
+                setFilterCategories([...filterCategories]); 
             }
         }
     };
@@ -145,10 +147,7 @@ const MenuManager = () => {
         setFilterCategories(updatedCategories);
     };
 
-    // const handleAddCategory = (newCategory) => {
-    //     setFilterCategories([...filterCategories, newCategory]);
-    //     setShowAddCategoryTextBox(false);
-    // };
+
     const handleAddCategory = (newCategory) => {
         setFilterCategories([...filterCategories, newCategory]);
     };
@@ -158,27 +157,28 @@ const MenuManager = () => {
 
     return (
         <div>
-        <div >
+            <div >
 
-            <h1 className="text-center mt-27 text-black font-Montserrat text-4xl font-bold py-6">Menu</h1>
-            <div className="mx-4">
-                <FilterBar
-                    filterCategories={filterCategories}
-                    onEdit={onEditCategory}
-                    onDelete={onDeleteCategory}
-                    onAddCategory={handleAddCategory}
-                />
+                <h1 className="text-center mt-27 text-black font-Montserrat text-4xl font-bold py-6">Menu</h1>
+                <div className="mx-4">
+                    <FilterBar
+                        filterCategories={filterCategories}
+                        onEdit={onEditCategory}
+                        onDelete={onDeleteCategory}
+                        onAddCategory={handleAddCategory}
+                        isAdmin={isAdmin} 
+                    />
 
-                {/* {showAddCategoryTextBox ? (
-                    <AddCategoryTextBox onAddCategory={handleAddCategory} />
-                        ) : (
-                            <button onClick={() => setShowAddCategoryTextBox(true)}><IoIosAddCircle /></button>
-                        )}
-                    <button onClick={addFilterCategory}> <IoIosAddCircle /> </button> */}
+                    {/* {showAddCategoryTextBox ? (
+                        <AddCategoryTextBox onAddCategory={handleAddCategory} />
+                            ) : (
+                                <button onClick={() => setShowAddCategoryTextBox(true)}><IoIosAddCircle /></button>
+                            )}
+                        <button onClick={addFilterCategory}> <IoIosAddCircle /> </button> */}
+                </div>
+                
             </div>
-            
-            </div>
-            
+                
 
             <div className="addEditItemButton flex justify-end p-4">
             
@@ -216,19 +216,37 @@ const MenuManager = () => {
             </div>
 
             
-            <div className="menu-list flex flex-wrap p-4 inline-block">
-                    <AddItemButton onClick={openModalAdd} />
-                    {menuItems.map((item) => (
-                        <MainMenuCard
-                            key={item.id}
-                            item={item}
-                            
-                            onClick={() => openModalEdit(item)}
-                            onCardClick={(item) => setSelectedItem(item)}
-                        />
-                    ))}
-                    
+           
+
+            <div className="menu-list flex flex-wrap p-4">
+                <AddItemButton onClick={openModalAdd} />
+                
+                {menuItems.map((item) => (
+                    <div key={item.id} onClick={() => openModalEdit(item)} className="w-1/2 md:w-1/3 lg:w-1/4 p-4">
+                        
+                            <ItemCard
+                                // className=""
+                                key={item.id}
+                                image={item.photo}
+                                itemName={item.name}
+                                itemPrice={item.price}
+                            />
+
+                      
+                        
+                    </div>
+                ))}
+
+
+               
+                
+
             </div>
+
+
+            {/* {selectedItem && (
+                <ItemModal isOpen={isOpen} onClose={closeModal} item={selectedItem} />
+            )} */}
 
 
             {selectedItem && (
@@ -267,7 +285,11 @@ const MenuManager = () => {
             
         </div>
 
-    );
+    )
+
+  
+
+    
 
 }
 export default MenuManager;
