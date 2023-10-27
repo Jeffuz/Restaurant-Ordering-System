@@ -1,15 +1,15 @@
 // For testing purposes only
 
 const mongoose = require("mongoose");
+require("dotenv").config();
 
-const dbUrl =
-    "mongodb+srv://user02:h6GzOzxJa3c9fGtL@restaurant-ordering-sys.wiy8h0z.mongodb.net/";
+const dbUrl = process.env.DB_URL;
 
 mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 // const mongoose = require("mongoose");
 
 const menuItemSchema = new mongoose.Schema({
-    id: {
+    menuId: {
         type: String,
         required: true,
     },
@@ -44,28 +44,49 @@ const MenuItem = mongoose.model("MenuItem", menuItemSchema);
 // Create a model based on the schema
 const Menu = mongoose.model("Menu", menuSchema);
 
-// Insert the provided data into the collection
-const newMenu = new Menu({
-    totalItemCount: 1,
-    menuList: [
-        {
-            id: "nacho-chips",
-            image: "test/nacho-chips.png",
-            filter: ["Lunch", "Supper"],
-            name: "Nacho Chips",
-            price: 9.99,
-            description: "Our Nacho Chips are made fresh daily.",
-            diet: ["Spicy", "Vegan"],
-        },
-    ],
+// // Insert new restaurant
+// const newMenu = new Menu({
+//     totalItemCount: 1,
+//     menuList: [
+//         {
+//             menuId: "nacho-chips",
+//             image: "test/nacho-chips.png",
+//             filter: ["Lunch", "Supper"],
+//             name: "Nacho Chips",
+//             price: 9.99,
+//             description: "Our Nacho Chips are made fresh daily.",
+//             diet: ["Spicy", "Vegan"],
+//         },
+//     ],
+// });
+
+// newMenu
+//     .save()
+//     .then(() => {
+//         console.log("Data inserted into the collection");
+//         mongoose.connection.close(); // Close the MongoDB connection
+//     })
+//     .catch((error) => {
+//         console.error("Error inserting data:", error);
+//     });
+
+// Insert menu item
+const newMenuItem = new MenuItem({
+    menuId: "nacho-chips2",
+    image: "test/nacho-chips.png",
+    filter: ["Lunch", "Supper"],
+    name: "Nacho Chips2",
+    price: 9.99,
+    description: "Our Nacho Chips are made fresh daily.",
+    diet: ["Spicy", "Vegan"],
 });
 
-newMenu
-    .save()
-    .then(() => {
+Menu.findById("65381ed4030fa645be95b250").then((menu) => {
+    menu.menuList.push(newMenuItem);
+    menu.totalItemCount++;
+
+    menu.save().then(() => {
         console.log("Data inserted into the collection");
         mongoose.connection.close(); // Close the MongoDB connection
-    })
-    .catch((error) => {
-        console.error("Error inserting data:", error);
     });
+});

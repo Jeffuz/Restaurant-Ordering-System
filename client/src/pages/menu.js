@@ -8,22 +8,22 @@ import ShoppingCartCard from '../components/shoppingCartCard';
 const Menu = () => {
     const items = [
         {
-            id: 'nacho-chips',
-            image: 'test/nacho-chips.png',
-            itemFilter: ['Lunch', 'Supper'],
-            itemName: 'Nacho Chips',
+            id: "nacho-chips",
+            image: "test/nacho-chips.png",
+            itemFilter: ["Lunch", "Supper"],
+            itemName: "Nacho Chips",
             itemPrice: 9.99,
-            itemContent: 'Our Nacho Chips are pure crunch-time happiness. Made from premium corn, these crispy tortilla chips are generously smothered in a secret blend of melted cheeses, and topped with fresh jalapeños for a hint of spice. Served with our house-made salsa and creamy guacamole, they\'re the perfect shareable snack for your next fiesta',
-            itemDiet: ['Spicy', 'Vegan']
+            itemContent: "Our Nacho Chips are pure crunch-time happiness.",
+            itemDiet: ["Spicy", "Vegan"],
         },
         {
-            id: 'steak',
-            image: 'test/steak.png',
-            itemFilter: ['Lunch', 'Supper'],
-            itemName: 'Steak',
-            itemContent: 'Our Nacho Chips are pure crunch-time happiness. Made from premium corn, these crispy tortilla chips are generously smothered in a secret blend of melted cheeses, and topped with fresh jalapeños for a hint of spice. Served with our house-made salsa and creamy guacamole, they\'re the perfect shareable snack for your next fiesta',
+            id: "steak",
+            image: "test/steak.png",
+            itemFilter: ["Lunch", "Supper"],
+            itemName: "Steak",
+            itemContent: "Our Nacho Chips are pure crunch-time happiness.",
             itemPrice: 19.99,
-            itemDiet: ['Spicy', 'Vegan']
+            itemDiet: ["Spicy", "Vegan"],
         },
     ];
     const cartItems = [
@@ -51,16 +51,14 @@ const Menu = () => {
         setSelectedItem(null);
     };
 
-
     return (
-
         <>
-            <div className='flex'>
-                <div className='flex flex-col w-[75%] gap-8'>
+            <div className="flex">
+                <div className="flex flex-col w-[75%] gap-8">
                     <Filterbar />
-                    <div className='grid grid-cols-5 gap-x-12 gap-y-9'>
+                    <div className="grid grid-cols-5 gap-x-12 gap-y-9">
                         {items.map((item) => (
-                            <div onClick={() => openModal(item)} role='button'>
+                            <div onClick={() => openModal(item)} role="button">
                                 <ItemCard
                                     image={item.image}
                                     itemName={item.itemName}
@@ -72,18 +70,16 @@ const Menu = () => {
                             </div>
                         ))}
                     </div>
-
                 </div>
                 <div className='flex flex-col w-[25%] gap-8'>
                     <ShoppingCart orderNum="222" tableNum="1" date="October 26, 2023" cartItems={cartItems}/>
                 </div>
             </div>
+
             <ItemModal isOpen={selectedItem !== null} onClose={closeModal} item={selectedItem} 
             />
         </>
+    );
+};
 
-    )
-}
-
-
-export default Menu
+export default Menu;

@@ -1,12 +1,10 @@
-const mongoose = require("mongoose");
-const { Menu, MenuItem, MenuString } = require("../models");
+const { Menu, MenuItem } = require("../models");
 
 function getMenus(ws, message) {
     const restaurantId = message.restaurantId;
 
     Menu.findById(restaurantId)
         .then((menu) => {
-            console.log(menu);
             if (!menu) {
                 const response = {
                     error: "Menus not found for restaurantId: " + restaurantId,
@@ -38,7 +36,7 @@ function getMenu(ws, message) {
                 ws.send(JSON.stringify(response));
             } else {
                 const menuItem = menu.menuList.find(
-                    (menuItem) => menuItem.id == menuId
+                    (menuItem) => menuItem.menuId == menuId
                 );
                 const response = { menuItem: menuItem };
                 ws.send(JSON.stringify(response));
@@ -173,137 +171,3 @@ module.exports = {
     updateMenu,
     deleteMenu,
 };
-
-/*
-const getMenus = (req, res) => {
-    const restaurantId = req.params.id;
-
-    Menu.findById(restaurantId)
-        .then((menus) => {
-            if (!menus) {
-                return res.status(404).json({ error: "Menus not found" });
-            }
-            res.json(menus);
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json({ error: err });
-        });
-};
-
-const getMenu = (req, res) => {
-    const restaurantId = req.params.id;
-    const menuId = req.body.id;
-
-    Menu.findById(restaurantId)
-        .then((menu) => {
-            if (!menu) {
-                return res.status(404).json({ error: "Menus not found" });
-            }
-            const menuItem = menu.menuList.find(
-                (menuItem) => menuItem._id == menuId
-            );
-            res.json(menuItem);
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json({ error: err });
-        });
-};
-
-const createMenu = (req, res) => {
-    const restaurantId = req.params.id;
-    const { name, price, description } = req.body;
-    const newMenuItem = new MenuItem({
-        name,
-        price,
-        description,
-    });
-
-    Menu.findById(restaurantId)
-        .then((menu) => {
-            if (!menu) {
-                return res.status(404).json({ error: "Menus not found" });
-            }
-            menu.menuList.push(newMenuItem);
-            menu.totalItemCount++;
-
-            menu.save()
-                .then(() => {
-                    res.status(201).json(newMenuItem);
-                })
-                .catch((err) => {
-                    res.status(500).json({
-                        error: "Error saving menu",
-                        details: err,
-                    });
-                });
-        })
-        .catch((err) => {
-            res.status(500).json({
-                error: "Error finding menus",
-                details: err,
-            });
-        });
-};
-
-const updateMenu = (req, res) => {
-    const restaurantId = req.params.id;
-    const { menuId, name, price, description } = req.body;
-
-    Menu.findById(restaurantId).then((menu) => {
-        if (!menu) {
-            return res.status(404).json({ error: "Menus not found" });
-        }
-        const menuItem = menu.menuList.find(
-            (menuItem) => String(menuItem._id) == menuId
-        );
-        if (!menuItem) {
-            return res.status(404).json({ error: "Menu item not found" });
-        }
-        if (name) menuItem.name = name;
-        if (price) menuItem.price = price;
-        if (description) menuItem.description = description;
-
-        menu.save()
-            .then(() => {
-                res.status(201).json(menuItem);
-            })
-            .catch((err) => {
-                res.status(500).json({
-                    error: "Error saving menu",
-                    details: err,
-                });
-            });
-    });
-};
-
-const deleteMenu = (req, res) => {
-    const restaurantId = req.params.id;
-    const menuId = req.body.id;
-
-    Menu.findById(restaurantId).then((menu) => {
-        if (!menu) {
-            return res.status(404).json({ error: "Menus not found" });
-        }
-        const menuItem = menu.menuList.find(
-            (menuItem) => menuItem._id == menuId
-        );
-        menu.menuList = menu.menuList.filter(
-            (menuItem) => menuItem._id !== menuId
-        );
-        menu.totalItemCount--;
-
-        menu.save()
-            .then(() => {
-                res.status(204).json(menuItem);
-            })
-            .catch((err) => {
-                res.status(500).json({
-                    error: "Error saving menu",
-                    details: err,
-                });
-            });
-    });
-};
-*/
