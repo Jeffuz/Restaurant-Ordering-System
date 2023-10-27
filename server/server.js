@@ -2,11 +2,6 @@ const express = require('express');
 const WebSocket = require('ws');
 const DELIM = '\r\n';
 
-/*
- * 'TRUE' -> true: Bool
- * 'FALSE' -> false: Bool
-*/
-
 class Server {
   constructor(port){
     this.server = new WebSocket.Server({ port: port });
@@ -56,10 +51,16 @@ class Server {
   /**
    * Handles anything related to the connection between client and server
    * @param {ClientWebSocket} client 
-   * @returns {null}
+   * @returns {void}
    */
   handleConnection(client){
-    this.initializeClientConnection(client);
+    if(!this.clients.includes(client) && !this.disconnected.includes(client)){
+      console.log('Client connection never seen before. Initializing.');
+      this.initializeClientConnection(client);
+    }else if (this.disconnected.includes(client)){
+      console.log('Client was disconnected, now reconnected.');
+
+    }
 
     // Close handler
     client.on('close', () => {
@@ -68,16 +69,35 @@ class Server {
       }
       this.clients = this.clients.filter(item => item !== client);
       this.disconnected.push(client);
+      console.log('DSCONNECTED');
+      this.disconnected.forEach((client) => {
+        console.log(client.id);
+      });   
       console.log(`${client.id} disconnected. Connected clients: ${this.clients.length}`);
       return;
     });
 
-    // Message handler
+    // Message Method handler
     // message: String
     client.on('message', (message) => {
-      // automatically broadcast for now
-      console.log(`Server received message ${message}`);
-      this.sendBroadcast(message);
+      let payload = String(message).split(DELIM);
+      let method = payload.shift();
+      switch (method){
+        case 'BROADCAST':
+          this.sendBroadcast(payload);
+          break;
+        
+        case 'MESSAGE':
+          console.log(`Server received message:  ${payload}`);
+          break;
+
+        case 'ORDER':
+          console.log(`Server received ORDER request: ${payload}`);
+          break;
+        
+        default:
+          console.log(`Server received unsupported request "${method}" with payload "${payload}"`);
+      }
     });
     return;
   }

@@ -19,17 +19,22 @@ function App() {
     }
   }, []);
 
+  // broadcastMessage() and crashConnection() are testing functions, don't use them in implementation
   function broadcastMessage(){
     const userInput = prompt('Input message');
-    if (userInput){
+    /*if (userInput){
       console.log(`Attempting to broadcast message ${userInput}...`);
       WebSocketService.socket.send(userInput);
-    }
+    }*/
+    WebSocketService.broadcastMessage(userInput);
   }
-
   function crashConnection(){
     WebSocketService.socket.close(3333, 'Abnormal Disconnect Test');
     return;
+  }
+
+  function submitOrder(){
+    WebSocketService.submitOrder('Test order');
   }
 
   return (
@@ -37,6 +42,8 @@ function App() {
       <button onClick={broadcastMessage}>Broadcast a message</button>
       <br />
       <button onClick={crashConnection}>Crash websocket connection</button>
+      <br />
+      <button onClick={submitOrder}>Submit the order</button>
       <HashRouter>
         <Routes>
           <Route index element={<Home />} />
