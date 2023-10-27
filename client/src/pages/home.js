@@ -21,6 +21,7 @@ const Home = () => {
                 <Link to="/login">Login</Link>
                 <Link to="/menu">Menu</Link>
                 <Link to="/table">Table</Link>
+                <Link to="/admin-menu">Admin Menu</Link>
             </div>
         </div>
     )
