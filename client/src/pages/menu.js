@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import ItemCard from '../components/itemCard'
 import Filterbar from '../components/filterbar';
 import ItemModal from '../components/itemModal';
+import ShoppingCart from '../components/shoppingCart';
+import ShoppingCartCard from '../components/shoppingCartCard';
 
 const Menu = () => {
     const items = [
@@ -23,6 +25,20 @@ const Menu = () => {
             itemPrice: 19.99,
             itemDiet: ['Spicy', 'Vegan']
         },
+    ];
+    const cartItems = [
+        {
+            image: 'test/nacho-chips.png',
+            itemName: 'Nacho chips',
+            itemPrice: 9.99,
+            count: 1
+        },
+        {
+            image: 'test/nacho-chips.png',
+            itemName: 'Nacho chips',
+            itemPrice: 9.99,
+            count: 2
+        }
     ];
 
     const [selectedItem, setSelectedItem] = useState(null);
@@ -58,8 +74,12 @@ const Menu = () => {
                     </div>
 
                 </div>
+                <div className='flex flex-col w-[25%] gap-8'>
+                    <ShoppingCart orderNum="222" tableNum="1" date="October 26, 2023" cartItems={cartItems}/>
+                </div>
             </div>
-            <ItemModal isOpen={selectedItem !== null} onClose={closeModal} item={selectedItem} />
+            <ItemModal isOpen={selectedItem !== null} onClose={closeModal} item={selectedItem} 
+            />
         </>
 
     )
