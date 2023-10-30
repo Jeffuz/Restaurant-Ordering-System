@@ -120,7 +120,7 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
                                 }}>{
                                 
                                 itemData.itemName || 'Item Name'}</span>
-                                <button onClick={() => handleEditToggle('name')}>✎</button>
+                                <button onClick={() => handleEditToggle('itemName')}>✎</button>
                             </div>
                         )}
                     </div>
@@ -137,7 +137,7 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
                         ) : (
                             <div className="w-4/5 max-w-md"> 
                                 <span className="text-xl break-all">{itemData.itemPrice || 'Item Price'}</span>
-                                <button onClick={() => handleEditToggle('price')}>✎</button>
+                                <button onClick={() => handleEditToggle('itemPrice')}>✎</button>
                             </div>
                         )}
                     </div>
@@ -153,7 +153,7 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
                         ) : (
                             <div className="w-4/5 max-w-md">
                                 <span className="text-xl break-all">{itemData.itemContent || 'Description'}</span>
-                                <button onClick={() => handleEditToggle('description')}>✎</button>
+                                <button onClick={() => handleEditToggle('itemContent')}>✎</button>
                             </div>
                         )}
                     </div>
