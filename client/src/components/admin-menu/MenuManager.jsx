@@ -30,43 +30,79 @@ const MenuManager = () => {
     //add category 
     const [showAddCategoryTextBox, setShowAddCategoryTextBox] = useState(false);
 
+    const [isLoading, setIsLoading] = useState(true); // used to save whether data is loading 
 
     // creates inital menu items for testing 
     useEffect(() => {
         // fetch initial menu items from a server or set sample data here.
+        const socket = new WebSocket('ws://localhost:8080');
+        socket.addEventListener('open', function (event) {
+            // create a getMenus request when connecting to the server.
+            const actionObject = {
+                "action": "getMenus",
+                "restaurantId": "65381ed4030fa645be95b250"
+            };
 
-        const sampleMenuItems = [
-          {
-            id: 1,
-            itemName: 'Burger',
-            itemPrice: '3',
-            itemFilter: ["Lunch", "Supper"],
-            image: 'test/burger.png',
-            itemDiet: ["Spicy", "Vegan"],
-            itemContent: 'A classic beef burger with lettuce and tomato.',
-          },
-          {
-            id: 2,
-            itemName: 'Pasta',
-            itemPrice: '12',
-            itemFilter: ["Lunch", "Supper"],
-            image: 'test/pasta.png',
-            itemDiet: ["Spicy", "Vegan"],
-            itemContent: 'Delicious pasta with tomato sauce.',
-          },
-          {
-            id: 3,
-            itemName: 'Thai Noodles',
-            itemPrice: '15',
-            itemFilter: ["Lunch", "Supper"],
-            image: 'test/thai-noodle.png',
-            itemDiet: ["Spicy", "Vegan"],
-            itemContent: 'Spicy, sweet, savory, and full of fresh ingredients.',
-          },
+            // send request
+            socket.send(JSON.stringify(actionObject));
+        });
+
+        // listen to the server response
+        socket.addEventListener('message', function (event) {
+            // parse the data
+            const menuList = JSON.parse(event.data).menuList;
+
+            //set data into state and set loading state as false
+            setMenuItems(menuList.map(item => ({
+                id: item.menuId,
+                image: item.image,
+                itemFilter: item.filter,
+                itemName: item.name,
+                itemContent: item.description,
+                itemPrice: item.price,
+                itemDiet: item.diet,
+            })));
+            setIsLoading(false);
+        });
+
+        // when component finished，close WebSocket connection
+        return () => {
+            socket.close();
+        };
+
+
+        // const sampleMenuItems = [
+        //   {
+        //     id: 1,
+        //     itemName: 'Burger',
+        //     itemPrice: '3',
+        //     itemFilter: ["Lunch", "Supper"],
+        //     image: 'test/burger.png',
+        //     itemDiet: ["Spicy", "Vegan"],
+        //     itemContent: 'A classic beef burger with lettuce and tomato.',
+        //   },
+        //   {
+        //     id: 2,
+        //     itemName: 'Pasta',
+        //     itemPrice: '12',
+        //     itemFilter: ["Lunch", "Supper"],
+        //     image: 'test/pasta.png',
+        //     itemDiet: ["Spicy", "Vegan"],
+        //     itemContent: 'Delicious pasta with tomato sauce.',
+        //   },
+        //   {
+        //     id: 3,
+        //     itemName: 'Thai Noodles',
+        //     itemPrice: '15',
+        //     itemFilter: ["Lunch", "Supper"],
+        //     image: 'test/thai-noodle.png',
+        //     itemDiet: ["Spicy", "Vegan"],
+        //     itemContent: 'Spicy, sweet, savory, and full of fresh ingredients.',
+        //   },
           
-        ];
+        // ];
     
-        setMenuItems(sampleMenuItems);
+        // setMenuItems(sampleMenuItems);
     }, []);
 
     
@@ -74,26 +110,112 @@ const MenuManager = () => {
 
     // for add delete edit actions
     const addMenuItem = (newItem) => {
-        // adds the new item to the end of menuItem list 
-        setMenuItems([...menuItems, newItem]);
-        setShowForm(false);
-        setSelectedItem(null);
+        // add nem item in database
+        // update in database
+        const socket = new WebSocket('ws://localhost:8080');
+        socket.addEventListener('open', function (event) {
+            // create a getMenus request when connecting to the server.
+            const actionObject = {
+                "action": "createMenu",
+                "restaurantId": "65381ed4030fa645be95b250",
+                "menuId": newItem.itemName,
+                "image": newItem.image,
+                "filter": [], // havent support
+                "name": newItem.itemName,
+                "price": newItem.itemPrice,
+                "description": newItem.itemContent,
+                "diet": [] // havent support
+            };
+            // send request
+            socket.send(JSON.stringify(actionObject));
+        });
+
+        // listen to the server response
+        socket.addEventListener('message', function (event) {
+            // parse the data
+            const message = JSON.parse(event.data);
+            socket.close();
+            if (message.error){
+                console.log(message.error);
+            }else{
+                // adds the new item to the end of menuItem list 
+                setMenuItems([...menuItems, newItem]);
+                setShowForm(false);
+                setSelectedItem(null);
+            }
+
+        });
     };
 
 
     const deleteMenuItem = (itemId) => {
-        const updatedItems = menuItems.filter((item) => item.id !== itemId);
-        setMenuItems(updatedItems);
-        setShowForm(false);
-        setSelectedItem(null);
+        // delete item in database
+        const socket = new WebSocket('ws://localhost:8080');
+        socket.addEventListener('open', function (event) {
+            // create a getMenus request when connecting to the server.
+            const actionObject = {
+                "action": "deleteMenu",
+                "restaurantId": "65381ed4030fa645be95b250",
+                "menuId": itemId
+            };
+            // send request
+            socket.send(JSON.stringify(actionObject));
+        });
+
+        // listen to the server response
+        socket.addEventListener('message', function (event) {
+            // parse the data
+            const message = JSON.parse(event.data);
+            socket.close();
+            if (message.error){
+                console.log(message.error);
+            }else{
+                const updatedItems = menuItems.filter((item) => item.id !== itemId);
+                setMenuItems(updatedItems);
+                setShowForm(false);
+                setSelectedItem(null);
+            }
+        });
+        
     };
 
     const editMenuItem = (editedItem) => {
-        //checks to see if item exists, then adds to exisitng item, else new item is added
-        const updatedItems = menuItems.map((item) => item.id == editedItem.id ? editedItem : item);
-        setMenuItems(updatedItems);
-        setSelectedItem(null);
-        setShowForm(false);
+        // update in database
+        const socket = new WebSocket('ws://localhost:8080');
+        socket.addEventListener('open', function (event) {
+            // create a getMenus request when connecting to the server.
+            const actionObject = {
+                "action": "updateMenu",
+                "restaurantId": "65381ed4030fa645be95b250",
+                "menuId": editedItem.itemName,
+                "image": editedItem.image,
+                "filter": [], // havent support
+                "name": editedItem.itemName,
+                "price": editedItem.itemPrice,
+                "description": editedItem.itemContent,
+                "diet": [] // havent support
+            };
+            // send request
+            socket.send(JSON.stringify(actionObject));
+        });
+
+        // listen to the server response
+        socket.addEventListener('message', function (event) {
+            // parse the data
+            const message = JSON.parse(event.data);
+            socket.close();
+            if (message.error){
+                console.log(message.error);
+            }else{
+                //checks to see if item exists, then adds to exisitng item, else new item is added
+                const updatedItems = menuItems.map((item) => item.id == editedItem.id ? editedItem : item);
+                setMenuItems(updatedItems);
+                setSelectedItem(null);
+                setShowForm(false);
+            }
+
+        });
+
     }
 
     // for modal popup editing and adding 
