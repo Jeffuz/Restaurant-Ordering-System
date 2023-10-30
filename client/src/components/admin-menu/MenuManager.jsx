@@ -37,18 +37,31 @@ const MenuManager = () => {
 
         const sampleMenuItems = [
           {
-            id: 1,
-            name: 'Burger',
-            price: '3',
-            photo: '../admin-menu/burger.jpg',
-            description: 'A classic beef burger with lettuce and tomato.',
+            id: "burger",
+            itemName: 'Burger',
+            itemPrice: '3',
+            itemFilter: ["Lunch", "Supper"],
+            image: 'test/burger.png',
+            itemDiet: ["Spicy", "Vegan"],
+            itemContent: 'A classic beef burger with lettuce and tomato.',
           },
           {
-            id: 2,
-            name: 'Pasta',
-            price: '12',
-            photo: 'pasta.jpg',
-            description: 'Delicious pasta with tomato sauce.',
+            id: "pasta",
+            itemName: 'Pasta',
+            itemPrice: '12',
+            itemFilter: ["Lunch", "Supper"],
+            image: 'test/pasta.png',
+            itemDiet: ["Spicy", "Vegan"],
+            itemContent: 'Delicious pasta with tomato sauce.',
+          },
+          {
+            id: "noodle",
+            itemName: 'Thai Noodles',
+            itemPrice: '15',
+            itemFilter: ["Lunch", "Supper"],
+            image: 'test/thai-noodle.png',
+            itemDiet: ["Spicy", "Vegan"],
+            itemContent: 'Spicy, sweet, savory, and full of fresh ingredients.',
           },
           
         ];
@@ -71,6 +84,7 @@ const MenuManager = () => {
     const deleteMenuItem = (itemId) => {
         const updatedItems = menuItems.filter((item) => item.id !== itemId);
         setMenuItems(updatedItems);
+        setShowForm(false);
         setSelectedItem(null);
     };
 
@@ -196,11 +210,11 @@ const MenuManager = () => {
                             },
                         }}
                     >
-                        {/* <div>
+                        <div>
                             <button onClick={closeModal} className="text-xl font-bold">
                                 X
                             </button>
-                        </div> */}
+                        </div>
                         <AddEditMenuItemForm
                             selectedItem={selectedItem}
                             addMenuItem={addMenuItem}
@@ -227,9 +241,12 @@ const MenuManager = () => {
                             <ItemCard
                                 // className=""
                                 key={item.id}
-                                image={item.photo}
-                                itemName={item.name}
-                                itemPrice={item.price}
+                                image={item.image}
+                                itemName={item.itemName}
+                                itemFilter={item.itemFilter}
+                                itemPrice={item.itemPrice}
+                                itemContent={item.itemContent}
+                                itemDiet={item.itemDiet}
                             />
 
                       
@@ -264,11 +281,11 @@ const MenuManager = () => {
                         },
                     }}
                 >
-                    {/* <div className="flex justify-end p-4">
+                    <div className="flex justify-end p-4">
                         <button onClick={closeModal} className="close-button text-xl font-bold">
                             X
                         </button>
-                    </div> */}
+                    </div>
                     <AddEditMenuItemForm
                         selectedItem={selectedItem}
                         editMenuItem={editMenuItem}
