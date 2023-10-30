@@ -210,11 +210,11 @@ const MenuManager = () => {
                             },
                         }}
                     >
-                        {/* <div>
+                        <div>
                             <button onClick={closeModal} className="text-xl font-bold">
                                 X
                             </button>
-                        </div> */}
+                        </div>
                         <AddEditMenuItemForm
                             selectedItem={selectedItem}
                             addMenuItem={addMenuItem}
@@ -281,11 +281,11 @@ const MenuManager = () => {
                         },
                     }}
                 >
-                    {/* <div className="flex justify-end p-4">
+                    <div className="flex justify-end p-4">
                         <button onClick={closeModal} className="close-button text-xl font-bold">
                             X
                         </button>
-                    </div> */}
+                    </div>
                     <AddEditMenuItemForm
                         selectedItem={selectedItem}
                         editMenuItem={editMenuItem}

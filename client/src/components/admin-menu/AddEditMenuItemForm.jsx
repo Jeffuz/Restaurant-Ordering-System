@@ -53,28 +53,52 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
         if (selectedItem) {
             deleteMenuItem(selectedItem.id); // Delete the selected item
             
+        }else{
+            setItemData({
+                itemName: '',
+                itemFilter: '',
+                itemDiet: '',
+                itemPrice: '',
+                itemContent: '',
+                image: '',
+            });
         }
     };
 
+    // const handleImageUpload = (files) => {
+    //     const file = files[0];
+    //     if (file) {
+    //         const reader = new FileReader();
+    //         reader.onload = (e) => {
+    //             setItemData({
+    //                 ...itemData,
+    //                 image: e.target.result,
+    //             });
+    //         };
+    //         reader.readAsDataURL(file);
+    //     }
+    // };
     const handleImageUpload = (files) => {
         const file = files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                setItemData({
-                    ...itemData,
-                    image: e.target.result,
-                });
-            };
-            reader.readAsDataURL(file);
+            const relativePath = `test/${file.name}`;
+            setItemData({
+                ...itemData,
+                image: relativePath,
+                
+            });
+           
         }
+    };
+    const handleImageChange = (e) => {
+        setItemData({ ...itemData, image: e.target.value }); // update image as a string
     };
 
     return (
         <div className="flex flex-col ">
             <div className="flex">
                 <div className="w-3/5 p-8 bg-gray-100 relative">
-                    {itemData.image ? (
+                    {/* {itemData.image ? (
                         <div>
                             <img src={itemData.image} alt="Selected Image" className="w-full h-auto" />
                             <button
@@ -95,7 +119,15 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
                                 className="custom-file-input"
                             />
                         </label>
-                    )}
+                    )} */}
+                    <input
+                        type="text"
+                        name="image"
+                        placeholder="Image Path"
+                        value={itemData.image}
+                        onChange={handleImageChange}
+                        className="w-full break-all p-2 border border-gray-300 rounded"
+                    />
                 </div>
 
                 <div className="w-1/2 p-4">
@@ -103,7 +135,7 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
                         {editMode.itemName ? (
                             <input
                                 type="text"
-                                name="name"
+                                name="itemName"
                                 placeholder="Item Name"
                                 value={itemData.itemName}
                                 onChange={handleChange}
@@ -128,7 +160,7 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
                         {editMode.itemPrice ? (
                             <input
                                 type="text"
-                                name="price"
+                                name="itemPrice"
                                 placeholder="Item Price"
                                 value={itemData.itemPrice}
                                 onChange={handleChange}
@@ -144,7 +176,7 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
                     <div className="mb-2 ">
                         {editMode.itemContent ? (
                             <textarea
-                                name="description"
+                                name="itemContent"
                                 placeholder="Description"
                                 value={itemData.itemContent}
                                 onChange={handleChange}
