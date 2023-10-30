@@ -37,7 +37,7 @@ const MenuManager = () => {
 
         const sampleMenuItems = [
           {
-            id: "burger",
+            id: 1,
             itemName: 'Burger',
             itemPrice: '3',
             itemFilter: ["Lunch", "Supper"],
@@ -46,7 +46,7 @@ const MenuManager = () => {
             itemContent: 'A classic beef burger with lettuce and tomato.',
           },
           {
-            id: "pasta",
+            id: 2,
             itemName: 'Pasta',
             itemPrice: '12',
             itemFilter: ["Lunch", "Supper"],
@@ -55,7 +55,7 @@ const MenuManager = () => {
             itemContent: 'Delicious pasta with tomato sauce.',
           },
           {
-            id: "noodle",
+            id: 3,
             itemName: 'Thai Noodles',
             itemPrice: '15',
             itemFilter: ["Lunch", "Supper"],
@@ -210,11 +210,11 @@ const MenuManager = () => {
                             },
                         }}
                     >
-                        <div>
+                        {/* <div>
                             <button onClick={closeModal} className="text-xl font-bold">
                                 X
                             </button>
-                        </div>
+                        </div> */}
                         <AddEditMenuItemForm
                             selectedItem={selectedItem}
                             addMenuItem={addMenuItem}
@@ -281,11 +281,11 @@ const MenuManager = () => {
                         },
                     }}
                 >
-                    <div className="flex justify-end p-4">
+                    {/* <div className="flex justify-end p-4">
                         <button onClick={closeModal} className="close-button text-xl font-bold">
                             X
                         </button>
-                    </div>
+                    </div> */}
                     <AddEditMenuItemForm
                         selectedItem={selectedItem}
                         editMenuItem={editMenuItem}

@@ -19,6 +19,8 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
         if (!selectedItem) {
             setItemData({
                 itemName: '',
+                itemFilter: '',
+                itemDiet: '',
                 itemPrice: '',
                 itemContent: '',
                 image: '',
@@ -32,6 +34,7 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
     };
 
     const handleEditToggle = (field) => {
+        console.log("making edits")
         setEditMode({ ...editMode, [field]: !editMode[field] });
     };
 
