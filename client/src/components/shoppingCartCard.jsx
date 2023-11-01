@@ -1,12 +1,16 @@
 import React from 'react';
+import { useState } from 'react';
 
-const ShoppingCartCard = ({ image, itemName, itemPrice, counter, upCount, downCount }) => {
+const ShoppingCartCard = ({ itemImage, itemName, itemPrice, itemCounter}) => {
+    const[counter, setCounter] = useState(itemCounter);
     const counterIncrement = () => {
-        upCount(itemName);
+        setCounter(counter + 1);
     };
 
     const counterDecrement = () => {
-        downCount(itemName);
+        if (counter > 0) {
+            setCounter(counter - 1);
+        }
     };
     
     const buttonStyle = {
@@ -15,7 +19,7 @@ const ShoppingCartCard = ({ image, itemName, itemPrice, counter, upCount, downCo
     };
     return (
         <div className="flex flex-column bg-gray-100 rounded-lg overflow-hidden shadow-md">
-            <img src={image} alt={itemName} className="w-25% h-24 object-cover" loading="lazy"/>
+            <img src={itemImage} alt={itemName} className="w-25% h-24 object-cover" loading="lazy"/>
             <div className="p-5">
                 <div className="flex flex-column text-lg font-semibold">{itemName}</div>
                 <div className="flex flex-column">

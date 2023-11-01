@@ -3,7 +3,6 @@ import ItemCard from '../components/itemCard'
 import Filterbar from '../components/filterbar';
 import ItemModal from '../components/itemModal';
 import ShoppingCart from '../components/shoppingCart';
-import ShoppingCartCard from '../components/shoppingCartCard';
 
 const Menu = () => {
     const items = [
@@ -28,16 +27,16 @@ const Menu = () => {
     ];
     const cartItems = [
         {
-            image: 'test/nacho-chips.png',
+            itemImage: 'test/nacho-chips.png',
             itemName: 'Nacho chips',
             itemPrice: 9.99,
-            count: 1
+            itemCount: 1
         },
         {
-            image: 'test/nacho-chips.png',
+            itemImage: 'test/nacho-chips.png',
             itemName: 'Nacho chips',
             itemPrice: 9.99,
-            count: 2
+            itemCount: 2
         }
     ];
 
@@ -72,7 +71,7 @@ const Menu = () => {
                     </div>
                 </div>
                 <div className='flex flex-col w-[25%] gap-8'>
-                    <ShoppingCart orderNum="222" tableNum="1" date="October 26, 2023" cartItems={cartItems}/>
+                    <ShoppingCart orderNum="222" tableNum="1" date="October 26, 2023" cartItems={cartItems} subTotal="$20.00" tax="$2.00" total="22.00"/>
                 </div>
             </div>
 
