@@ -126,18 +126,11 @@ const Menu = () => {
                         </div>
                     </div>
                     <div className='flex flex-col w-[25%] gap-8'>
-                        <ShoppingCart orderNum="222" tableNum="1" date="October 26, 2023" cartItems={cartItems}/>
-                    </div>
-                </div>
-
-                <div className='flex flex-col w-[25%] gap-8'>
                     <ShoppingCart orderNum="222" tableNum="1" date="October 26, 2023" cartItems={cartItems} subTotal="$20.00" tax="$2.00" total="22.00"/>
                 </div>
-            </div>
+                </div>
 
-
-                <ItemModal isOpen={selectedItem !== null} onClose={closeModal} item={selectedItem} 
-                />
+                <ItemModal isOpen={selectedItem !== null} onClose={closeModal} item={selectedItem} />
             </>
         );
     }
