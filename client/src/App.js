@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, HashRouter } from 'react-router-dom';
 
 import Home from './pages/home'
@@ -16,9 +16,43 @@ import Admin_analytics from './pages/admin-analytics';
 import Admin_customer from './pages/admin-customer';
 import AdminNavbar from './components/adminNavbar';
 
+// Websockets
+import WebSocketService from './WebSocketService';
+
+
 function App() {
+  // Establish a connection if not already connected
+  useEffect(() => {
+    if (!WebSocketService.socket) {
+      WebSocketService.connect();
+    }
+  }, []);
+
+  // broadcastMessage() and crashConnection() are testing functions, don't use them in implementation
+  function broadcastMessage(){
+    const userInput = prompt('Input message');
+    /*if (userInput){
+      console.log(`Attempting to broadcast message ${userInput}...`);
+      WebSocketService.socket.send(userInput);
+    }*/
+    WebSocketService.broadcastMessage(userInput);
+  }
+  function crashConnection(){
+    WebSocketService.socket.close(3333, 'Abnormal Disconnect Test');
+    return;
+  }
+
+  function submitOrder(){
+    WebSocketService.submitOrder('Test order');
+  }
+
   return (
     <div className="App">
+      <button onClick={broadcastMessage}>Broadcast a message</button>
+      <br />
+      <button onClick={crashConnection}>Crash websocket connection</button>
+      <br />
+      <button onClick={submitOrder}>Submit the order</button>
       <HashRouter>
         <Routes>
           <Route index element={<Home />} />
