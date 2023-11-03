@@ -39,7 +39,7 @@ const Filterbar = ({filterCategories, onEdit, onDelete, onAddCategory, isAdmin})
     };
 
     return (
-        <div className='flex items-center bg-white rounded-lg py-4 overflow-x-auto inline-block'>
+        <div className='flex items-center bg-white rounded-lg py-4 overflow-x-auto '>
             <div className="flex  gap-4 flex-row content-between">
             {isAdmin ? (
                 <ul className='flex gap-28 px-10'>
