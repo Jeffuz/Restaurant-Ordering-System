@@ -91,7 +91,6 @@ class Server {
     // message: String
     client.on('message', (message) => {
       const payload = JSON.parse(message);
-      console.log(payload);
       let action = payload.action;
       switch (action){
         case 'BROADCAST':
@@ -108,6 +107,14 @@ class Server {
 
         case 'CREATEMENU':
           console.log('Received request CREATEMENU');
+          break;
+
+        case 'DELETEMENU':
+          console.log('Received request DELETEMENU');
+          break;
+
+        case 'EDITEMENU':
+          console.log('Received request EDITMENU');
           break;
         
         default:

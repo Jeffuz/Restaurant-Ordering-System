@@ -122,7 +122,31 @@ const MenuManager = (props) => {
         WebSocketService.sendRequest(actionObject);
     }
 
+    const deleteMenuItem = (itemId) => {
+        const actionObject = {
+            "action": "DELETEMENU",
+            "restaurantId": "65381ed4030fa645be95b250",
+            "menuId": itemId
+        };
 
+        WebSocketService.sendRequest(actionObject);
+    }
+
+    const editMenuItem = (editedItem) => {
+        const actionObject = {
+            "action": "EDITMENU",
+            "restaurantId": "65381ed4030fa645be95b250",
+            "menuId": editedItem.itemName,
+            "image": editedItem.image,
+            "filter": [], // havent support
+            "name": editedItem.itemName,
+            "price": editedItem.itemPrice,
+            "description": editedItem.itemContent,
+            "diet": [] // havent support
+        };
+
+        WebSocketService.sendRequest(actionObject);
+    }
     // for add delete edit actions
     /*const addMenuItem = (newItem) => {
         // add nem item in database
@@ -162,8 +186,7 @@ const MenuManager = (props) => {
         });
     };*/
 
-
-    const deleteMenuItem = (itemId) => {
+    /*const deleteMenuItem = (itemId) => {
         // delete item in database
         const socket = new WebSocket('ws://localhost:8080');
         socket.addEventListener('open', function (event) {
@@ -192,9 +215,9 @@ const MenuManager = (props) => {
             }
         });
         
-    };
+    };*/
 
-    const editMenuItem = (editedItem) => {
+    /*const editMenuItem = (editedItem) => {
         // update in database
         const socket = new WebSocket('ws://localhost:8080');
         socket.addEventListener('open', function (event) {
@@ -231,7 +254,7 @@ const MenuManager = (props) => {
 
         });
 
-    }
+    }*/
 
     // for modal popup editing and adding 
     const closeModal = () => {
