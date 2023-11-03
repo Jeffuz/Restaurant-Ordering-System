@@ -12,8 +12,8 @@ const MenuManager = () => {
     const [showForm, setShowForm] = useState(false)
     const [menuItems, setMenuItems] = useState([])
     const [selectedItem, setSelectedItem] = useState(null);
-    const [isAdmin, setIsAdmin] = useState(true); 
-    
+    const [isAdmin, setIsAdmin] = useState(true);
+
     //filterbar stuff
     const [filterCategories, setFilterCategories] = useState([
         "All", "Breakfast", "Lunch", "Dinner"
@@ -26,7 +26,7 @@ const MenuManager = () => {
     //for modal popup
     const [isOpen, setIsOpen] = useState(false);
     const [isFormOpen, setIsFormOpen] = useState(false);
-    
+
     //add category 
     const [showAddCategoryTextBox, setShowAddCategoryTextBox] = useState(false);
 
@@ -99,13 +99,13 @@ const MenuManager = () => {
         //     itemDiet: ["Spicy", "Vegan"],
         //     itemContent: 'Spicy, sweet, savory, and full of fresh ingredients.',
         //   },
-          
+
         // ];
-    
+
         // setMenuItems(sampleMenuItems);
     }, []);
 
-    
+
 
 
     // for add delete edit actions
@@ -135,9 +135,9 @@ const MenuManager = () => {
             // parse the data
             const message = JSON.parse(event.data);
             socket.close();
-            if (message.error){
+            if (message.error) {
                 console.log(message.error);
-            }else{
+            } else {
                 // adds the new item to the end of menuItem list 
                 setMenuItems([...menuItems, newItem]);
                 setShowForm(false);
@@ -167,16 +167,16 @@ const MenuManager = () => {
             // parse the data
             const message = JSON.parse(event.data);
             socket.close();
-            if (message.error){
+            if (message.error) {
                 console.log(message.error);
-            }else{
+            } else {
                 const updatedItems = menuItems.filter((item) => item.id !== itemId);
                 setMenuItems(updatedItems);
                 setShowForm(false);
                 setSelectedItem(null);
             }
         });
-        
+
     };
 
     const editMenuItem = (editedItem) => {
@@ -204,9 +204,9 @@ const MenuManager = () => {
             // parse the data
             const message = JSON.parse(event.data);
             socket.close();
-            if (message.error){
+            if (message.error) {
                 console.log(message.error);
-            }else{
+            } else {
                 //checks to see if item exists, then adds to exisitng item, else new item is added
                 const updatedItems = menuItems.map((item) => item.id == editedItem.id ? editedItem : item);
                 setMenuItems(updatedItems);
@@ -223,7 +223,7 @@ const MenuManager = () => {
         setIsOpen(false);
         setShowForm(false);
         setIsFormOpen(false);
-        
+
     };
 
     const openModalAdd = () => {
@@ -241,7 +241,7 @@ const MenuManager = () => {
     }
 
 
-  
+
     //for filter bar component
     const addFilterCategory = () => {
         if (newFilterCategory.trim() !== "") {
@@ -250,7 +250,7 @@ const MenuManager = () => {
         }
     };
 
-    const openEditCategoryMenu = (category ) => {
+    const openEditCategoryMenu = (category) => {
         setSelectedCategory(category);
         setIsEditCategoryOn(true);
 
@@ -266,14 +266,14 @@ const MenuManager = () => {
     const onEditCategory = (categoryToEdit) => {
         // Find the index of the category to edit
         const categoryIndex = filterCategories.indexOf(categoryToEdit);
-    
+
         if (categoryIndex !== -1) {
             const updatedCategoryName = prompt("Edit category name:", categoryToEdit);
-    
+
             if (updatedCategoryName !== null && updatedCategoryName.trim() !== '') {
-          
+
                 filterCategories[categoryIndex] = updatedCategoryName;
-                setFilterCategories([...filterCategories]); 
+                setFilterCategories([...filterCategories]);
             }
         }
     };
@@ -288,7 +288,7 @@ const MenuManager = () => {
         setFilterCategories([...filterCategories, newCategory]);
     };
 
-    
+
 
 
     return (
@@ -302,7 +302,7 @@ const MenuManager = () => {
                         onEdit={onEditCategory}
                         onDelete={onDeleteCategory}
                         onAddCategory={handleAddCategory}
-                        isAdmin={isAdmin} 
+                        isAdmin={isAdmin}
                     />
 
                     {/* {showAddCategoryTextBox ? (
@@ -312,21 +312,21 @@ const MenuManager = () => {
                             )}
                         <button onClick={addFilterCategory}> <IoIosAddCircle /> </button> */}
                 </div>
-                
+
             </div>
-                
+
 
             <div className="addEditItemButton flex justify-end p-4">
-            
+
                 {showForm && (
-                    <ReactModal  isOpen={isFormOpen} onRequestClose={closeModal}
+                    <ReactModal isOpen={isFormOpen} onRequestClose={closeModal}
                         style={{
                             overlay: {
                                 backgroundColor: 'rgba(0, 0, 0, 0.6)',
                             },
-                                content: {
-                                width: '70%',  
-                                height: '70%', 
+                            content: {
+                                width: '70%',
+                                height: '70%',
                                 margin: 'auto', // Center the modal horizontally
                                 borderRadius: '1rem',
                             },
@@ -343,7 +343,7 @@ const MenuManager = () => {
                             editMenuItem={editMenuItem}
                             setIsOpen={setIsOpen}
                             deleteMenuItem={deleteMenuItem}
-                            
+
                         />
                     </ReactModal>
 
@@ -351,35 +351,24 @@ const MenuManager = () => {
                 )}
             </div>
 
-            
-           
 
-            <div className="menu-list flex flex-wrap p-4">
+            <div className="grid grid-cols-5 gap-8">
                 <AddItemButton onClick={openModalAdd} />
-                
-                {menuItems.map((item) => (
-                    <div key={item.id} onClick={() => openModalEdit(item)} className="w-1/2 md:w-1/3 lg:w-1/4 p-4">
-                        
-                            <ItemCard
-                                // className=""
-                                key={item.id}
-                                image={item.image}
-                                itemName={item.itemName}
-                                itemFilter={item.itemFilter}
-                                itemPrice={item.itemPrice}
-                                itemContent={item.itemContent}
-                                itemDiet={item.itemDiet}
-                            />
 
-                      
-                        
+                {menuItems.map((item) => (
+                    <div key={item.id} onClick={() => openModalEdit(item)}>
+                        <ItemCard
+                            // className=""
+                            key={item.id}
+                            image={item.image}
+                            itemName={item.itemName}
+                            itemFilter={item.itemFilter}
+                            itemPrice={item.itemPrice}
+                            itemContent={item.itemContent}
+                            itemDiet={item.itemDiet}
+                        />
                     </div>
                 ))}
-
-
-               
-                
-
             </div>
 
 
@@ -389,7 +378,7 @@ const MenuManager = () => {
 
 
             {selectedItem && (
-            
+
                 <ReactModal isOpen={isOpen} onRequestClose={closeModal}
                     style={{
                         overlay: {
@@ -416,19 +405,19 @@ const MenuManager = () => {
                     />
                 </ReactModal>
             )}
-        
 
 
 
 
-            
+
+
         </div>
 
     )
 
-  
 
-    
+
+
 
 }
 export default MenuManager;
