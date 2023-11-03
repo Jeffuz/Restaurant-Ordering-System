@@ -2,6 +2,14 @@ const express = require('express');
 const WebSocket = require('ws');
 const DELIM = '\r\n';
 
+const {
+    getMenus,
+    getMenu,
+    createMenu,
+    updateMenu,
+    deleteMenu,
+} = require("./controllers/menu");
+
 class Server {
   constructor(port){
     this.server = new WebSocket.Server({ port: port });
@@ -99,6 +107,29 @@ class Server {
           console.log(`Server received unsupported request "${method}" with payload "${payload}"`);
       }
     });
+    
+    /*client.on("message", (message) => {
+            const parsedMessage = JSON.parse(message);
+            const { action } = parsedMessage;
+
+            if (action === "getMenus") {
+                console.log("getMenus");
+                getMenus(client, parsedMessage);
+            } else if (action === "getMenu") {
+                console.log("getMenu");
+                getMenu(client, parsedMessage);
+            } else if (action === "createMenu") {
+                console.log("createMenu");
+                createMenu(client, parsedMessage);
+            } else if (action === "updateMenu") {
+                console.log("updateMenu");
+                updateMenu(client, parsedMessage);
+            } else if (action === "deleteMenu") {
+                console.log("deleteMenu");
+                deleteMenu(client, parsedMessage);
+            }
+        });*/
+    
     return;
   }
 
@@ -157,4 +188,4 @@ class Server {
 }
 
 const server = new Server(8080);
-console.log('WebSocket server listening on Port 8080');
+console.log("WebSocket server listening on Port 8080");
