@@ -24,10 +24,6 @@ function App() {
   // broadcastMessage() and crashConnection() are testing functions, don't use them in implementation
   function broadcastMessage(){
     const userInput = prompt('Input message');
-    /*if (userInput){
-      console.log(`Attempting to broadcast message ${userInput}...`);
-      WebSocketService.socket.send(userInput);
-    }*/
     WebSocketService.broadcastMessage(userInput);
   }
   function crashConnection(){
@@ -37,15 +33,18 @@ function App() {
 
   function submitOrder(){
     WebSocketService.submitOrder('Test order');
+    return;
+  }
+
+  function testId(){
+    alert(WebSocketService.id);
   }
 
   return (
     <div className="App">
-      <button onClick={broadcastMessage}>Broadcast a message</button>
-      <br />
-      <button onClick={crashConnection}>Crash websocket connection</button>
-      <br />
-      <button onClick={submitOrder}>Submit the order</button>
+      <button onClick={testId}>test</button> <br />
+      <button onClick={submitOrder}>Submit Order</button> <br />
+      <button onClick={broadcastMessage}>Broadcast Message</button> <br /> 
       <HashRouter>
         <Routes>
           <Route index element={<Home />} />
@@ -54,7 +53,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/menu' element={<Menu />} />
           <Route path='/table' element={<Table />} />
-          <Route path='/admin-menu' element={<AdminMenu />} />
+          <Route path='/admin-menu' element={<AdminMenu WebSocketService={WebSocketService} />} />
           <Route path='*' element={<NoPage />} />
         </Routes>
       </HashRouter>
