@@ -7,6 +7,8 @@ import ItemCard from '../itemCard';
 import FilterBar from '../filterbar';
 import AddCategoryTextBox from '../AddCategoryTextBox';
 import { IoIosAddCircle } from 'react-icons/io'
+import { AiOutlineClose } from 'react-icons/ai'
+
 const MenuManager = () => {
 
     const [showForm, setShowForm] = useState(false)
@@ -288,15 +290,13 @@ const MenuManager = () => {
         setFilterCategories([...filterCategories, newCategory]);
     };
 
-
-
-
     return (
-        <div>
-            <div >
-
+        <div className='flex flex-col h-screen'>
+            <div className='mb-8'>
                 <h1 className="text-center mt-27 text-black font-Montserrat text-4xl font-bold py-6">Menu</h1>
-                <div className="mx-4">
+
+                {/* Filter Bar */}
+                <div className="">
                     <FilterBar
                         filterCategories={filterCategories}
                         onEdit={onEditCategory}
@@ -312,12 +312,10 @@ const MenuManager = () => {
                             )}
                         <button onClick={addFilterCategory}> <IoIosAddCircle /> </button> */}
                 </div>
-
             </div>
 
-
-            <div className="addEditItemButton flex justify-end p-4">
-
+            <div className="flex">
+                {/* Modal for item cards */}
                 {showForm && (
                     <ReactModal isOpen={isFormOpen} onRequestClose={closeModal}
                         style={{
@@ -332,9 +330,9 @@ const MenuManager = () => {
                             },
                         }}
                     >
-                        <div>
+                        <div className='flex justify-end'>
                             <button onClick={closeModal} className="text-xl font-bold">
-                                X
+                                <AiOutlineClose />
                             </button>
                         </div>
                         <AddEditMenuItemForm
@@ -343,41 +341,38 @@ const MenuManager = () => {
                             editMenuItem={editMenuItem}
                             setIsOpen={setIsOpen}
                             deleteMenuItem={deleteMenuItem}
-
                         />
                     </ReactModal>
-
-
                 )}
             </div>
 
+            <div className='overflow-y-auto h-screen'>
+                <div className="grid grid-cols-5 gap-8 ">
+                    <AddItemButton onClick={openModalAdd} />
 
-            <div className="grid grid-cols-5 gap-8">
-                <AddItemButton onClick={openModalAdd} />
+                    {menuItems.map((item) => (
+                        <div key={item.id} onClick={() => openModalEdit(item)}>
+                            <ItemCard
+                                key={item.id}
+                                image={item.image}
+                                itemName={item.itemName}
 
-                {menuItems.map((item) => (
-                    <div key={item.id} onClick={() => openModalEdit(item)}>
-                        <ItemCard
-                            // className=""
-                            key={item.id}
-                            image={item.image}
-                            itemName={item.itemName}
-                            itemFilter={item.itemFilter}
-                            itemPrice={item.itemPrice}
-                            itemContent={item.itemContent}
-                            itemDiet={item.itemDiet}
-                        />
-                    </div>
-                ))}
+                                itemFilter={item.itemFilter}
+                                itemPrice={item.itemPrice}
+                                itemContent={item.itemContent}
+                                itemDiet={item.itemDiet}
+                            />
+                        </div>
+                    ))}
+                </div>
             </div>
-
 
             {/* {selectedItem && (
                 <ItemModal isOpen={isOpen} onClose={closeModal} item={selectedItem} />
             )} */}
 
 
-            {selectedItem && (
+            {/* {selectedItem && (
 
                 <ReactModal isOpen={isOpen} onRequestClose={closeModal}
                     style={{
@@ -404,20 +399,8 @@ const MenuManager = () => {
                         closeModal={closeModal}
                     />
                 </ReactModal>
-            )}
-
-
-
-
-
-
+            )} */}
         </div>
-
     )
-
-
-
-
-
 }
 export default MenuManager;
