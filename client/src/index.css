@@ -6,3 +6,7 @@ body {
     background-color: #D9D9D9;
 }
 
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+

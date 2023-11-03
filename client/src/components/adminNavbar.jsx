@@ -17,7 +17,7 @@ const AdminNavbar = () => {
 
     return (
         <div className='bg-white flex flex-col h-screen'>
-            <div className='p-4 mx-auto text-4xl font-medium'>115A's Diner</div>
+            <div className='p-4 mx-auto text-4xl font-medium'><Link to='/'>115A's Diner</Link></div>
             <div className='flex flex-col gap-8 p-7'>
                 {menuItems.map((item, index) => (
                     <Link className='flex items-center' to={item.to} key={index}>

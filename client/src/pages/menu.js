@@ -99,35 +99,40 @@ const Menu = () => {
 
 
     // render the pages if the data is loaded
-    if (isLoading) 
-    {
+    if (isLoading) {
         return <div>Loading...</div>; // if data is loading, rending a loading pages
-    } 
+    }
     else {
 
         return (
             <>
-                <div className="flex">
-                    <div className="flex flex-col w-[75%] gap-8">
-                        <Filterbar />
-                        <div className="grid grid-cols-5 gap-x-12 gap-y-9">
-                            {items.map((item) => (
-                                <div onClick={() => openModal(item)} role="button">
-                                    <ItemCard
-                                        image={item.image}
-                                        itemName={item.itemName}
-                                        itemFilter={item.itemFilter}
-                                        itemPrice={item.itemPrice}
-                                        itemContent={item.itemContent}
-                                        itemDiet={item.itemDiet}
-                                    />
+                <div className="flex flex-row h-screen">
+                    <div className="w-[75%]">
+                        <div className='flex flex-col h-screen p-8'>
+                            <div className='text-center mt-27 text-black font-Montserrat text-4xl font-bold px-6 mb-6'>Menu</div>
+                            <div className='scrollbar-hide'><Filterbar /></div>
+                            <div className='mt-8 overflow-y-auto'>
+                                <div className="grid grid-cols-5 gap-8">
+                                    {items.map((item) => (
+                                        <div onClick={() => openModal(item)} role="button">
+                                            <ItemCard
+                                                image={item.image}
+                                                itemName={item.itemName}
+                                                itemFilter={item.itemFilter}
+                                                itemPrice={item.itemPrice}
+                                                itemContent={item.itemContent}
+                                                itemDiet={item.itemDiet}
+                                            />
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
+                            </div>
+
                         </div>
                     </div>
                     <div className='flex flex-col w-[25%] gap-8'>
-                    <ShoppingCart orderNum="222" tableNum="1" date="October 26, 2023" cartItems={cartItems} subTotal="$20.00" tax="$2.00" total="22.00"/>
-                </div>
+                        <ShoppingCart orderNum="222" tableNum="1" date="October 26, 2023" cartItems={cartItems} subTotal="$20.00" tax="$2.00" total="22.00" />
+                    </div>
                 </div>
 
                 <ItemModal isOpen={selectedItem !== null} onClose={closeModal} item={selectedItem} />
