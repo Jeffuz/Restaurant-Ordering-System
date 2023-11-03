@@ -14,6 +14,7 @@ import Admin_table from './pages/admin-table';
 import Admin_orders from './pages/admin-orders';
 import Admin_analytics from './pages/admin-analytics';
 import Admin_customer from './pages/admin-customer';
+import AdminNavbar from './components/adminNavbar';
 
 function App() {
   return (
