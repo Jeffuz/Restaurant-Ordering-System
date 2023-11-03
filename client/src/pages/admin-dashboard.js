@@ -1,7 +1,7 @@
 import React from 'react'
 import AdminNavbar from '../components/adminNavbar'
 
-const Dashboard = () => {
+const Admin_dashboard = () => {
     return (
         <>
             <div className='w-[20%]'><AdminNavbar /></div>
@@ -9,4 +9,4 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard
+export default Admin_dashboard

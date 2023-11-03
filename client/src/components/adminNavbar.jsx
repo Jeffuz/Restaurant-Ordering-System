@@ -7,12 +7,12 @@ import { CgProfile } from 'react-icons/cg'
 
 const AdminNavbar = () => {
     const menuItems = [
-        { label: 'Dashboard', icon: 'FaHome', to: '' },
-        { label: 'Menu', icon: 'MdRestaurantMenu', to: '' },
-        { label: 'Table', icon: 'MdTableRestaurant', to: '' },
-        { label: 'Orders', icon: 'MdBorderColor', to: '' },
-        { label: 'Analytics', icon: 'TbDeviceAnalytics', to: '' },
-        { label: 'Customer', icon: 'CgProfile', to: '' },
+        { label: 'Dashboard', icon: 'FaHome', to: '/admin-dashboard' },
+        { label: 'Menu', icon: 'MdRestaurantMenu', to: '/admin-menu' },
+        { label: 'Table', icon: 'MdTableRestaurant', to: '/admin-table' },
+        { label: 'Orders', icon: 'MdBorderColor', to: '/admin-orders' },
+        { label: 'Analytics', icon: 'TbDeviceAnalytics', to: '/admin-analytics' },
+        { label: 'Customer', icon: 'CgProfile', to: '/admin-customer' },
     ];
 
     return (

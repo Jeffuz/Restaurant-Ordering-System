@@ -2,7 +2,7 @@ import React from 'react'
 import MenuManager from '../components/admin-menu/MenuManager'
 import AdminNavbar from '../components/adminNavbar';
 
-const AdminMenu = () => {
+const Admin_Menu = () => {
     return (
         <div>
             <div className="flex flex-row">
@@ -19,4 +19,4 @@ const AdminMenu = () => {
     )
 }
 
-export default AdminMenu;
+export default Admin_Menu;
