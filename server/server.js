@@ -62,13 +62,15 @@ class Server {
    * @returns {void}
    */
   handleConnection(client){
-    if(!this.clients.includes(client) && !this.disconnected.includes(client)){
+    /*if(!this.clients.includes(client) && !this.disconnected.includes(client)){
       console.log('Client connection never seen before. Initializing.');
       this.initializeClientConnection(client);
     }else if (this.disconnected.includes(client)){
       console.log('Client was disconnected, now reconnected.');
 
-    }
+    }*/
+
+    this.initializeClientConnection(client);
 
     // Close handler
     client.on('close', () => {
@@ -77,7 +79,7 @@ class Server {
       }
       this.clients = this.clients.filter(item => item !== client);
       this.disconnected.push(client);
-      console.log('DSCONNECTED');
+      console.log('DISCONNECTED');
       this.disconnected.forEach((client) => {
         console.log(client.id);
       });   
@@ -88,19 +90,31 @@ class Server {
     // Message Method handler
     // message: String
     client.on('message', (message) => {
-      let payload = String(message).split(DELIM);
-      let method = payload.shift();
-      switch (method){
+      const payload = JSON.parse(message);
+      let action = payload.action;
+      switch (action){
         case 'BROADCAST':
           this.sendBroadcast(payload);
           break;
         
         case 'MESSAGE':
-          console.log(`Server received message:  ${payload}`);
+          console.log(`Server received message ${message.message}`);
           break;
 
         case 'ORDER':
-          console.log(`Server received ORDER request: ${payload}`);
+          console.log(`Server received ORDER request`);
+          break;
+
+        case 'CREATEMENU':
+          console.log('Received request CREATEMENU');
+          break;
+
+        case 'DELETEMENU':
+          console.log('Received request DELETEMENU');
+          break;
+
+        case 'EDITEMENU':
+          console.log('Received request EDITMENU');
           break;
         
         default:
@@ -157,9 +171,15 @@ class Server {
    * @returns {null}
    */
   sendBroadcast(message){
+    const actionObject = {
+      'action': 'BROADCAST',
+      'message': message,
+    };
+
     this.clients.forEach((client) => {
-      client.send('BROADCAST' + DELIM + message);
+      client.send(JSON.stringify(actionObject));
     });
+
     return;
   }
 
@@ -172,7 +192,13 @@ class Server {
    * @returns {null}
    */
   sendMessage(client, message){
-    client.send('MESSAGE' + DELIM + message);
+    const actionObject = {
+      'action': 'MESSAGE',
+      'message': message,
+    };
+
+    client.send(JSON.stringify(actionObject));
+
     return;
   }
 
@@ -183,7 +209,15 @@ class Server {
    * @param {Bool} isMaster Signals if system is master or slave
    */
   sendInit(client, id, isMaster){
-    client.send('INIT' + DELIM + id + DELIM + isMaster);
+    const actionObject = {
+      'action': 'INIT',
+      'ID': id,
+      'isMaster': isMaster,
+    };
+
+    client.send(JSON.stringify(actionObject));
+
+    return;
   }
 }
 

@@ -7,7 +7,8 @@ import ItemCard from '../itemCard';
 import FilterBar from '../filterbar';
 import AddCategoryTextBox from '../AddCategoryTextBox';
 import { IoIosAddCircle } from 'react-icons/io'
-const MenuManager = () => {
+const MenuManager = (props) => {
+    const { WebSocketService } = props;
 
     const [showForm, setShowForm] = useState(false)
     const [menuItems, setMenuItems] = useState([])
@@ -33,7 +34,7 @@ const MenuManager = () => {
     const [isLoading, setIsLoading] = useState(true); // used to save whether data is loading 
 
     // creates inital menu items for testing 
-    useEffect(() => {
+    /*useEffect(() => {
         // fetch initial menu items from a server or set sample data here.
         const socket = new WebSocket('ws://localhost:8080');
         socket.addEventListener('open', function (event) {
@@ -103,13 +104,51 @@ const MenuManager = () => {
         // ];
     
         // setMenuItems(sampleMenuItems);
-    }, []);
+    }, []);*/
 
-    
-
-
-    // for add delete edit actions
     const addMenuItem = (newItem) => {
+        const actionObject = {
+            "action": "CREATEMENU",
+            "restaurantId": "65381ed4030fa645be95b250",
+            "menuId": newItem.itemName,
+            "image": newItem.image,
+            "filter": [], // havent support
+            "name": newItem.itemName,
+            "price": newItem.itemPrice,
+            "description": newItem.itemContent,
+            "diet": [] // havent support
+        };
+
+        WebSocketService.sendRequest(actionObject);
+    }
+
+    const deleteMenuItem = (itemId) => {
+        const actionObject = {
+            "action": "DELETEMENU",
+            "restaurantId": "65381ed4030fa645be95b250",
+            "menuId": itemId
+        };
+
+        WebSocketService.sendRequest(actionObject);
+    }
+
+    const editMenuItem = (editedItem) => {
+        const actionObject = {
+            "action": "EDITMENU",
+            "restaurantId": "65381ed4030fa645be95b250",
+            "menuId": editedItem.itemName,
+            "image": editedItem.image,
+            "filter": [], // havent support
+            "name": editedItem.itemName,
+            "price": editedItem.itemPrice,
+            "description": editedItem.itemContent,
+            "diet": [] // havent support
+        };
+
+        WebSocketService.sendRequest(actionObject);
+    }
+    // for add delete edit actions
+    /*const addMenuItem = (newItem) => {
         // add nem item in database
         // update in database
         const socket = new WebSocket('ws://localhost:8080');
@@ -145,10 +184,9 @@ const MenuManager = () => {
             }
 
         });
-    };
+    };*/
 
-
-    const deleteMenuItem = (itemId) => {
+    /*const deleteMenuItem = (itemId) => {
         // delete item in database
         const socket = new WebSocket('ws://localhost:8080');
         socket.addEventListener('open', function (event) {
@@ -177,9 +215,9 @@ const MenuManager = () => {
             }
         });
         
-    };
+    };*/
 
-    const editMenuItem = (editedItem) => {
+    /*const editMenuItem = (editedItem) => {
         // update in database
         const socket = new WebSocket('ws://localhost:8080');
         socket.addEventListener('open', function (event) {
@@ -216,7 +254,7 @@ const MenuManager = () => {
 
         });
 
-    }
+    }*/
 
     // for modal popup editing and adding 
     const closeModal = () => {
