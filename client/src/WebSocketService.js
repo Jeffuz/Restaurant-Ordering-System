@@ -36,9 +36,17 @@ const WebSocketService = {
 
       // Connection message listener
       socket.addEventListener('message', (e) => {
-        console.log(e.data);
+
+        function dispatchMenuUpdate(action, data){
+          const menuUpdateEvent = new CustomEvent('menuUpdate', {
+            detail: { action, data },
+          });
+          window.dispatchEvent(menuUpdateEvent);
+        }
+
         const payload = JSON.parse(e.data);
         let action = payload.action;
+        console.log('ACTION:', payload);
         switch (action) {
           case 'INIT':
             // Payload format: [id: String, isMaster: Bool]
@@ -69,8 +77,14 @@ const WebSocketService = {
             alert(payload);
             break;
 
+          case 'menuList':
+            const menuList = payload.menuList;
+            dispatchMenuUpdate('menuUpdate', menuList);
+            break;
+
           default:
             console.log('ERROR: NO METHOD DETECTED IN MESSAGE');
+            console.log(payload.message);
             break;
         }
         });

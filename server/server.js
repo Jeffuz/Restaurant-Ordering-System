@@ -113,8 +113,12 @@ class Server {
           console.log('Received request DELETEMENU');
           break;
 
-        case 'EDITEMENU':
+        case 'EDITMENU':
           console.log('Received request EDITMENU');
+          break;
+
+        case 'getMenus':
+          getMenus(client, payload); 
           break;
         
         default:

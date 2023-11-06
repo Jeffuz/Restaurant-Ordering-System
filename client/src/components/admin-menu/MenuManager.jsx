@@ -33,6 +33,39 @@ const MenuManager = (props) => {
 
     const [isLoading, setIsLoading] = useState(true); // used to save whether data is loading 
 
+    function getMenu() {
+        const actionObject = {
+            'action': 'getMenus',
+            'restaurantId': '65381ed4030fa645be95b250'
+        };
+
+        WebSocketService.sendRequest(actionObject);
+    }
+
+    useEffect(() => {
+        getMenu();
+
+        const menuUpdateHandler = (event) => {
+            const menuList = event.detail.data;
+            console.log('hello', menuList);
+            setMenuItems(menuList.map(item => ({
+                id: item.menuId,
+                image: item.image,
+                itemFilter: item.filter,
+                itemName: item.name,
+                itemContent: item.description,
+                itemPrice: item.price,
+                itemDiet: item.diet,
+            })));
+            setIsLoading(false);
+        }
+
+        window.addEventListener('menuUpdate', menuUpdateHandler);
+
+        return () => {
+            window.removeEventListener('menuUpdate', menuUpdateHandler);
+        };
+    }, []);
     // creates inital menu items for testing 
     /*useEffect(() => {
         // fetch initial menu items from a server or set sample data here.

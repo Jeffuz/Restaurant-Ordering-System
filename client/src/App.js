@@ -51,7 +51,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/menu' element={<Menu />} />
+          <Route path='/menu' element={<Menu WebSocketService={WebSocketService} />} />
           <Route path='/table' element={<Table />} />
           <Route path='/admin-menu' element={<AdminMenu WebSocketService={WebSocketService} />} />
           <Route path='*' element={<NoPage />} />
