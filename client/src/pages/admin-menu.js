@@ -13,12 +13,10 @@ const AdminMenu = (props) => {
                     <MenuManager WebSocketService={WebSocketService} />
                 </div>
             </div>
+        </>
 
 
-        </div>
-
-       
     )
 }
 
-export default AdminMenu;
+export default Admin_Menu;

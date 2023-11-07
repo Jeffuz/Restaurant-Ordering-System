@@ -38,11 +38,8 @@ const Filterbar = ({filterCategories, onEdit, onDelete, onAddCategory, isAdmin})
         setSelectedCategory(null);
     };
 
-
-
-
     return (
-        <div className='flex items-center bg-white rounded-lg py-4 overflow-x-auto inline-block mr-4'>
+        <div className='flex items-center bg-white rounded-lg py-4 overflow-x-auto '>
             <div className="flex  gap-4 flex-row content-between">
             {isAdmin ? (
                 <ul className='flex gap-28 px-10'>
@@ -56,8 +53,7 @@ const Filterbar = ({filterCategories, onEdit, onDelete, onAddCategory, isAdmin})
                          {/* <button onClick={() => openEditCategoryMenu(category)}>HI</button> */}
                         </li>
                     ))}
-
-                
+     
                 </ul>):
                     <div>
                         <ul className='flex gap-28 px-10'>
@@ -67,12 +63,7 @@ const Filterbar = ({filterCategories, onEdit, onDelete, onAddCategory, isAdmin})
                         </ul>
                     </div>
             }
-
-
-                
-                
-                
-            
+ 
             </div>
             <div className="ml-auto mr-2"> 
                 {isAdmin ? (
