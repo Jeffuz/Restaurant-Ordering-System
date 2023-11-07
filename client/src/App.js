@@ -64,7 +64,7 @@ function App() {
           <Route path='/admin-orders' element={<Admin_orders />} />
           <Route path='/admin-analytics' element={<Admin_analytics />} />
           <Route path='/admin-customer' element={<Admin_customer />} />
-          <Route path='/admin-menu' element={<AdminMenu WebSocketService={WebSocketService} />} />
+          <Route path='/admin-menu' element={<Admin_Menu WebSocketService={WebSocketService} />} />
           <Route path='*' element={<NoPage />} />
         </Routes>
       </HashRouter>

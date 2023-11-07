@@ -2,7 +2,7 @@ import React from 'react'
 import MenuManager from '../components/admin-menu/MenuManager'
 import AdminNavbar from '../components/adminNavbar';
 
-const AdminMenu = (props) => {
+const Admin_Menu = (props) => {
     const { WebSocketService } = props;
 
     return(
@@ -13,9 +13,7 @@ const AdminMenu = (props) => {
                     <MenuManager WebSocketService={WebSocketService} />
                 </div>
             </div>
-        </>
-
-
+        </div>
     )
 }
 

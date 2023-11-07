@@ -103,6 +103,7 @@ class Server {
 
         case 'ORDER':
           console.log(`Server received ORDER request`);
+          console.log(payload.cart);
           break;
 
         case 'CREATEMENU':

@@ -1,7 +1,19 @@
 import React from 'react';
 import ShoppingCartCard from './shoppingCartCard';
 
-const ShoppingCart = ({ orderNum, tableNum, date, cartItems, subTotal, tax, total }) => {
+const ShoppingCart = ({ orderNum, tableNum, date, cartItems, subTotal, tax, total, WebSocketService }) => {
+    
+    function sendOrder(){
+        alert('send order clicked');
+        console.log(cartItems);
+        const actionObject = {
+            'action': 'ORDER',
+            'cart': cartItems,
+        };
+
+        WebSocketService.sendRequest(actionObject);
+    }
+    
     return (
         <div className="bg-white h-screen flex flex-col justify-between">
 
@@ -48,9 +60,10 @@ const ShoppingCart = ({ orderNum, tableNum, date, cartItems, subTotal, tax, tota
 
                 {/* Customer buttons */}
                 <div className="p-4 bg-gray-200 flex gap-4 justify-between">
-                    <button className="bg-white text-gray px-6 py-6 rounded-md w-[33%]">Order Status</button>
-                    <button className="bg-white text-gray px-6 py-6 rounded-md w-[33%]">Help</button>
-                    <button className="bg-white text-gray px-6 py-6 rounded-md w-[33%]">Check Out</button>
+                    <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%]">Order Status</button>
+                    <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%]">Help</button>
+                    <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%]" onClick={sendOrder}>Order</button>
+                    <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%]">Check Out</button>
                 </div>
             </div>
 
