@@ -8,7 +8,7 @@ import ShoppingCart from '../components/shoppingCart';
 // try to connect
 let menuList = null;
 
-const Menu = () => {
+const Menu = (props) => {
     // Jeff:
     // let items = [
     //     {
@@ -34,7 +34,8 @@ const Menu = () => {
     const [items, setItems] = useState([]); // used to save data states
     const [isLoading, setIsLoading] = useState(true); // used to save whether data is loading 
 
-    useEffect(() => {
+    const { WebSocketService } = props;
+    /*useEffect(() => {
         const socket = new WebSocket('ws://localhost:8080');
         socket.addEventListener('open', function (event) {
             // create a getMenus request when connecting to the server.
@@ -69,8 +70,40 @@ const Menu = () => {
         return () => {
             socket.close();
         };
-    }, []);
+    }, []);*/
 
+    function getMenu() {
+        const actionObject = {
+            'action': 'getMenus',
+            'restaurantId': '65381ed4030fa645be95b250'
+        };
+
+        WebSocketService.sendRequest(actionObject);
+    }
+
+    useEffect(() => {
+        getMenu();
+
+        const menuUpdateHandler = (event) => {
+            const menuList = event.detail.data;
+            setItems(menuList.map(item => ({
+                id: item.menuId,
+                image: item.image,
+                itemFilter: item.filter,
+                itemName: item.name,
+                itemContent: item.description,
+                itemPrice: item.price,
+                itemDiet: item.diet,
+            })));
+            setIsLoading(false);
+        }
+
+        window.addEventListener('menuUpdate', menuUpdateHandler);
+
+        return () => {
+            window.removeEventListener('menuUpdate', menuUpdateHandler);
+        };
+    }, []);
 
     const cartItems = [
         {

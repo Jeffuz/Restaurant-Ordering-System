@@ -11,7 +11,7 @@ function getMenus(ws, message) {
                 };
                 ws.send(JSON.stringify(response));
             } else {
-                const response = { menuList: menu.menuList };
+                const response = { action: 'menuList', menuList: menu.menuList };
                 ws.send(JSON.stringify(response));
             }
         })

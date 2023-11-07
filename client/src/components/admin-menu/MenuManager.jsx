@@ -8,8 +8,8 @@ import FilterBar from '../filterbar';
 import AddCategoryTextBox from '../AddCategoryTextBox';
 import { IoIosAddCircle } from 'react-icons/io'
 import { AiOutlineClose } from 'react-icons/ai'
-
-const MenuManager = () => {
+const MenuManager = (props) => {
+    const { WebSocketService } = props;
 
     const [showForm, setShowForm] = useState(false)
     const [menuItems, setMenuItems] = useState([])
@@ -34,8 +34,41 @@ const MenuManager = () => {
 
     const [isLoading, setIsLoading] = useState(true); // used to save whether data is loading 
 
-    // creates inital menu items for testing 
+    function getMenu() {
+        const actionObject = {
+            'action': 'getMenus',
+            'restaurantId': '65381ed4030fa645be95b250'
+        };
+
+        WebSocketService.sendRequest(actionObject);
+    }
+
     useEffect(() => {
+        getMenu();
+
+        const menuUpdateHandler = (event) => {
+            const menuList = event.detail.data;
+            console.log('hello', menuList);
+            setMenuItems(menuList.map(item => ({
+                id: item.menuId,
+                image: item.image,
+                itemFilter: item.filter,
+                itemName: item.name,
+                itemContent: item.description,
+                itemPrice: item.price,
+                itemDiet: item.diet,
+            })));
+            setIsLoading(false);
+        }
+
+        window.addEventListener('menuUpdate', menuUpdateHandler);
+
+        return () => {
+            window.removeEventListener('menuUpdate', menuUpdateHandler);
+        };
+    }, []);
+    // creates inital menu items for testing 
+    /*useEffect(() => {
         // fetch initial menu items from a server or set sample data here.
         const socket = new WebSocket('ws://localhost:8080');
         socket.addEventListener('open', function (event) {
@@ -105,13 +138,51 @@ const MenuManager = () => {
         // ];
 
         // setMenuItems(sampleMenuItems);
-    }, []);
+    }, []);*/
 
-
-
-
-    // for add delete edit actions
     const addMenuItem = (newItem) => {
+        const actionObject = {
+            "action": "CREATEMENU",
+            "restaurantId": "65381ed4030fa645be95b250",
+            "menuId": newItem.itemName,
+            "image": newItem.image,
+            "filter": [], // havent support
+            "name": newItem.itemName,
+            "price": newItem.itemPrice,
+            "description": newItem.itemContent,
+            "diet": [] // havent support
+        };
+
+        WebSocketService.sendRequest(actionObject);
+    }
+
+    const deleteMenuItem = (itemId) => {
+        const actionObject = {
+            "action": "DELETEMENU",
+            "restaurantId": "65381ed4030fa645be95b250",
+            "menuId": itemId
+        };
+
+        WebSocketService.sendRequest(actionObject);
+    }
+
+    const editMenuItem = (editedItem) => {
+        const actionObject = {
+            "action": "EDITMENU",
+            "restaurantId": "65381ed4030fa645be95b250",
+            "menuId": editedItem.itemName,
+            "image": editedItem.image,
+            "filter": [], // havent support
+            "name": editedItem.itemName,
+            "price": editedItem.itemPrice,
+            "description": editedItem.itemContent,
+            "diet": [] // havent support
+        };
+
+        WebSocketService.sendRequest(actionObject);
+    }
+    // for add delete edit actions
+    /*const addMenuItem = (newItem) => {
         // add nem item in database
         // update in database
         const socket = new WebSocket('ws://localhost:8080');
@@ -147,10 +218,9 @@ const MenuManager = () => {
             }
 
         });
-    };
+    };*/
 
-
-    const deleteMenuItem = (itemId) => {
+    /*const deleteMenuItem = (itemId) => {
         // delete item in database
         const socket = new WebSocket('ws://localhost:8080');
         socket.addEventListener('open', function (event) {
@@ -178,10 +248,9 @@ const MenuManager = () => {
                 setSelectedItem(null);
             }
         });
+    };*/
 
-    };
-
-    const editMenuItem = (editedItem) => {
+    /*const editMenuItem = (editedItem) => {
         // update in database
         const socket = new WebSocket('ws://localhost:8080');
         socket.addEventListener('open', function (event) {
@@ -218,7 +287,7 @@ const MenuManager = () => {
 
         });
 
-    }
+    }*/
 
     // for modal popup editing and adding 
     const closeModal = () => {
