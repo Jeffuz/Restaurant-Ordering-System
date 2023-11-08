@@ -49,9 +49,9 @@ function App() {
 
   return (
     <div className="App">
-      <button onClick={testId}>test</button> <br />
+      {/* <button onClick={testId}>test</button> <br />
       <button onClick={submitOrder}>Submit Order</button> <br />
-      <button onClick={broadcastMessage}>Broadcast Message</button> <br /> 
+      <button onClick={broadcastMessage}>Broadcast Message</button> <br />  */}
       <HashRouter>
         <Routes>
           <Route index element={<Home />} />
