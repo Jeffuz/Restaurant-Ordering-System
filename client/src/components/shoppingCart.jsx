@@ -71,11 +71,11 @@ const ShoppingCart = ({ orderNum, tableNum, date, cartItems, subTotal, tax, tota
                 </div>
 
                 {/* Customer buttons */}
-                <div className="p-4 bg-gray-200 flex gap-4 justify-between">
-                    <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%]" onClick={() => openModal()}>Order Status</button>
-                    <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%]">Help</button>
-                    <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%]" onClick={sendOrder}>Order</button>
-                    <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%]">Check Out</button>
+                <div className="p-4 bg-gray-200 flex gap-4 justify-between ">
+                    <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%] hover:bg-gray-50 transition ease-in-out" onClick={() => openModal()}>Order Status</button>
+                    <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%] hover:bg-gray-50 transition ease-in-out">Help</button>
+                    <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%] hover:bg-gray-50 transition ease-in-out" onClick={sendOrder}>Order</button>
+                    <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%] hover:bg-gray-50 transition ease-in-out">Check Out</button>
                 </div>
             </div>
 
