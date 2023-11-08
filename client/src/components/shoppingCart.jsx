@@ -1,9 +1,11 @@
 import React from 'react';
 import ShoppingCartCard from './shoppingCartCard';
+import { useState } from 'react';
+import OrderStatusModal from './orderStatusModal';
 
 const ShoppingCart = ({ orderNum, tableNum, date, cartItems, subTotal, tax, total, WebSocketService }) => {
-    
-    function sendOrder(){
+
+    function sendOrder() {
         alert('send order clicked');
         console.log(cartItems);
         const actionObject = {
@@ -13,7 +15,17 @@ const ShoppingCart = ({ orderNum, tableNum, date, cartItems, subTotal, tax, tota
 
         WebSocketService.sendRequest(actionObject);
     }
-    
+
+    const [selectedItem, setSelectedItem] = useState(null);
+
+    const openModal = (item) => {
+        setSelectedItem(item);
+    };
+
+    const closeModal = () => {
+        setSelectedItem(null);
+    };
+
     return (
         <div className="bg-white h-screen flex flex-col justify-between">
 
@@ -60,12 +72,14 @@ const ShoppingCart = ({ orderNum, tableNum, date, cartItems, subTotal, tax, tota
 
                 {/* Customer buttons */}
                 <div className="p-4 bg-gray-200 flex gap-4 justify-between">
-                    <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%]">Order Status</button>
+                    <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%]" onClick={() => openModal()}>Order Status</button>
                     <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%]">Help</button>
                     <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%]" onClick={sendOrder}>Order</button>
                     <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%]">Check Out</button>
                 </div>
             </div>
+
+            <OrderStatusModal isOpen={selectedItem !== null} onClose={closeModal} item={selectedItem} />
 
         </div>
     );
