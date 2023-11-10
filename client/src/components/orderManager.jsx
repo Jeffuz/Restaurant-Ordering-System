@@ -98,18 +98,52 @@ export default OrderManager
 
 const initialData = {
     tasks: {
-        1: { id: 1, content: "Jeff" },
-        2: { id: 2, content: "Andrew" },
-        3: { id: 3, content: "Louis" },
-        4: { id: 4, content: "Eunice" },
-        5: { id: 5, content: "Ipsita" },
-        6: { id: 6, content: "Charith" },
+        1: {
+            id: 1,
+            item: {
+                itemImage: 'test/nacho-chips.png',
+                itemName: 'Nacho chips',
+                itemOrderNum: '69',
+                itemCount: 5,
+                itemStatus: 'pending',
+            },
+        },
+        2: {
+            id: 2,
+            item: {
+                itemImage: 'test/nacho-chips.png',
+                itemName: 'Nacho chips',
+                itemOrderNum: '69',
+                itemCount: 5,
+                itemStatus: 'pending',
+            },
+        },
+        3: {
+            id: 3,
+            item: {
+                itemImage: 'test/nacho-chips.png',
+                itemName: 'Nacho chips',
+                itemOrderNum: '70',
+                itemCount: 6,
+                itemStatus: 'processing',
+            },
+        },
+        4: {
+            id: 4,
+            item: {
+                itemImage: 'test/nacho-chips.png',
+                itemName: 'Nacho chips',
+                itemOrderNum: '70',
+                itemCount: 6,
+                itemStatus: 'completed',
+            },
+        },
     },
     columns: {
         "column-1": {
             id: "column-1",
             title: "Order's Pending",
-            taskIds: [1, 2, 3, 4, 5, 6],
+            taskIds: [1, 2, 3, 4],
         },
         "column-2": {
             id: "column-2",
