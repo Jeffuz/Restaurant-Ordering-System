@@ -52,11 +52,37 @@ const OrderManager = () => {
         }
 
         // Check if user moves to a different column
+        const startTaskIds = Array.from(sourceCol.taskIds);
+        const [removed] = startTaskIds.splice(source.index, 1);
+        const newStartCol = {
+            ...sourceCol,
+            taskIds: startTaskIds,
+        };
+
+        const endTaskIds = Array.from(destinationCol.taskIds);
+        endTaskIds.splice(destination.index, 0, removed);
+        const newEndCol = {
+            ...destinationCol,
+            taskIds: endTaskIds,
+        };
+
+        const newState = {
+            ...state,
+            columns: {
+                ...state.columns,
+                [newStartCol.id]: newStartCol,
+                [newEndCol.id]: newEndCol,
+            },
+        };
+
+        setState(newState);
     }
-    return ( 
+
+    return (
         <>
             <DragDropContext onDragEnd={onDragEnd}>
                 <div className='grid grid-cols-3 h-full gap-8 mx-8 mb-8'>
+
                     {state.columnOrder.map((columnId) => {
                         const column = state.columns[columnId];
                         const tasks = column.taskIds.map(taskId => state.tasks[taskId]);
@@ -70,7 +96,6 @@ const OrderManager = () => {
 
 export default OrderManager
 
-
 const initialData = {
     tasks: {
         1: { id: 1, content: "Jeff" },
@@ -83,17 +108,17 @@ const initialData = {
     columns: {
         "column-1": {
             id: "column-1",
-            title: "TO-DO",
+            title: "Order's Pending",
             taskIds: [1, 2, 3, 4, 5, 6],
         },
         "column-2": {
             id: "column-2",
-            title: "IN-PROGRESS",
+            title: "Order's Processing",
             taskIds: [],
         },
         "column-3": {
             id: "column-3",
-            title: "COMPLETED",
+            title: "Order Complete",
             taskIds: [],
         },
     },

@@ -5,7 +5,7 @@ const AdminOrderStatusColumn = ({ column, tasks }) => {
     return (
         <>
             <Droppable droppableId={column.id}>
-                {(droppableProvided, droppableSnapshot) => (
+                {(droppableProvided) => (
                     <div className='bg-white rounded-md'
                         ref={droppableProvided.innerRef}
                         {...droppableProvided.droppableProps}
@@ -13,7 +13,7 @@ const AdminOrderStatusColumn = ({ column, tasks }) => {
                         <div className='p-5 font-bold text-3xl'>{column.title}</div>
                         {tasks.map((task, index) => (
                             <Draggable key={task.id} draggableId={`${task.id}`} index={index}>
-                                {(draggableProvided, draggableSnapshot) => (
+                                {(draggableProvided) => (
                                     <div className='flex justify-center bg-gray-100 m-6 p-6'
                                         ref={draggableProvided.innerRef}
                                         {...draggableProvided.draggableProps}
