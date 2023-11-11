@@ -1,5 +1,20 @@
 const mongoose = require("./db");
 
+const menuCustomSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    multipleSelection: {
+        type: Boolean,
+        required: true,
+    },
+    option: {
+        type: [{ customName: String, price: Number }],
+        required: true,
+    },
+});
+
 const menuItemSchema = new mongoose.Schema({
     menuId: {
         type: String,
@@ -21,6 +36,13 @@ const menuItemSchema = new mongoose.Schema({
         type: String,
     },
     diet: [String],
+    customizable: {
+        type: Boolean,
+        required: true,
+    },
+    custom: {
+        type: [menuCustomSchema],
+    },
 });
 
 const menuSchema = new mongoose.Schema({
