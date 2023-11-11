@@ -1,24 +1,26 @@
-import './App.css';
-import React, { useEffect } from 'react';
-import { Routes, Route, HashRouter } from 'react-router-dom';
+import "./App.css";
+import React, { useEffect } from "react";
+import { Routes, Route, HashRouter } from "react-router-dom";
 
-import Home from './pages/home'
-import Login from './pages/login';
-import Menu from './pages/menu';
-import Table from './pages/table';
-import NoPage from './pages/noPage';
+import Home from "./pages/home";
+import Login from "./pages/login";
+import Menu from "./pages/menu";
+import Table from "./pages/table";
+import NoPage from "./pages/noPage";
 
-import Admin_dashboard from './pages/admin-dashboard';
-import Admin_Menu from './pages/admin-menu';
-import Admin_table from './pages/admin-table';
-import Admin_orders from './pages/admin-orders';
-import Admin_analytics from './pages/admin-analytics';
-import Admin_customer from './pages/admin-customer';
-import AdminNavbar from './components/adminNavbar';
+import Admin_dashboard from "./pages/admin-dashboard";
+import Admin_Menu from "./pages/admin-menu";
+import Admin_table from "./pages/admin-table";
+import Admin_orders from "./pages/admin-orders";
+import Admin_analytics from "./pages/admin-analytics";
+import Admin_customer from "./pages/admin-customer";
+import AdminNavbar from "./components/adminNavbar";
 
 // Websockets
-import WebSocketService from './WebSocketService';
+import WebSocketService from "./WebSocketService";
 
+// Firebase
+import "./auth/firebase";
 
 function App() {
   // Establish a connection if not already connected
@@ -29,21 +31,21 @@ function App() {
   }, []);
 
   // broadcastMessage() and crashConnection() are testing functions, don't use them in implementation
-  function broadcastMessage(){
-    const userInput = prompt('Input message');
+  function broadcastMessage() {
+    const userInput = prompt("Input message");
     WebSocketService.broadcastMessage(userInput);
   }
-  function crashConnection(){
-    WebSocketService.socket.close(3333, 'Abnormal Disconnect Test');
+  function crashConnection() {
+    WebSocketService.socket.close(3333, "Abnormal Disconnect Test");
     return;
   }
 
-  function submitOrder(){
-    WebSocketService.submitOrder('Test order');
+  function submitOrder() {
+    WebSocketService.submitOrder("Test order");
     return;
   }
 
-  function testId(){
+  function testId() {
     alert(WebSocketService.id);
   }
 
@@ -55,17 +57,23 @@ function App() {
       <HashRouter>
         <Routes>
           <Route index element={<Home />} />
-          <Route path='/' element={<Home />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/menu' element={<Menu WebSocketService={WebSocketService} />} />
-          <Route path='/table' element={<Table />} />
-          <Route path='/admin-dashboard' element={<Admin_dashboard />} />
-          <Route path='/admin-table' element={<Admin_table />} />
-          <Route path='/admin-orders' element={<Admin_orders />} />
-          <Route path='/admin-analytics' element={<Admin_analytics />} />
-          <Route path='/admin-customer' element={<Admin_customer />} />
-          <Route path='/admin-menu' element={<Admin_Menu WebSocketService={WebSocketService} />} />
-          <Route path='*' element={<NoPage />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/menu"
+            element={<Menu WebSocketService={WebSocketService} />}
+          />
+          <Route path="/table" element={<Table />} />
+          <Route path="/admin-dashboard" element={<Admin_dashboard />} />
+          <Route path="/admin-table" element={<Admin_table />} />
+          <Route path="/admin-orders" element={<Admin_orders />} />
+          <Route path="/admin-analytics" element={<Admin_analytics />} />
+          <Route path="/admin-customer" element={<Admin_customer />} />
+          <Route
+            path="/admin-menu"
+            element={<Admin_Menu WebSocketService={WebSocketService} />}
+          />
+          <Route path="*" element={<NoPage />} />
         </Routes>
       </HashRouter>
     </div>
