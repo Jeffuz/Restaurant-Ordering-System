@@ -1,15 +1,17 @@
 import React from 'react';
 import { useState } from 'react';
 
-const ShoppingCartCard = ({ itemImage, itemName, itemPrice, itemCounter}) => {
+const ShoppingCartCard = ({ itemImage, itemName, itemPrice, itemCounter, ifChangeCounter}) => {
     const[counter, setCounter] = useState(itemCounter);
     const counterIncrement = () => {
         setCounter(counter + 1);
+        ifChangeCounter(counter + 1);
     };
 
     const counterDecrement = () => {
-        if (counter > 0) {
+        if (counter > 1) {
             setCounter(counter - 1);
+            ifChangeCounter(counter - 1);
         }
     };
     
