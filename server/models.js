@@ -1,5 +1,3 @@
-// const mongoose = require("mongoose");
-
 const mongoose = require("./db");
 
 const menuItemSchema = new mongoose.Schema({

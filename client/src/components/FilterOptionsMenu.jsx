@@ -1,14 +1,14 @@
 import React from 'react';
 import { RiPencilFill } from 'react-icons/ri'
-import {BiSolidTrashAlt} from 'react-icons/bi'
+import { BiSolidTrashAlt } from 'react-icons/bi'
 const CategoryOptionsMenu = ({ category, onEdit, onDelete }) => {
     return (
-        <div className="category-menu flex flex-col content-start">
+        <div className="flex flex-col content-start">
             <button className="flex flex row" onClick={() => onEdit(category)}>
-                <RiPencilFill />Edit 
+                <RiPencilFill />Edit
             </button>
             <button className="flex flex row" onClick={() => onDelete(category)}>
-                <BiSolidTrashAlt/>Delete 
+                <BiSolidTrashAlt />Delete
             </button>
         </div>
     );

@@ -7,17 +7,17 @@ import { CgProfile } from 'react-icons/cg'
 
 const AdminNavbar = () => {
     const menuItems = [
-        { label: 'Dashboard', icon: 'FaHome', to: '' },
-        { label: 'Menu', icon: 'MdRestaurantMenu', to: '' },
-        { label: 'Table', icon: 'MdTableRestaurant', to: '' },
-        { label: 'Orders', icon: 'MdBorderColor', to: '' },
-        { label: 'Analytics', icon: 'TbDeviceAnalytics', to: '' },
-        { label: 'Customer', icon: 'CgProfile', to: '' },
+        { label: 'Dashboard', icon: 'FaHome', to: '/admin-dashboard' },
+        { label: 'Menu', icon: 'MdRestaurantMenu', to: '/admin-menu' },
+        { label: 'Table', icon: 'MdTableRestaurant', to: '/admin-table' },
+        { label: 'Orders', icon: 'MdBorderColor', to: '/admin-orders' },
+        { label: 'Analytics', icon: 'TbDeviceAnalytics', to: '/admin-analytics' },
+        { label: 'Customer', icon: 'CgProfile', to: '/admin-customer' },
     ];
 
     return (
         <div className='bg-white flex flex-col h-screen'>
-            <div className='p-4 mx-auto text-4xl font-medium'>115A's Diner</div>
+            <div className='p-4 mx-auto text-4xl font-medium'><Link to='/'>115A's Diner</Link></div>
             <div className='flex flex-col gap-8 p-7'>
                 {menuItems.map((item, index) => (
                     <Link className='flex items-center' to={item.to} key={index}>

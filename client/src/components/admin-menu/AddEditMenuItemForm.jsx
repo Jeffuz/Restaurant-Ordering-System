@@ -6,18 +6,24 @@ import Check from '../admin-menu/check-circle.png';
 const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMenuItem, setIsOpen }) => {
     const [itemData, setItemData] = useState(selectedItem || {});
     const [editMode, setEditMode] = useState({
-        name: false,
-        price: false,
-        description: false,
+        id: false,
+        image: false, 
+        itemName: false,
+        itemPrice: false,
+        itemFilter: false,
+        itemDiet: false,
+        itemContent: false,
     });
 
     useEffect(() => {
         if (!selectedItem) {
             setItemData({
-                name: '',
-                price: '',
-                description: '',
-                photo: '',
+                itemName: '',
+                itemFilter: '',
+                itemDiet: '',
+                itemPrice: '',
+                itemContent: '',
+                image: '',
             });
         }
     }, [selectedItem]);
@@ -28,6 +34,7 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
     };
 
     const handleEditToggle = (field) => {
+        console.log("making edits")
         setEditMode({ ...editMode, [field]: !editMode[field] });
     };
 
@@ -46,33 +53,57 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
         if (selectedItem) {
             deleteMenuItem(selectedItem.id); // Delete the selected item
             
+        }else{
+            setItemData({
+                itemName: '',
+                itemFilter: '',
+                itemDiet: '',
+                itemPrice: '',
+                itemContent: '',
+                image: '',
+            });
         }
     };
 
+    // const handleImageUpload = (files) => {
+    //     const file = files[0];
+    //     if (file) {
+    //         const reader = new FileReader();
+    //         reader.onload = (e) => {
+    //             setItemData({
+    //                 ...itemData,
+    //                 image: e.target.result,
+    //             });
+    //         };
+    //         reader.readAsDataURL(file);
+    //     }
+    // };
     const handleImageUpload = (files) => {
         const file = files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                setItemData({
-                    ...itemData,
-                    photo: e.target.result,
-                });
-            };
-            reader.readAsDataURL(file);
+            const relativePath = `test/${file.name}`;
+            setItemData({
+                ...itemData,
+                image: relativePath,
+                
+            });
+           
         }
+    };
+    const handleImageChange = (e) => {
+        setItemData({ ...itemData, image: e.target.value }); // update image as a string
     };
 
     return (
         <div className="flex flex-col ">
             <div className="flex">
                 <div className="w-3/5 p-8 bg-gray-100 relative">
-                    {itemData.photo ? (
+                    {/* {itemData.image ? (
                         <div>
-                            <img src={itemData.photo} alt="Selected Image" className="w-full h-auto" />
+                            <img src={itemData.image} alt="Selected Image" className="w-full h-auto" />
                             <button
                                 className="bg-gray-200 text-black font-semibold py-2 px-4 rounded-md mr-2 text-center text-xl font-montserrat font-medium"
-                                onClick={() => setItemData({ ...itemData, photo: '' })}
+                                onClick={() => setItemData({ ...itemData, image: '' })}
                             >
                                 X
                             </button>
@@ -88,17 +119,25 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
                                 className="custom-file-input"
                             />
                         </label>
-                    )}
+                    )} */}
+                    <input
+                        type="text"
+                        name="image"
+                        placeholder="Image Path"
+                        value={itemData.image}
+                        onChange={handleImageChange}
+                        className="w-full break-all p-2 border border-gray-300 rounded"
+                    />
                 </div>
 
                 <div className="w-1/2 p-4">
                     <div className="mb-2">
-                        {editMode.name ? (
+                        {editMode.itemName ? (
                             <input
                                 type="text"
-                                name="name"
+                                name="itemName"
                                 placeholder="Item Name"
-                                value={itemData.name}
+                                value={itemData.itemName}
                                 onChange={handleChange}
                                 className="w-full break-all p-2 border border-gray-300 rounded"
                             />
@@ -112,41 +151,41 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
                                     letterSpacing: '0em',
                                 }}>{
                                 
-                                itemData.name || 'Item Name'}</span>
-                                <button onClick={() => handleEditToggle('name')}>✎</button>
+                                itemData.itemName || 'Item Name'}</span>
+                                <button onClick={() => handleEditToggle('itemName')}>✎</button>
                             </div>
                         )}
                     </div>
                     <div className="mb-2">
-                        {editMode.price ? (
+                        {editMode.itemPrice ? (
                             <input
                                 type="text"
-                                name="price"
+                                name="itemPrice"
                                 placeholder="Item Price"
-                                value={itemData.price}
+                                value={itemData.itemPrice}
                                 onChange={handleChange}
                                 className="w-full p-2 border border-gray-300 rounded"
                             />
                         ) : (
                             <div className="w-4/5 max-w-md"> 
-                                <span className="text-xl break-all">{itemData.price || 'Item Price'}</span>
-                                <button onClick={() => handleEditToggle('price')}>✎</button>
+                                <span className="text-xl break-all">{itemData.itemPrice || 'Item Price'}</span>
+                                <button onClick={() => handleEditToggle('itemPrice')}>✎</button>
                             </div>
                         )}
                     </div>
                     <div className="mb-2 ">
-                        {editMode.description ? (
+                        {editMode.itemContent ? (
                             <textarea
-                                name="description"
+                                name="itemContent"
                                 placeholder="Description"
-                                value={itemData.description}
+                                value={itemData.itemContent}
                                 onChange={handleChange}
                                 className="w-full break-all p-2 border border-gray-300 rounded"
                             />
                         ) : (
                             <div className="w-4/5 max-w-md">
-                                <span className="text-xl break-all">{itemData.description || 'Description'}</span>
-                                <button onClick={() => handleEditToggle('description')}>✎</button>
+                                <span className="text-xl break-all">{itemData.itemContent || 'Description'}</span>
+                                <button onClick={() => handleEditToggle('itemContent')}>✎</button>
                             </div>
                         )}
                     </div>
@@ -159,10 +198,10 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
                 </button>
 
                 {/* {selectedItem && ( */}
-                    <button className="bg-gray-200 text-black font-semibold py-2 px-6 rounded-md mr-2 text-center text-xl font-montserrat font-medium flex items-center space-x-2" onClick={handleDelete}>
-                        <img src={Trash} alt="Delete Icon" className="w-4 h-4" />
-                        <span>Delete</span>
-                    </button>
+                <button className="bg-gray-200 text-black font-semibold py-2 px-6 rounded-md mr-2 text-center text-xl font-montserrat font-medium flex items-center space-x-2" onClick={handleDelete}>
+                    <img src={Trash} alt="Delete Icon" className="w-4 h-4" />
+                    <span>Delete</span>
+                </button>
                 {/* // )} */}
             </div>
         </div>

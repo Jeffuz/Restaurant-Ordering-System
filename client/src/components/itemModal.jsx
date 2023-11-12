@@ -8,12 +8,12 @@ const ItemModal = ({ isOpen, onClose, item }) => {
     return (
         <div className="fixed inset-0 flex items-center justify-center">
             <div className="bg-white w-[70%] h-[70%] p-3 rounded-[25px] shadow-lg flex flex-col">
-                <div className='flex justify-end p-5'>
+                <div className='flex justify-end p-5 fixed'>
                     <AiOutlineClose onClick={onClose} role='button' size={20} />
                 </div>
                 <div className='flex overflow-hidden'>
                     <img src={item.image} alt={item.itemName} loading='lazy' className='w-[50%] h-auto pl-8 object-cover' />
-                    <div className='flex flex-col px-12 justify-between'>
+                    <div className='mt-8 flex flex-col px-12 justify-between'>
                         <div className='flex flex-col gap-3'>
                             <div className='font-medium text-4xl'>{item.itemName}</div>
                             <div className='flex flex-row gap-3 text-gray-600'>
