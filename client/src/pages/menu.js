@@ -74,7 +74,7 @@ const Menu = (props) => {
 
     function getMenu() {
         const actionObject = {
-            'action': 'getMenus',
+            'action': 'GETMENUS',
             'restaurantId': '65381ed4030fa645be95b250'
         };
 
@@ -105,19 +105,17 @@ const Menu = (props) => {
         };
     }, []);
 
+    const nachos = {
+        itemImage: 'test/nacho-chips.png',
+        itemName: 'Nacho chips',
+        itemPrice: 9.99,
+        itemCount: 1
+    };
+
     const cartItems = [
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 1
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        }
+        nachos,
+        nachos,
+        nachos
     ];
 
     const [selectedItem, setSelectedItem] = useState(null);

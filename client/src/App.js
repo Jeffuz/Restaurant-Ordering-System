@@ -22,11 +22,11 @@ import WebSocketService from './WebSocketService';
 
 function App() {
   // Establish a connection if not already connected
-  useEffect(() => {
+  /*useEffect(() => {
     if (!WebSocketService.socket) {
       WebSocketService.connect();
     }
-  }, []);
+  }, []);*/
 
   // broadcastMessage() and crashConnection() are testing functions, don't use them in implementation
   function broadcastMessage(){
@@ -61,7 +61,7 @@ function App() {
           <Route path='/table' element={<Table />} />
           <Route path='/admin-dashboard' element={<Admin_dashboard />} />
           <Route path='/admin-table' element={<Admin_table />} />
-          <Route path='/admin-orders' element={<Admin_orders />} />
+          <Route path='/admin-orders' element={<Admin_orders WebSocketService={WebSocketService} />} />
           <Route path='/admin-analytics' element={<Admin_analytics />} />
           <Route path='/admin-customer' element={<Admin_customer />} />
           <Route path='/admin-menu' element={<Admin_Menu WebSocketService={WebSocketService} />} />

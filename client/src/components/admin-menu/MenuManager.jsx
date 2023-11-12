@@ -8,8 +8,9 @@ import FilterBar from '../filterbar';
 import AddCategoryTextBox from '../AddCategoryTextBox';
 import { IoIosAddCircle } from 'react-icons/io'
 import { AiOutlineClose } from 'react-icons/ai'
-const MenuManager = (props) => {
-    const { WebSocketService } = props;
+
+import WebSocketService from '../../WebSocketService';
+const MenuManager = () => {
 
     const [showForm, setShowForm] = useState(false)
     const [menuItems, setMenuItems] = useState([])
@@ -36,7 +37,7 @@ const MenuManager = (props) => {
 
     function getMenu() {
         const actionObject = {
-            'action': 'getMenus',
+            'action': 'GETMENUS',
             'restaurantId': '65381ed4030fa645be95b250'
         };
 
@@ -44,11 +45,22 @@ const MenuManager = (props) => {
     }
 
     useEffect(() => {
-        getMenu();
+        if (!WebSocketService.socket) {
+            alert('not alive');
+            WebSocketService.connect()
+            .then(() => {
+                console.log("starting");
+                getMenu();
+                console.log('done');
+            })
+        }else{
+            alert("was alive")
+            getMenu();
+        }
+        //getMenu();
 
         const menuUpdateHandler = (event) => {
             const menuList = event.detail.data;
-            console.log('hello', menuList);
             setMenuItems(menuList.map(item => ({
                 id: item.menuId,
                 image: item.image,

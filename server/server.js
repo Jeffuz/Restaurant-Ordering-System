@@ -104,6 +104,7 @@ class Server {
         case 'ORDER':
           console.log(`Server received ORDER request`);
           console.log(payload.cart);
+          this.sendOrderToKitchen(payload.cart);
           break;
 
         case 'CREATEMENU':
@@ -118,7 +119,7 @@ class Server {
           console.log('Received request EDITMENU');
           break;
 
-        case 'getMenus':
+        case 'GETMENUS':
           getMenus(client, payload); 
           break;
         
@@ -217,12 +218,20 @@ class Server {
     const actionObject = {
       'action': 'INIT',
       'ID': id,
-      'isMaster': isMaster,
     };
 
     client.send(JSON.stringify(actionObject));
 
     return;
+  }
+
+  /**
+   * Sends [order] to master
+   * @param {*} client 
+   * @param {*} order 
+   */
+  sendOrderToKitchen(client, order){
+
   }
 }
 

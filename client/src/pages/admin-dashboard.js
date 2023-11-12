@@ -2,6 +2,7 @@ import React from 'react'
 import AdminNavbar from '../components/adminNavbar'
 
 const Admin_dashboard = () => {
+
     return (
         <>
             <div className="flex flex-row">

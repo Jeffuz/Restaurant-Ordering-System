@@ -15,92 +15,89 @@ const WebSocketService = {
    * @param {String} hostname Hostname to use to connect to server. Defaults to '127.0.0.1'.
    * @param {String} port Port to use to connect to server. Defaults to 8080.
    */
-  connect(hostname = '127.0.0.1', port = '8080') {
-    /**
-     * Establishes a connection to the server
-     * @param {ClientWebSocket} socket 
-     * @param {String} hostname 
-     * @param {String} port 
-     * @returns {[socket: ClientWebSocket, ID: String, isMaster: Bool]}
-     */
+  connect(hostname = '127.0.0.1', port = '8080', isMaster = false) {
+    return new Promise((resolve, reject) => {
+      /**
+       * Establishes a connection to the server
+       * @param {ClientWebSocket} socket 
+       * @param {String} hostname 
+       * @param {String} port 
+       * @returns {Promise<[socket: ClientWebSocket, ID: String, isMaster: Bool]>}
+       */
+      function connectToServer(hostname, port) {
+        return new Promise((resolve, reject) => {
+          const socket = new WebSocket(`ws://${hostname}:${port}`);
+          var id = 'NO_ID';
+          var isMaster = false;
 
-    function connectToServer(hostname, port) {
-      return new Promise((resolve, reject) => {
-      const socket = new WebSocket(`ws://${hostname}:${port}`);
-      var id = 'NO_ID';
-      var isMaster = false;
-
-      socket.addEventListener('open', (e) => {
-        console.log('WebSocket connection is open (connected).');
-      });
-
-      // Connection message listener
-      socket.addEventListener('message', (e) => {
-
-        function dispatchMenuUpdate(action, data){
-          const menuUpdateEvent = new CustomEvent('menuUpdate', {
-            detail: { action, data },
+          socket.addEventListener('open', (e) => {
+            console.log('WebSocket connection is open (connected).');
           });
-          window.dispatchEvent(menuUpdateEvent);
-        }
 
-        const payload = JSON.parse(e.data);
-        let action = payload.action;
-        console.log('ACTION:', payload);
-        switch (action) {
-          case 'INIT':
-            // Payload format: [id: String, isMaster: Bool]
-            console.log('Received INIT from server');
-            id = payload.ID;
-            console.log('ID SET');
-            isMaster = payload.isMaster === 'true';
-            if(isMaster){
-              console.log('DESIGNATED MASTER SYSTEM');
-            }else{
-              console.log('DESIGNATED SLAVE SYSTEM');
+          // Connection message listener
+          socket.addEventListener('message', (e) => {
+
+            function dispatchMenuUpdate(action, data) {
+              const menuUpdateEvent = new CustomEvent('menuUpdate', {
+                detail: { action, data },
+              });
+              window.dispatchEvent(menuUpdateEvent);
             }
-            console.log(`id: ${id}`);
-            console.log(`isMaster: ${isMaster}`);
 
-            resolve([socket, id, isMaster]);
-            break;
+            const payload = JSON.parse(e.data);
+            let action = payload.action;
+            console.log('ACTION:', payload);
+            switch (action) {
+              case 'INIT':
+                // Payload format: [id: String, isMaster: Bool]
+                console.log('Received INIT from server');
+                id = payload.ID;
+                console.log('ID SET');
+                console.log(`id: ${id}`);
 
-          case 'BROADCAST':
-            // Payload format: [message]
-            console.log('Received BROADCAST from server');
-            alert(payload);
-            break;
+                resolve([socket, id, isMaster]);
+                break;
 
-          case 'MESSAGE':
-            // Payload format: [message]
-            console.log('Received MESSAGE from server');
-            alert(payload);
-            break;
+              case 'BROADCAST':
+                // Payload format: [message]
+                console.log('Received BROADCAST from server');
+                alert(payload);
+                break;
 
-          case 'menuList':
-            const menuList = payload.menuList;
-            dispatchMenuUpdate('menuUpdate', menuList);
-            break;
+              case 'MESSAGE':
+                // Payload format: [message]
+                console.log('Received MESSAGE from server');
+                alert(payload);
+                break;
 
-          default:
-            console.log('ERROR: NO METHOD DETECTED IN MESSAGE');
-            console.log(payload.message);
-            break;
-        }
+              case 'menuList':
+                const menuList = payload.menuList;
+                dispatchMenuUpdate('menuUpdate', menuList);
+                break;
+
+              case 'ORDERSUBMIT':
+                const orders = payload.orders;
+                break;
+
+              default:
+                console.log('ERROR: NO METHOD DETECTED IN MESSAGE');
+                console.log(payload.message);
+                break;
+            }
+          });
+
+          resolve([]);
         });
-      });
-    };
+      };
 
-    //this.socket = connectToServer(this.socket, hostname, port);
-    connectToServer(hostname, port)
-    .then(([socket, id, isMaster]) => {
-      console.log(socket, id, isMaster);
-      this.socket = socket;
-      this.id = id;
-      this.isMaster = isMaster;
+      //this.socket = connectToServer(this.socket, hostname, port);
+      connectToServer(hostname, port)
+        .then(([socket, id]) => {
+          console.log("PROMISE RESOLVED", socket, id, isMaster);
+          this.socket = socket;
+          this.id = id;
+        });
     });
-    //let out = ([this.socket, this.ID, this.isMaster] = connectToServer(hostname, port));
-    //console.log('out', out);
   },
 
   /**
@@ -109,11 +106,7 @@ const WebSocketService = {
    * NOTE: Only master system should be allowed to use this function
    */
   broadcastMessage(message) {
-    /*if (message){
-      console.log(`Sending broadcast request with message "${message}..."`);
-      this.socket.send('BROADCAST' + DELIM + message);
-    }*/
-    if (message){
+    if (message) {
       const actionObject = {
         "action": "BROADCAST",
         "message": message,
@@ -121,10 +114,9 @@ const WebSocketService = {
       console.log(this.socket);
       this.socket.send(JSON.stringify(actionObject));
     }
-    return;
   },
 
-  submitOrder(order){
+  submitOrder(order) {
     const actionObject = {
       'action': 'ORDER',
       'order': order,
