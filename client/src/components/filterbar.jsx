@@ -1,8 +1,8 @@
-import React ,{useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import CategoryOptionsMenu from './FilterOptionsMenu';
 import { IoIosAddCircle } from 'react-icons/io'
 import AddCategoryTextBox from './AddCategoryTextBox';
-const Filterbar = ({filterCategories, onEdit, onDelete, onAddCategory, isAdmin}) => {
+const Filterbar = ({ filterCategories, onEdit, onDelete, onAddCategory, isAdmin }) => {
     const [showAddCategoryTextBox, setShowAddCategoryTextBox] = useState(false);
 
     const handleAddCategory = (newCategory) => {
@@ -41,20 +41,20 @@ const Filterbar = ({filterCategories, onEdit, onDelete, onAddCategory, isAdmin})
     return (
         <div className='flex items-center bg-white rounded-lg py-4 overflow-x-auto '>
             <div className="flex  gap-4 flex-row content-between">
-            {isAdmin ? (
-                <ul className='flex gap-28 px-10'>
-                {filterCategories.map((category, index) => (
-                        <li key={index}>
-                            {/* //{category} */}
-                            <div onClick={() => openEditCategoryMenu(category)}>{category}</div>
-                            {isAdmin && selectedCategory === category && (
-                                <CategoryOptionsMenu category={category} onEdit={onEdit} onDelete={onDelete} />
-                            )}
-                         {/* <button onClick={() => openEditCategoryMenu(category)}>HI</button> */}
-                        </li>
-                    ))}
-     
-                </ul>):
+                {isAdmin ? (
+                    <ul className='flex gap-28 px-10'>
+                        {filterCategories.map((category, index) => (
+                            <li key={index}>
+                                {/* //{category} */}
+                                <div onClick={() => openEditCategoryMenu(category)}>{category}</div>
+                                {isAdmin && selectedCategory === category && (
+                                    <CategoryOptionsMenu category={category} onEdit={onEdit} onDelete={onDelete} />
+                                )}
+                                {/* <button onClick={() => openEditCategoryMenu(category)}>HI</button> */}
+                            </li>
+                        ))}
+
+                    </ul>) :
                     <div>
                         <ul className='flex gap-28 px-10'>
                             {filter.map((option) => (
@@ -62,16 +62,16 @@ const Filterbar = ({filterCategories, onEdit, onDelete, onAddCategory, isAdmin})
                             ))}
                         </ul>
                     </div>
-            }
- 
+                }
+
             </div>
-            <div className="ml-auto mr-2"> 
+            <div className="ml-auto mr-2">
                 {isAdmin ? (
                     showAddCategoryTextBox ? (
                         <AddCategoryTextBox onAddCategory={handleAddCategory} />
                     ) : (
                         <button onClick={() => setShowAddCategoryTextBox(true)}>
-                        <IoIosAddCircle />
+                            <IoIosAddCircle />
                         </button>
                     )
                 ) : null}
