@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import ShoppingCartCard from './shoppingCartCard';
-import { useState } from 'react';
 import OrderStatusModal from './orderStatusModal';
 
 const ShoppingCart = ({ orderNum, tableNum, date, cartItems, setCartItems, WebSocketService }) => {

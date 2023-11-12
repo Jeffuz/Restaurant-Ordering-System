@@ -105,36 +105,17 @@ const Menu = (props) => {
         };
     }, []);
 
-    const items = [
-        {
-            id: 'nacho-chips',
-            image: 'test/nacho-chips.png',
-            itemFilter: ['Lunch', 'Supper'],
-            itemName: 'Nacho Chips',
-            itemPrice: 9.99,
-            itemContent: 'Our Nacho Chips are pure crunch-time happiness. Made from premium corn, these crispy tortilla chips are generously smothered in a secret blend of melted cheeses, and topped with fresh jalapeños for a hint of spice. Served with our house-made salsa and creamy guacamole, they\'re the perfect shareable snack for your next fiesta',
-            itemDiet: ['Spicy', 'Vegan']
-        },
-        {
-            id: 'steak',
-            image: 'test/steak.png',
-            itemFilter: ['Lunch', 'Supper'],
-            itemName: 'Steak',
-            itemContent: 'Our Nacho Chips are pure crunch-time happiness. Made from premium corn, these crispy tortilla chips are generously smothered in a secret blend of melted cheeses, and topped with fresh jalapeños for a hint of spice. Served with our house-made salsa and creamy guacamole, they\'re the perfect shareable snack for your next fiesta',
-            itemPrice: 19.99,
-            itemDiet: ['Spicy', 'Vegan']
-        },
-    ];
+
     const [cartItems, setCartItems] = useState([
         {
-            index: 0, 
+            index: 0,
             itemImage: 'test/nacho-chips.png',
             itemName: 'Nacho chips',
             itemPrice: 9.99,
             itemCount: 1
         },
         {
-            index: 1, 
+            index: 1,
             itemImage: 'test/nacho-chips.png',
             itemName: 'Nacho chips',
             itemPrice: 9.99,
@@ -186,7 +167,7 @@ const Menu = (props) => {
                         </div>
                     </div>
                     <div className='flex flex-col w-[25%] gap-8'>
-                        <ShoppingCart orderNum="222" tableNum="1" date="October 26, 2023" cartItems={cartItems} cartItems={cartItems} setCartItems={setCartItems} WebSocketService={WebSocketService}/>
+                        <ShoppingCart orderNum="222" tableNum="1" date="October 26, 2023" cartItems={cartItems} cartItems={cartItems} setCartItems={setCartItems} WebSocketService={WebSocketService} />
                     </div>
                 </div>
 
