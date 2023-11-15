@@ -39,98 +39,6 @@ const Menu = () => {
 
 
     }, []);
-    // Jeff:
-    // let items = [
-    //     {
-    //         id: "nacho-chips",
-    //         image: "test/nacho-chips.png",
-    //         itemFilter: ["Lunch", "Supper"],
-    //         itemName: "Nacho Chips",
-    //         itemPrice: 9.99,
-    //         itemContent: "Our Nacho Chips are pure crunch-time happiness.",
-    //         itemDiet: ["Spicy", "Vegan"],
-    //     },
-    //     {
-    //         id: "steak",
-    //         image: "test/steak.png",
-    //         itemFilter: ["Lunch", "Supper"],
-    //         itemName: "Steak",
-    //         itemContent: "Our Nacho Chips are pure crunch-time happiness.",
-    //         itemPrice: 19.99,
-    //         itemDiet: ["Spicy", "Vegan"],
-    //     },
-    // ];
-
-    
-    /*useEffect(() => {
-        const socket = new WebSocket('ws://localhost:8080');
-        socket.addEventListener('open', function (event) {
-            // create a getMenus request when connecting to the server.
-            const actionObject = {
-                "action": "getMenus",
-                "restaurantId": "65381ed4030fa645be95b250"
-            };
-
-            // send request
-            socket.send(JSON.stringify(actionObject));
-        });
-
-        // listen to the server response
-        socket.addEventListener('message', function (event) {
-            // parse the data
-            const menuList = JSON.parse(event.data).menuList;
-
-            //set data into state and set loading state as false
-            setItems(menuList.map(item => ({
-                id: item.menuId,
-                image: item.image,
-                itemFilter: item.filter,
-                itemName: item.name,
-                itemContent: item.description,
-                itemPrice: item.price,
-                itemDiet: item.diet,
-            })));
-            setIsLoading(false);
-        });
-
-        // when component finished，close WebSocket connection
-        return () => {
-            socket.close();
-        };
-    }, []);*/
-
-    function getMenu() {
-        const actionObject = {
-            'action': 'GETMENUS',
-            'restaurantId': '65381ed4030fa645be95b250'
-        };
-
-        WebSocketService.sendRequest(actionObject);
-    }
-
-    /*useEffect(() => {
-        getMenu();
-
-        const menuUpdateHandler = (event) => {
-            const menuList = event.detail.data;
-            setItems(menuList.map(item => ({
-                id: item.menuId,
-                image: item.image,
-                itemFilter: item.filter,
-                itemName: item.name,
-                itemContent: item.description,
-                itemPrice: item.price,
-                itemDiet: item.diet,
-            })));
-            setIsLoading(false);
-        }
-
-        window.addEventListener('menuUpdate', menuUpdateHandler);
-
-        return () => {
-            window.removeEventListener('menuUpdate', menuUpdateHandler);
-        };
-    }, []);*/
 
     const nachos = {
         itemImage: 'test/nacho-chips.png',
@@ -154,7 +62,6 @@ const Menu = () => {
     const closeModal = () => {
         setSelectedItem(null);
     };
-
 
     // render the pages if the data is loaded
     if (isLoading) {
