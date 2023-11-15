@@ -7,8 +7,6 @@ const WebSocketService = {
   socket: null, // type ClientWebSocket
   ID: null, // type String
   isMaster: null, // type Bool
-  menu: null, // holds current menu
-  connected: false,
 
   /**
    * Establishes a WebSocket connection with the server
