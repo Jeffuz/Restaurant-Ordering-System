@@ -57,14 +57,14 @@ function App() {
           <Route index element={<Home />} />
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/menu' element={<Menu WebSocketService={WebSocketService} />} />
+          <Route path='/menu' element={<Menu />} />
           <Route path='/table' element={<Table />} />
           <Route path='/admin-dashboard' element={<Admin_dashboard />} />
           <Route path='/admin-table' element={<Admin_table />} />
-          <Route path='/admin-orders' element={<Admin_orders WebSocketService={WebSocketService} />} />
+          <Route path='/admin-orders' element={<Admin_orders />} />
           <Route path='/admin-analytics' element={<Admin_analytics />} />
           <Route path='/admin-customer' element={<Admin_customer />} />
-          <Route path='/admin-menu' element={<Admin_Menu WebSocketService={WebSocketService} />} />
+          <Route path='/admin-menu' element={<Admin_Menu />} />
           <Route path='*' element={<NoPage />} />
         </Routes>
       </HashRouter>

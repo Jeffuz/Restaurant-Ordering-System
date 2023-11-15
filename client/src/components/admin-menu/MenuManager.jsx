@@ -35,16 +35,35 @@ const MenuManager = () => {
 
     const [isLoading, setIsLoading] = useState(true); // used to save whether data is loading 
 
-    function getMenu() {
+    /*function getMenu() {
         const actionObject = {
             'action': 'GETMENUS',
             'restaurantId': '65381ed4030fa645be95b250'
         };
 
         WebSocketService.sendRequest(actionObject);
-    }
+    }*/
 
     useEffect(() => {
+        const menuUpdateHandler = (event) => {
+            console.log("Menu update received!");
+            const menuList = event.detail.data;
+            setMenuItems(menuList.map(item => ({
+                id: item.menuId,
+                image: item.image,
+                itemFilter: item.filter,
+                itemName: item.name,
+                itemContent: item.description,
+                itemPrice: item.price,
+                itemDiet: item.diet,
+            })));
+        }
+
+        window.addEventListener('menuUpdate', menuUpdateHandler);
+
+    }, []);
+
+    /*useEffect(() => {
         if (!WebSocketService.socket) {
             alert('not alive');
             WebSocketService.connect()
@@ -70,7 +89,6 @@ const MenuManager = () => {
                 itemPrice: item.price,
                 itemDiet: item.diet,
             })));
-            setIsLoading(false);
         }
 
         window.addEventListener('menuUpdate', menuUpdateHandler);
@@ -78,7 +96,7 @@ const MenuManager = () => {
         return () => {
             window.removeEventListener('menuUpdate', menuUpdateHandler);
         };
-    }, []);
+    }, []);*/
 
     const addMenuItem = (newItem) => {
         const actionObject = {

@@ -16,7 +16,7 @@ class Server {
     this.server.on('connection', this.handleConnection.bind(this));
     this.clients = []; // array of connected ClientWebSockets
     this.disconnected = []; // array of disconnected ClientWebSockets
-    this.master = null; // ClientWebSocket
+    this.master = []; // array of ClientWebSocket
   }
 
   /*********************************
@@ -44,14 +44,10 @@ class Server {
     // Assign client unique ID
     client.id = generateUniqueID();
 
-    // Notify client of assigned ID and assign master/slave status
-    let setAsMaster = false;
-    if (!this.master){
-      this.master = client;
-      setAsMaster = true;
-      console.log(`Setting system ${client.id} as Master System`);
-    }
-    this.sendInit(client, client.id, setAsMaster);
+    // Send menu to client
+    this.sendMenu(client);
+
+    this.sendInit(client, client.id);
     console.log(`Client ${client.id} connected. Total clients: ${this.clients.length}`);
     return;
   }
@@ -62,14 +58,6 @@ class Server {
    * @returns {void}
    */
   handleConnection(client){
-    /*if(!this.clients.includes(client) && !this.disconnected.includes(client)){
-      console.log('Client connection never seen before. Initializing.');
-      this.initializeClientConnection(client);
-    }else if (this.disconnected.includes(client)){
-      console.log('Client was disconnected, now reconnected.');
-
-    }*/
-
     this.initializeClientConnection(client);
 
     // Close handler
@@ -77,12 +65,10 @@ class Server {
       if(client === this.master){
         this.sendBroadcast('ALERT: MASTER SYSTEM DISCONNECTED');
       }
+      
       this.clients = this.clients.filter(item => item !== client);
-      this.disconnected.push(client);
-      console.log('DISCONNECTED');
-      this.disconnected.forEach((client) => {
-        console.log(client.id);
-      });   
+      this.master = this.master.filter(item => item !== client);
+
       console.log(`${client.id} disconnected. Connected clients: ${this.clients.length}`);
       return;
     });
@@ -101,10 +87,19 @@ class Server {
           console.log(`Server received message ${message.message}`);
           break;
 
+        case 'REQUESTMASTER':
+          console.log("Received master request");
+          this.master.push(client);
+          console.log("Current masters:");
+          this.master.forEach((master) => {
+            console.log(master.id);
+          });
+          break;
+
         case 'ORDER':
           console.log(`Server received ORDER request`);
-          console.log(payload.cart);
-          this.sendOrderToKitchen(payload.cart);
+          let orders = payload.cart;
+          this.sendOrderToKitchen(client, orders);
           break;
 
         case 'CREATEMENU':
@@ -119,36 +114,15 @@ class Server {
           console.log('Received request EDITMENU');
           break;
 
-        case 'GETMENUS':
-          getMenus(client, payload); 
-          break;
+        //case 'GETMENUS':
+        //  const actionObject = getMenus();
+        //  console.log(actionObject); 
+        //  break;
         
         default:
           console.log(`Server received unsupported request "${method}" with payload "${payload}"`);
       }
     });
-    
-    /*client.on("message", (message) => {
-            const parsedMessage = JSON.parse(message);
-            const { action } = parsedMessage;
-
-            if (action === "getMenus") {
-                console.log("getMenus");
-                getMenus(client, parsedMessage);
-            } else if (action === "getMenu") {
-                console.log("getMenu");
-                getMenu(client, parsedMessage);
-            } else if (action === "createMenu") {
-                console.log("createMenu");
-                createMenu(client, parsedMessage);
-            } else if (action === "updateMenu") {
-                console.log("updateMenu");
-                updateMenu(client, parsedMessage);
-            } else if (action === "deleteMenu") {
-                console.log("deleteMenu");
-                deleteMenu(client, parsedMessage);
-            }
-        });*/
     
     return;
   }
@@ -226,12 +200,51 @@ class Server {
   }
 
   /**
-   * Sends [order] to master
+   * Sends [order] to masters
    * @param {*} client 
    * @param {*} order 
    */
   sendOrderToKitchen(client, order){
+    console.log("Received order", order);
+    const actionObject = {
+      'action': 'ORDERPLACED',
+      'order': order,
+    };
 
+    this.master.forEach((master) => {
+      master.send(JSON.stringify(actionObject));
+    });
+
+    return;
+  }
+
+  /**
+   * Wrapper function for sendMenu
+   * Pushes a menu update to all clients
+   */
+  pushMenuUpdate(){
+    getMenus()
+    .then((menu) => {
+      this.clients.forEach((client) => {
+        client.send(JSON.stringify(menu));
+      });
+    });
+
+    return;
+  }
+
+  /**
+   * Sends menu update to clients
+   * @param {ClientWebSocket} client 
+   * @returns 
+   */
+  sendMenu(client){
+    getMenus()
+    .then((menu) => {
+      client.send(JSON.stringify(menu));
+    });
+
+    return;
   }
 }
 

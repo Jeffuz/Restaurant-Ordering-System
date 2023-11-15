@@ -4,11 +4,41 @@ import Filterbar from '../components/filterbar';
 import ItemModal from '../components/itemModal';
 import ShoppingCart from '../components/shoppingCart';
 
-// louis handle getting menu from database
-// try to connect
-let menuList = null;
+import WebSocketService from '../WebSocketService';
 
-const Menu = (props) => {
+const Menu = () => {
+
+    const [items, setItems] = useState([]); // used to save data states
+    const [isLoading, setIsLoading] = useState(true); // used to save whether data is loading 
+
+    useEffect(() => {
+        const menuUpdateHandler = (event) => {
+            console.log("Menu update received!");
+            const menuList = event.detail.data;
+            setItems(menuList.map(item => ({
+                id: item.menuId,
+                image: item.image,
+                itemFilter: item.filter,
+                itemName: item.name,
+                itemContent: item.description,
+                itemPrice: item.price,
+                itemDiet: item.diet,
+            })));
+        }
+
+        if (!WebSocketService.socket){
+            WebSocketService.connect('127.0.0.1', '8080', false)
+            .then(
+                alert("Connected!"),
+                setIsLoading(false),
+
+            );
+        }
+
+        window.addEventListener('menuUpdate', menuUpdateHandler);
+
+
+    }, []);
     // Jeff:
     // let items = [
     //     {
@@ -31,10 +61,7 @@ const Menu = (props) => {
     //     },
     // ];
 
-    const [items, setItems] = useState([]); // used to save data states
-    const [isLoading, setIsLoading] = useState(true); // used to save whether data is loading 
-
-    const { WebSocketService } = props;
+    
     /*useEffect(() => {
         const socket = new WebSocket('ws://localhost:8080');
         socket.addEventListener('open', function (event) {
@@ -81,7 +108,7 @@ const Menu = (props) => {
         WebSocketService.sendRequest(actionObject);
     }
 
-    useEffect(() => {
+    /*useEffect(() => {
         getMenu();
 
         const menuUpdateHandler = (event) => {
@@ -103,7 +130,7 @@ const Menu = (props) => {
         return () => {
             window.removeEventListener('menuUpdate', menuUpdateHandler);
         };
-    }, []);
+    }, []);*/
 
     const nachos = {
         itemImage: 'test/nacho-chips.png',

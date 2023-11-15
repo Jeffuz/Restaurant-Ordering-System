@@ -1,7 +1,5 @@
 import { AiOutlineConsoleSql } from "react-icons/ai";
 
-const DELIM = '\r\n';
-
 /**
  * WebSocketService is what the client systems will use to communicate with the server
  */
@@ -9,6 +7,8 @@ const WebSocketService = {
   socket: null, // type ClientWebSocket
   ID: null, // type String
   isMaster: null, // type Bool
+  menu: null, // holds current menu
+  connected: false,
 
   /**
    * Establishes a WebSocket connection with the server
@@ -28,7 +28,6 @@ const WebSocketService = {
         return new Promise((resolve, reject) => {
           const socket = new WebSocket(`ws://${hostname}:${port}`);
           var id = 'NO_ID';
-          var isMaster = false;
 
           socket.addEventListener('open', (e) => {
             console.log('WebSocket connection is open (connected).');
@@ -55,8 +54,8 @@ const WebSocketService = {
                 console.log('ID SET');
                 console.log(`id: ${id}`);
 
-                resolve([socket, id, isMaster]);
-                break;
+                resolve([socket, id]);
+                return;
 
               case 'BROADCAST':
                 // Payload format: [message]
@@ -70,14 +69,21 @@ const WebSocketService = {
                 alert(payload);
                 break;
 
-              case 'menuList':
+              case 'MENU':
                 const menuList = payload.menuList;
                 dispatchMenuUpdate('menuUpdate', menuList);
                 break;
 
               case 'ORDERSUBMIT':
-                const orders = payload.orders;
+                const orders = payload.order;
                 break;
+
+              case 'ORDERPLACED':
+                const message = payload.order;
+                console.log(message);
+                alert("received message:", message);
+                break;
+
 
               default:
                 console.log('ERROR: NO METHOD DETECTED IN MESSAGE');
@@ -85,17 +91,18 @@ const WebSocketService = {
                 break;
             }
           });
-
-          resolve([]);
         });
       };
 
       //this.socket = connectToServer(this.socket, hostname, port);
       connectToServer(hostname, port)
         .then(([socket, id]) => {
-          console.log("PROMISE RESOLVED", socket, id, isMaster);
+          console.log("PROMISE RESOLVED", socket, id);
           this.socket = socket;
           this.id = id;
+          if (isMaster){
+            this.requestMaster();
+          }
         });
     });
   },
@@ -127,12 +134,29 @@ const WebSocketService = {
     return;
   },
 
+  requestMaster() {
+    const actionObject = {
+      'action': 'REQUESTMASTER'
+    };
+
+    this.socket.send(JSON.stringify(actionObject));
+    return;
+  },
+
   /**
    * Sends a actionObject request to the server
    * @param {ActionObject} actionObject
    */
   sendRequest(actionObject) {
     this.socket.send(JSON.stringify(actionObject));
+  },
+
+  addListener(callback) {
+    this.listeners.push(callback);
+  },
+
+  notifyListeners(data) {
+    this.listeners.forEach(callback => callback(data));
   }
 };
 
