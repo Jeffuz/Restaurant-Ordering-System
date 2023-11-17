@@ -29,9 +29,9 @@ const CustomerTableButton = ({table, onTableSelect, isSelected, isDisabled}) => 
                 
                 {isModalOpen && (
                     <TableSelectionModal
-                    table={table}
-                    onTableSelect={onTableSelect}
-                    onClose={() => setIsModalOpen(false)}
+                        table={table}
+                        onTableSelect={onTableSelect}
+                        onClose={() => setIsModalOpen(false)}
                     />
                 )}
             </>

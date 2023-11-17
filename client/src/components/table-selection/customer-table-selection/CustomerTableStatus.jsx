@@ -15,9 +15,6 @@ const CustomerTableStatus = ({tablesNum}) => {
             console.log("table deselected")
 
         }
-
-
-
     }
 
     return(

@@ -18,9 +18,12 @@ const AdminTableManager = () => {
 
     }
 
-    const handleEditTableStatus = (tableId, currentStatus) => {
-        
-        console.log(`Table ${tableId} status changed from ${currentStatus}`);
+    const handleEditTableStatus = (tableId, editedStatus) => {
+        setTableStatus((prevTableStatus) =>
+          prevTableStatus.map((table) =>
+            table.id === tableId ? { ...table, status: editedStatus } : table
+          )
+        );
     };
 
     const handleRemoveTable = (tableId) => {
@@ -32,32 +35,23 @@ const AdminTableManager = () => {
     return(
 
         <div>
-            
-
             <div className="main">
                 {totalTables ? (
-                        <TableGrid tableStatus={tableStatus} onEdit={handleEditTableStatus} onRemove={handleRemoveTable}/>
-
+                        <TableGrid 
+                            tableStatus={tableStatus} 
+                            onEdit={handleEditTableStatus} 
+                            onRemove={handleRemoveTable}
+                        />
 
                     ): (
                         <SetTables 
                             onTotalTablesSubmit={handleTotalTablesSubmit}
-                    
                         />
 
-
-
                     )
-
-
                 }
             </div>
-            
         </div>
-        
-
-
-        
     )
 }
 
