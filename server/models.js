@@ -53,7 +53,8 @@ const menuSchema = new mongoose.Schema({
     menuList: [menuItemSchema],
 });
 
-const Menu = mongoose.model("Menu", menuSchema);
+const MenuCustom = mongoose.model("menuCustom", menuCustomSchema);
 const MenuItem = mongoose.model("MenuItem", menuItemSchema);
+const Menu = mongoose.model("Menu", menuSchema);
 
-module.exports = { Menu, MenuItem };
+module.exports = { Menu, MenuItem, MenuCustom };
