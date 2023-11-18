@@ -11,17 +11,6 @@ const restaurantSchema = new mongoose.Schema({
     history: [{ usrID: String, userHistory: [OrderHistory.schema] }],
 });
 
-// const restaurantSchema = new mongoose.Schema({
-//     restaurantMenu: new mongoose.Schema(Menu.schema),
-//     table: new mongoose.Schema(Table.schema),
-//     history: [
-//         {
-//             usrID: String,
-//             userHistory: [new mongoose.Schema(OrderHistory.schema)],
-//         },
-//     ],
-// });
-
 const Restaurant = mongoose.model("Restaurant", restaurantSchema);
 
 module.exports = Restaurant;

@@ -5,8 +5,6 @@ const mongoose = require("mongoose");
 const Restaurant = require("../models/restaurantModel");
 const dbUrl = process.env.DB_URL;
 
-console.log(dbUrl);
-
 mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const newRestaurant = new Restaurant({
