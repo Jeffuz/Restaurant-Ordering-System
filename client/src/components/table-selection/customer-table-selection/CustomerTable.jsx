@@ -1,5 +1,5 @@
 import {React, useState, useEffect} from 'react'
-import CustomerTableStatus from '../customer-table-selection/CustomerTableStatus'
+import CustomerTableStatus from './CustomerTableStatus'
 
 
 const CustomerTable = () => {
@@ -10,16 +10,15 @@ const CustomerTable = () => {
         { id: 3, status: 'unavailable', seats: 2 },
         { id: 4, status: 'available', seats: 2 },
         { id: 5, status: 'unavailable', seats: 4 },
+        { id: 6, status: 'available', seats: 8 },
+        { id: 7, status: 'available', seats: 8 },
         
     ]);
-
-
 
     return(
         <div>
 
            Select your Table:
-
            <CustomerTableStatus tablesNum={tables}/>
            
         </div>

@@ -1,35 +1,33 @@
 import React, { useState } from 'react';
 import TableEditModal from '../admin-table-selection/TableEditModal';
-const TableButton = ({ table, onEdit, onRemove }) => {
-
-    const [isModalOpen, setIsModalOpen] = useState(false)
+import { MdPeopleAlt } from "react-icons/md";
+const TableButton = ({ table, onEditButtonClick }) => {
 
     const handleEditClick = () => {
-   
-      setIsModalOpen(true);
-    };
-  
-    const handleModalClose = () => {
-      setIsModalOpen(false);
+      onEditButtonClick(table);
     };
 
     return (
-        <div className="mb-4 p-2">
+        <div className="mb-4 p-2 ">
           <button
-            className={`table-button w-20 h-20 text-lg whitespace-normal ${table.status === 'available' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}
+            className={`table-button flex flex-col items-center justify-center rounded-lg w-20 h-20 text-lg whitespace-normal ${table.status === 'available' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}
             onClick={handleEditClick}
           >
-            {`Table ${table.id} - ${table.status}`}
+
+        
+            <p>Table {table.id} </p>
+            
+
+            <div className="flex flex-row text-center text-xl font-montserrat font-medium flex items-center space-x-2">
+              <MdPeopleAlt  className="mr-2" />
+              {`${table.seats}`}
+
+            </div>
+
+            
           </button>
 
-          {isModalOpen && (
-            <TableEditModal
-              table={table}
-              onClose={handleModalClose}
-              onEdit={onEdit}
-              onRemove={onRemove}
-            />
-          )}
+          
         </div>
       );
 

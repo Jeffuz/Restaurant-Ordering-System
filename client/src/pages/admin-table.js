@@ -9,7 +9,7 @@ const Admin_table = () => {
                 <div className="w-[80%] h-screen">
                     <div className='flex flex-col'>
                         <div className='text-center mt-27 text-black font-Montserrat text-4xl font-bold py-6'>Table</div>
-                        <div>
+                        <div className="flex flex-col items-center">
                             <AdminTableManager/>
                             
                         </div>

@@ -28,14 +28,14 @@ const TableSelectionModal = ({ table, onTableSelect, onClose }) => {
               className="bg-gray-500 text-white py-2 px-4 rounded-md mr-2"
               onClick={handleSelectTable}
             >
-              Select Table
+              Select
             </button>
 
             <button
               className="bg-gray-300 text-gray-700 py-2 px-4 rounded-md"
               onClick={handleDeselectTable}
             >
-              Deselect Table
+              Deselect
             </button>
 
           </>

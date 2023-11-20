@@ -1,19 +1,18 @@
 // TableStatusGrid.js
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import TableButton from '../admin-table-selection/TableButton';
-import TableEditModal from '../admin-table-selection/TableEditModal';
-const TableStatusGrid = ({ tableStatus, onEdit, onRemove }) => {
+const TableStatusGrid = ({ tableStatus, onRemove, onEditButtonClick }) => {
 
   return (
-    <div>
-      <h2>Table Status</h2>
-      <div className="table-grid flex flex-row ">
+    <div className="flex flex-col items-center justify-center">
+      <h2 className="text-xl/8 fontFamily">Edit Tables</h2>
+      <div className="grid grid-cols-3 gap-4">
         {tableStatus.map((table) => (
             <TableButton
               key={table.id}
               table={table}
-              onEdit={() => onEdit(table.id, table.status)}
               onRemove={() => onRemove(table.id)}
+              onEditButtonClick={onEditButtonClick}
             />
           ))}
       </div>

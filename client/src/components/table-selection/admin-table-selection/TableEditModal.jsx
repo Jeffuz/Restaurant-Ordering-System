@@ -1,34 +1,64 @@
 // TableEditModal.js
 import React, { useState, useEffect } from 'react';
+import { FaCheckCircle } from "react-icons/fa";
+import { BsTrashFill } from "react-icons/bs";
+import { RxCross1 } from "react-icons/rx";
 
 const TableEditModal = ({ table, onClose, onEdit, onRemove }) => {
   const [editedTable, setEditedTable] = useState({ ...table });
+  //const [buttonColor, setButtonColor] = useState(table.status === 'available' ? 'bg-green-500' : 'bg-red-500');
 
-  useEffect(() => {
-    setEditedTable({ ...table });
-  }, [table]);
+
+
+
+  const handleSaveClick = () => {
+    console.log("saving", editedTable.status, editedTable.seats);
+    onEdit(editedTable.id, editedTable.status, editedTable.seats); // Update the tableStatus directly
+    onClose();
+  };
 
   const handleInputChange = (e) => {
+   
     const { name, value } = e.target;
+     console.log("making changes to ", name, value)
     setEditedTable((prevTable) => ({ ...prevTable, [name]: value }));
   };
 
-  const handleSaveClick = () => {
-    onEdit(editedTable);
-    onClose();
-  };
 
   const handleRemoveClick = () => {
     onRemove(editedTable.id);
     onClose();
   };
 
+  useEffect(() => {
+    console.log("useEffect triggered with", table);
+    setEditedTable({ ...table });
+  }, [table]);
+
+  useEffect(() => {
+    console.log("TableEditModal re-rendered");
+  }, [editedTable]);
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-8 rounded-md">
-        <h3 className="text-2xl font-semibold mb-4">{`Edit Table ${editedTable.id}`}</h3>
+        <div className="flex justify-end">
+          <button
+              // className="bg-gray-300 text-gray-700 py-2 px-4 rounded-md ml-2"
+              onClick={onClose}
+              className="rounded-md ml-auto"
+          >
+              <RxCross1 />
+          </button>
+        </div>
+       
+          <h3 className="text-2xl font-semibold mb-4">{`Edit Table ${editedTable.id}`}</h3>
 
-        <label className="block mb-4">
+
+
+
+        
+        {/* <label className="block mb-4">
           Table Name:
           <input
             type="text"
@@ -37,7 +67,7 @@ const TableEditModal = ({ table, onClose, onEdit, onRemove }) => {
             onChange={handleInputChange}
             className="border border-gray-400 p-2 w-full"
           />
-        </label>
+        </label> */}
 
         <label className="block mb-4">
           Availability:
@@ -47,31 +77,43 @@ const TableEditModal = ({ table, onClose, onEdit, onRemove }) => {
             onChange={handleInputChange}
             className="border border-gray-400 p-2 w-full"
           >
-            <option value="available">Available</option>
-            <option value="unavailable">Unavailable</option>
+            <option value="available">available</option>
+            <option value="unavailable">unavailable</option>
           </select>
         </label>
 
-        <button
-          className="bg-blue-500 text-white py-2 px-4 rounded-md mr-2"
-          onClick={handleSaveClick}
-        >
-          Save Changes
-        </button>
+        <label className="block mb-4">
+          Seats:
+          <input
+            type="text"
+            name="seats"
+            value={editedTable.seats}
+            onChange={handleInputChange}
+            className="border border-gray-400 p-2 w-full"
+          >
+          </input>
+        </label>
 
-        <button
-          className="bg-red-500 text-white py-2 px-4 rounded-md"
-          onClick={handleRemoveClick}
-        >
-          Remove Table
-        </button>
+        <div className="buttons flex flex-row">
+          <button
+            className="bg-gray-200 text-black font-semibold py-2 px-6 rounded-md mr-2 text-center text-xl font-montserrat font-medium flex items-center space-x-2"
+            onClick={handleSaveClick}
+          >
+            <FaCheckCircle className="mr-2" />
+            Save
+          </button>
 
-        <button
-          className="bg-gray-300 text-gray-700 py-2 px-4 rounded-md ml-2"
-          onClick={onClose}
-        >
-          Cancel
-        </button>
+          <button
+            className="bg-gray-200 text-black font-semibold py-2 px-6 rounded-md mr-2 text-center text-xl font-montserrat font-medium flex items-center space-x-2"
+            onClick={handleRemoveClick}
+          >
+            <BsTrashFill className="mr-2"/>
+            Delete
+          </button>
+
+
+        </div>
+       
       </div>
     </div>
   );

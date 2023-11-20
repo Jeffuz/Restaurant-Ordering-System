@@ -7,6 +7,9 @@ module.exports = {
         montserrat: ['Montserrat', 'sans'],//Define Montserrat font
       },
 
+      
+      
+
     },
   },
   plugins: [],
