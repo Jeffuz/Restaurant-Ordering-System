@@ -4,16 +4,18 @@ import { FaCheckCircle } from "react-icons/fa";
 import { BsTrashFill } from "react-icons/bs";
 import { RxCross1 } from "react-icons/rx";
 
-const TableEditModal = ({ table, onClose, onEdit, onRemove }) => {
+const TableEditModal = ({ table, onClose, onSave, onEdit, onRemove, isNewTable }) => {
   const [editedTable, setEditedTable] = useState({ ...table });
-  //const [buttonColor, setButtonColor] = useState(table.status === 'available' ? 'bg-green-500' : 'bg-red-500');
-
-
+  
 
 
   const handleSaveClick = () => {
-    console.log("saving", editedTable.status, editedTable.seats);
-    onEdit(editedTable.id, editedTable.status, editedTable.seats); // Update the tableStatus directly
+    if (isNewTable) {
+      const newTable = { id: Date.now(), ...editedTable };
+      onSave(newTable);
+    } else {
+      onEdit(editedTable.id, editedTable.status, editedTable.seats); 
+    }// Update the tableStatus directly
     onClose();
   };
 
@@ -30,14 +32,7 @@ const TableEditModal = ({ table, onClose, onEdit, onRemove }) => {
     onClose();
   };
 
-  useEffect(() => {
-    console.log("useEffect triggered with", table);
-    setEditedTable({ ...table });
-  }, [table]);
 
-  useEffect(() => {
-    console.log("TableEditModal re-rendered");
-  }, [editedTable]);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

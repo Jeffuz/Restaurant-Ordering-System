@@ -15,6 +15,12 @@ const TableStatusGrid = ({ tableStatus, onRemove, onEditButtonClick }) => {
               onEditButtonClick={onEditButtonClick}
             />
           ))}
+           {/* <button
+                    className="bg-blue-500 text-white py-2 px-4 rounded-md"
+                    onClick={() => onEditButtonClick(null, true)}
+                >
+                    Add Table
+            </button> */}
       </div>
     </div>
   );

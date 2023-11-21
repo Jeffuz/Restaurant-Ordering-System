@@ -8,7 +8,7 @@ const AdminTableManager = () => {
     const [totalTables, setTotalTables] = useState(null); // updates with number of tables 
     const [tableStatus, setTableStatus] = useState([]);
 
-    //select tale for edits
+    //select table for edits
     const [selectedTable, setSelectedTable] = useState(null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
@@ -16,27 +16,45 @@ const AdminTableManager = () => {
     //add table 
     const [isAddTableOpen, setIsAddTableOpen] =  useState(false);
 
+    //check if tables have been added 
+    const [tablesEntered, setTablesEntered] = useState(false);
 
+
+    //open modal for add table
     const handleAddTableButtonClick = () => {
-        setIsEditModalOpen(true);
+        setIsAddTableOpen(true);
 
     }
 
+    //close modal for add table
     const handleAddTableButtonClose = () => {
-        setIsEditModalOpen(false);
+        setIsAddTableOpen(false);
 
 
     }
+
+
+    //add the table to the table array
+    const handleAddTable = (newTable) => {
+        // add the new table to the existing tableStatus
+        setTableStatus((prevTableStatus) => [...prevTableStatus, newTable]);
+        setIsAddTableOpen(false);
+    };
+
+    //edit the table selected 
     const handleEditTableButtonClick = (table) => {
         setSelectedTable(table);
         setIsEditModalOpen(true);
     };
 
+    //close the table editing modal 
     const handleEditModalClose = () => {
         setIsEditModalOpen(false);
         setSelectedTable(null);
     };
 
+
+    //add tables based on total entered by admin
     const handleTotalTablesSubmit = (total) => {
         const initialTableStatus = Array.from({ length: total }, (_, index) => ({
             id: index + 1,
@@ -46,9 +64,11 @@ const AdminTableManager = () => {
       
           setTotalTables(total);
           setTableStatus(initialTableStatus);
+          setTablesEntered(true);
 
     }
 
+    //edit the table based on the states provided
     const handleEditTableStatus = (tableId, editedStatus, editedSeats) => {
         
         setTableStatus((prevTableStatus) => {
@@ -63,6 +83,7 @@ const AdminTableManager = () => {
     
     }
 
+    //filter out the table to be removed
     const handleRemoveTable = (tableId) => {
         setTableStatus((prevTableStatus) =>
             prevTableStatus.filter((table) => table.id !== tableId)
@@ -72,8 +93,7 @@ const AdminTableManager = () => {
 
         <div>
             <div className="main">
-                {totalTables ? (
-                        
+                {totalTables ? (    
                         <TableGrid 
                             tableStatus={tableStatus} 
                             onEdit={handleEditTableStatus} 
@@ -87,18 +107,22 @@ const AdminTableManager = () => {
                         />
 
                     )
-                   
-                
                 }
 
-                <button className="button-table" onClick={handleAddTableButtonClick}> Add Table </button>
+                {tablesEntered && (
+                        <button className="button-table" onClick={handleAddTableButtonClick}> Add Table </button>
+
+                    )
+
+                }
 
                 {isAddTableOpen &&(
                     <TableEditModal
         
                         onClose={handleAddTableButtonClose}
-                        onEdit={handleEditTableStatus}
+                        onSave={handleAddTable}
                         onRemove={handleRemoveTable}
+                        isNewTable
                     />
 
                 )}
