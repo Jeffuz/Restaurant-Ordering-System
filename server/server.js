@@ -189,12 +189,16 @@ class Server {
    * @param {Bool} isMaster Signals if system is master or slave
    */
   sendInit(client, id, isMaster){
-    const actionObject = {
-      'action': 'INIT',
-      'ID': id,
-    };
-
-    client.send(JSON.stringify(actionObject));
+    var actionObject;
+    getMenus()
+    .then((menu) => {
+      var actionObject = {
+        'action': 'INIT',
+        'ID': id,
+        'menu': menu,
+      }
+      client.send(JSON.stringify(actionObject));
+    });
 
     return;
   }

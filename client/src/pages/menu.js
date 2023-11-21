@@ -101,7 +101,7 @@ const Menu = () => {
                         </div>
                     </div>
                     <div className='flex flex-col w-[25%] gap-8'>
-                        <ShoppingCart orderNum="222" tableNum="1" date="October 26, 2023" cartItems={cartItems} cartItems={cartItems} setCartItems={setCartItems} WebSocketService={WebSocketService} />
+                        <ShoppingCart orderNum="222" tableNum="1" date="October 26, 2023" cartItems={cartItems} setCartItems={setCartItems} WebSocketService={WebSocketService} />
                     </div>
                 </div>
 

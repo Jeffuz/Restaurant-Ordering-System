@@ -23,30 +23,6 @@ function getMenus(ws, message) {
                 });
             });
     });
-
-    Menu.findById(restaurantId)
-        .then((menu) => {
-            if (!menu) {
-                response = {
-                    error: "Menus not found for restaurantId: " + restaurantId,
-                };
-                //ws.send(JSON.stringify(response));
-            } else {
-                response = { action: 'MENU', menuList: menu.menuList };
-                //ws.send(JSON.stringify(response));
-                //return JSON.stringify(response);
-            }
-        })
-        .catch((err) => {
-            console.log(err);
-            response = {
-                error: "Error while retrieving menus",
-                detail: err,
-            };
-            //ws.send(JSON.stringify(response));
-            //return response;
-        });
-    return response;
 }
 
 function getMenu(ws, message) {
