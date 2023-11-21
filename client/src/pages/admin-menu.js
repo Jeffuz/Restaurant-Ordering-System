@@ -12,11 +12,10 @@ const Admin_Menu = () => {
         }
     }, []);
 
-
     return(
         <div>
             <div className="flex flex-row"> 
-                <div className='w-[20%]'><AdminNavbar/></div>
+                <div className='w-[20%]'><AdminNavbar setPage={setPage} /></div>
                 <div className="w-[80%] px-8"> {/* Adjust the width as needed */}
                     <MenuManager WebSocketService={WebSocketService} />
                 </div>

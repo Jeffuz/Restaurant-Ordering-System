@@ -59,12 +59,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/menu' element={<Menu />} />
           <Route path='/table' element={<Table />} />
-          <Route path='/admin-dashboard' element={<Admin_dashboard />} />
-          <Route path='/admin-table' element={<Admin_table />} />
-          <Route path='/admin-orders' element={<Admin_orders />} />
-          <Route path='/admin-analytics' element={<Admin_analytics />} />
-          <Route path='/admin-customer' element={<Admin_customer />} />
-          <Route path='/admin-menu' element={<Admin_Menu />} />
+          <Route path='/admin-dashboard' element={<Admin_dashboard WebSocketService={WebSocketService}/>} />
           <Route path='*' element={<NoPage />} />
         </Routes>
       </HashRouter>

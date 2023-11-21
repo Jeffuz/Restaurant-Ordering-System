@@ -40,18 +40,23 @@ const Menu = () => {
 
     }, []);
 
-    const nachos = {
-        itemImage: 'test/nacho-chips.png',
-        itemName: 'Nacho chips',
-        itemPrice: 9.99,
-        itemCount: 1
-    };
 
-    const cartItems = [
-        nachos,
-        nachos,
-        nachos
-    ];
+    const [cartItems, setCartItems] = useState([
+        {
+            index: 0,
+            itemImage: 'test/nacho-chips.png',
+            itemName: 'Nacho chips',
+            itemPrice: 9.99,
+            itemCount: 1
+        },
+        {
+            index: 1,
+            itemImage: 'test/nacho-chips.png',
+            itemName: 'Nacho chips',
+            itemPrice: 9.99,
+            itemCount: 2
+        }
+    ]);
 
     const [selectedItem, setSelectedItem] = useState(null);
 
@@ -96,7 +101,7 @@ const Menu = () => {
                         </div>
                     </div>
                     <div className='flex flex-col w-[25%] gap-8'>
-                        <ShoppingCart orderNum="222" tableNum="1" date="October 26, 2023" cartItems={cartItems} subTotal="$20.00" tax="$2.00" total="22.00" WebSocketService={WebSocketService}/>
+                        <ShoppingCart orderNum="222" tableNum="1" date="October 26, 2023" cartItems={cartItems} cartItems={cartItems} setCartItems={setCartItems} WebSocketService={WebSocketService} />
                     </div>
                 </div>
 
