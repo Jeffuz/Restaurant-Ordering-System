@@ -1,28 +1,52 @@
 const { Menu, MenuItem } = require("../models");
 
 function getMenus(ws, message) {
-    const restaurantId = message.restaurantId;
+    //const restaurantId = message.restaurantId;
+    const restaurantId = '65381ed4030fa645be95b250';
+    
+    return new Promise((resolve, reject) => {
+        Menu.findById(restaurantId)
+            .then((menu) => {
+                if (!menu) {
+                    reject({
+                        error: "Menus not found for restaurantId: " + restaurantId,
+                    });
+                } else {
+                    resolve({ action: 'MENU', menuList: menu.menuList });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                reject({
+                    error: "Error while retrieving menus",
+                    detail: err,
+                });
+            });
+    });
 
     Menu.findById(restaurantId)
         .then((menu) => {
             if (!menu) {
-                const response = {
+                response = {
                     error: "Menus not found for restaurantId: " + restaurantId,
                 };
-                ws.send(JSON.stringify(response));
+                //ws.send(JSON.stringify(response));
             } else {
-                const response = { action: 'menuList', menuList: menu.menuList };
-                ws.send(JSON.stringify(response));
+                response = { action: 'MENU', menuList: menu.menuList };
+                //ws.send(JSON.stringify(response));
+                //return JSON.stringify(response);
             }
         })
         .catch((err) => {
             console.log(err);
-            const response = {
+            response = {
                 error: "Error while retrieving menus",
                 detail: err,
             };
-            ws.send(JSON.stringify(response));
+            //ws.send(JSON.stringify(response));
+            //return response;
         });
+    return response;
 }
 
 function getMenu(ws, message) {

@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import MenuManager from '../components/admin-menu/MenuManager'
 import AdminNavbar from '../components/adminNavbar';
 
-const Admin_Menu = (props) => {
-    const { WebSocketService, setPage } = props;
+import WebSocketService from '../WebSocketService';
+
+const Admin_Menu = () => {
+    useEffect(() => {
+        if (!WebSocketService.socket){
+            WebSocketService.connect('127.0.0.1', '8080', true)
+            .then(alert("Connected!"));
+        }
+    }, []);
 
     return(
         <div>
@@ -15,6 +22,7 @@ const Admin_Menu = (props) => {
             </div>
         </div>
     )
+
 }
 
 export default Admin_Menu;

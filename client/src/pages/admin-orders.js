@@ -1,8 +1,7 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import AdminNavbar from '../components/adminNavbar'
 
-const Admin_orders = (props) => {
-    const { WebSocketService, setPage } = props;
+const Admin_orders = () => {
     return (
         <>
             <div className="flex flex-row">
@@ -11,6 +10,7 @@ const Admin_orders = (props) => {
                     <div className='flex flex-col'>
                         <div className='text-center mt-27 text-black font-Montserrat text-4xl font-bold py-6'>Orders</div>
                         <div>{/* Component */}</div>
+
                     </div>
                 </div>
             </div>

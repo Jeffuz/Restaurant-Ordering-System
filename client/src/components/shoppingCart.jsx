@@ -16,6 +16,12 @@ const ShoppingCart = ({ orderNum, tableNum, date, cartItems, setCartItems, WebSo
         WebSocketService.sendRequest(actionObject);
     }
 
+    function checkOut() {
+        alert('Checkout clicked');
+        cartItems.push(cartItems[0]);
+        alert(cartItems);
+    }
+
     const [selectedItem, setSelectedItem] = useState(null);
 
     const openModal = (item) => {
@@ -97,7 +103,7 @@ const ShoppingCart = ({ orderNum, tableNum, date, cartItems, setCartItems, WebSo
                     <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%]" onClick={() => openModal()}>Order Status</button>
                     <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%]">Help</button>
                     <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%]" onClick={sendOrder}>Order</button>
-                    <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%]">Check Out</button>
+                    <button className="bg-white text-gray px-6 py-6 rounded-md w-[25%]" onClick={checkOut}>Check Out</button>
                 </div>
             </div>
 

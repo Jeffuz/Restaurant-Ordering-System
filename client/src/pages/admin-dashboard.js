@@ -7,10 +7,10 @@ import Admin_customer from './admin-customer';
 import Admin_table from './admin-table';
 import Admin_orders from './admin-orders';
 
-const Admin_dashboard = (props) => {
+
+const Admin_dashboard = () => {
     
     const [page, setPage] = useState("Dashboard");
-    const { WebSocketService } = props;
 
     if (page === "Dashboard"){
         return (
