@@ -14,7 +14,7 @@ const TableEditModal = ({ table, onClose, onSave, onEdit, onRemove, isNewTable }
       const newTable = { id: Date.now(), ...editedTable };
       onSave(newTable);
     } else {
-      onEdit(editedTable.id, editedTable.status, editedTable.seats); 
+      onEdit(editedTable.id, editedTable.status, editedTable.seats, editedTable.number); 
     }// Update the tableStatus directly
     onClose();
   };
@@ -35,8 +35,8 @@ const TableEditModal = ({ table, onClose, onSave, onEdit, onRemove, isNewTable }
 
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-8 rounded-md">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50  ">
+      <div className="bg-white p-8  md:rounded-xl">
         <div className="flex justify-end">
           <button
               // className="bg-gray-300 text-gray-700 py-2 px-4 rounded-md ml-2"
@@ -47,22 +47,22 @@ const TableEditModal = ({ table, onClose, onSave, onEdit, onRemove, isNewTable }
           </button>
         </div>
        
-          <h3 className="text-2xl font-semibold mb-4">{`Edit Table ${editedTable.id}`}</h3>
-
-
-
-
+        {table ? (
+          <h3 className="text-2xl font-semibold mb-4">{`Edit Table ${table.number}`}</h3>
+        ):(
+          <h3 className="text-2xl font-semibold mb-4">{`Add Table `}</h3>
+        )}
         
-        {/* <label className="block mb-4">
-          Table Name:
+        <label className="block mb-4">
+          Table Number:
           <input
-            type="text"
-            name="name"
-            value={editedTable.name}
+            type="number"
+            name="number"
+            value={editedTable.number}
             onChange={handleInputChange}
             className="border border-gray-400 p-2 w-full"
           />
-        </label> */}
+        </label>
 
         <label className="block mb-4">
           Availability:
@@ -80,7 +80,7 @@ const TableEditModal = ({ table, onClose, onSave, onEdit, onRemove, isNewTable }
         <label className="block mb-4">
           Seats:
           <input
-            type="text"
+            type="number"
             name="seats"
             value={editedTable.seats}
             onChange={handleInputChange}
@@ -91,7 +91,7 @@ const TableEditModal = ({ table, onClose, onSave, onEdit, onRemove, isNewTable }
 
         <div className="buttons flex flex-row">
           <button
-            className="bg-gray-200 text-black font-semibold py-2 px-6 rounded-md mr-2 text-center text-xl font-montserrat font-medium flex items-center space-x-2"
+            className="bg-[#D9D9D9] text-black font-semibold py-2 px-6 rounded-md mr-2 text-center text-xl  flex items-center space-x-2"
             onClick={handleSaveClick}
           >
             <FaCheckCircle className="mr-2" />
@@ -99,7 +99,7 @@ const TableEditModal = ({ table, onClose, onSave, onEdit, onRemove, isNewTable }
           </button>
 
           <button
-            className="bg-gray-200 text-black font-semibold py-2 px-6 rounded-md mr-2 text-center text-xl font-montserrat font-medium flex items-center space-x-2"
+            className="bg-[#D9D9D9] text-black font-semibold py-2 px-6 rounded-md mr-2 text-center text-xl  flex items-center space-x-2"
             onClick={handleRemoveClick}
           >
             <BsTrashFill className="mr-2"/>

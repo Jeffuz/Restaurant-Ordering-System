@@ -2,6 +2,7 @@ import {React, useState, useEffect, useCallback} from 'react';
 import SetTables from '../admin-table-selection/SetNumTable.jsx'
 import TableGrid from '../admin-table-selection/TableStatusGrid.jsx'
 import TableEditModal from '../admin-table-selection/TableEditModal'
+import { IoIosAddCircle } from "react-icons/io";
 const AdminTableManager = () => {
 
     //populate table grid
@@ -58,7 +59,7 @@ const AdminTableManager = () => {
     const handleTotalTablesSubmit = (total) => {
         const initialTableStatus = Array.from({ length: total }, (_, index) => ({
             id: index + 1,
-            name: index + 1,
+            number: index + 1,
             status: 'available', 
             seats: 4,
           }));
@@ -70,12 +71,12 @@ const AdminTableManager = () => {
     }
 
     //edit the table based on the states provided
-    const handleEditTableStatus = (tableId, editedStatus, editedSeats) => {
+    const handleEditTableStatus = (tableId, editedStatus, editedSeats, editedNum) => {
         
         setTableStatus((prevTableStatus) => {
             
             const updatedTableStatus = prevTableStatus.map((table) =>
-                table.id === tableId ? { ...table, status: editedStatus, seats: editedSeats } : table
+                table.id === tableId ? { ...table, number: editedNum, status: editedStatus, seats: editedSeats } : table
             );
            
             return updatedTableStatus;
@@ -94,31 +95,36 @@ const AdminTableManager = () => {
 
         <div>
             <div className="main">
-                {totalTables ? (    
-                        <TableGrid 
-                            tableStatus={tableStatus} 
-                            onEdit={handleEditTableStatus} 
-                            onRemove={handleRemoveTable}
-                            onEditButtonClick={handleEditTableButtonClick}
-                        />
 
-                    ): (
-                        <SetTables 
-                            onTotalTablesSubmit={handleTotalTablesSubmit}
-                        />
+                <div className="flex flex-col items-center justify-content">
+                    {totalTables ? (    
+                            <TableGrid 
+                                tableStatus={tableStatus} 
+                                onEdit={handleEditTableStatus} 
+                                onRemove={handleRemoveTable}
+                                onEditButtonClick={handleEditTableButtonClick}
+                            />
 
-                    )
-                }
+                        ): (
+                            <SetTables 
+                                onTotalTablesSubmit={handleTotalTablesSubmit}
+                            />
 
-                {tablesEntered && (
-                        <button
-                            className="button-table bg-blue-500 text-white py-2 px-4 rounded-md mt-4"
-                            onClick={handleAddTableButtonClick}
-                        >
-                            Add Table
-                        </button>
-                    )
-                }
+                        )
+                    }
+
+                    {tablesEntered && (
+                            <button
+                                className="button-table bg-white text-black py-2 px-4 rounded-md mt-4 flex flex-row items-center justify-content"
+                                onClick={handleAddTableButtonClick}
+                            >
+                                <IoIosAddCircle className="mr-2" />
+                                Add Table
+                            </button>
+                        )
+                    }
+                </div>
+                
 
                 {isAddTableOpen &&(
                     <TableEditModal
