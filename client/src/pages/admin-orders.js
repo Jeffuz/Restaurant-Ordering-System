@@ -1,7 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import AdminNavbar from '../components/adminNavbar'
 
-const Admin_orders = () => {
+const Admin_orders = (props) => {
+
+    const { WebSocketService, setPage } = props;
+
     return (
         <>
             <div className="flex flex-row">

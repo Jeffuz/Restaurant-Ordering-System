@@ -7,6 +7,7 @@ const WebSocketService = {
   socket: null, // type ClientWebSocket
   ID: null, // type String
   isMaster: null, // type Bool
+  menu: null, // type json object
 
   /**
    * Establishes a WebSocket connection with the server
@@ -26,6 +27,7 @@ const WebSocketService = {
         return new Promise((resolve, reject) => {
           const socket = new WebSocket(`ws://${hostname}:${port}`);
           var id = 'NO_ID';
+          var menu = {};
 
           socket.addEventListener('open', (e) => {
             console.log('WebSocket connection is open (connected).');
@@ -34,9 +36,9 @@ const WebSocketService = {
           // Connection message listener
           socket.addEventListener('message', (e) => {
 
-            function dispatchMenuUpdate(action, data) {
+            function dispatchMenuUpdate(action) {
               const menuUpdateEvent = new CustomEvent('menuUpdate', {
-                detail: { action, data },
+                detail: { action },
               });
               window.dispatchEvent(menuUpdateEvent);
             }
@@ -49,10 +51,11 @@ const WebSocketService = {
                 // Payload format: [id: String, isMaster: Bool]
                 console.log('Received INIT from server');
                 id = payload.ID;
-                console.log('ID SET');
-                console.log(`id: ${id}`);
+                menu = payload.menu;
 
-                resolve([socket, id]);
+                console.log("Received menu", menu);
+
+                resolve([socket, id, menu.menuList]);
                 return;
 
               case 'BROADCAST':
@@ -69,7 +72,7 @@ const WebSocketService = {
 
               case 'MENU':
                 const menuList = payload.menuList;
-                dispatchMenuUpdate('menuUpdate', menuList);
+                dispatchMenuUpdate('menuUpdate');
                 break;
 
               case 'ORDERSUBMIT':
@@ -94,10 +97,11 @@ const WebSocketService = {
 
       //this.socket = connectToServer(this.socket, hostname, port);
       connectToServer(hostname, port)
-        .then(([socket, id]) => {
+        .then(([socket, id, menu]) => {
           console.log("PROMISE RESOLVED", socket, id);
           this.socket = socket;
           this.id = id;
+          this.menu = menu;
           if (isMaster){
             this.requestMaster();
           }

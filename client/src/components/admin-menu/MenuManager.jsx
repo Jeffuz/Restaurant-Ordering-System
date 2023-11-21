@@ -36,9 +36,21 @@ const MenuManager = () => {
     const [isLoading, setIsLoading] = useState(true); // used to save whether data is loading 
 
     useEffect(() => {
+        setMenuItems(WebSocketService.menu.map(item => ({
+            id: item.menuId,
+            image: item.image,
+            itemFilter: item.filter,
+            itemName: item.name,
+            itemContent: item.description,
+            itemPrice: item.price,
+            itemDiet: item.diet,
+        })));
+
+        // This code should thoeretically update the menu whenever a event is dispatched
+        // Couldn't figure out how to test it though so it will remain like this for now
         const menuUpdateHandler = (event) => {
             console.log("Menu update received!");
-            const menuList = event.detail.data;
+            const menuList = WebSocketService.menu;
             setMenuItems(menuList.map(item => ({
                 id: item.menuId,
                 image: item.image,
