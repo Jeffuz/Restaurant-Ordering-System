@@ -4,6 +4,7 @@ import CustomerTableStatus from './CustomerTableStatus'
 
 const CustomerTable = () => {
 
+    //initial tables 
     const [tables, setTables] = useState([
         { id: 1, status: 'available', seats: 4 },
         { id: 2, status: 'unavailable', seats: 6 },
@@ -16,9 +17,9 @@ const CustomerTable = () => {
     ]);
 
     return(
-        <div>
+        <div className="flex flex-col items-center justify-content">
 
-           Select your Table:
+           <p className="text-xl">Select your Table:</p>
            <CustomerTableStatus tablesNum={tables}/>
            
         </div>

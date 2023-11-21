@@ -1,9 +1,11 @@
 import {React, useState} from 'react'
 import TableSelectionModal from '../customer-table-selection/TableSelectionModal'
+import { MdPeopleAlt } from "react-icons/md";
 const CustomerTableButton = ({table, onTableSelect, isSelected, isDisabled}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
 
+    // open the modal for table selection only if available 
     const handleButtonClick = () => {
         // only opens modal for table selection if the table is available
         if (table.status === 'available') {
@@ -12,18 +14,25 @@ const CustomerTableButton = ({table, onTableSelect, isSelected, isDisabled}) => 
       }
     return(
 
-        <div>
+        <div className=" mb-4 p-2 ">
 
             <>
                 <button
                     onClick={handleButtonClick}
-                    className={`p-4 border ${
+                    className={`flex flex-col items-center justify-center rounded-lg w-20 h-20 text-lg whitespace-normal  ${
                         isSelected ? 'bg-blue-500 text-white': 
                             (table.status === 'available' ? 'bg-green-500 text-white' : 'bg-red-500 text-white')
                     }`}
                     disabled={isDisabled || table.status === 'unavailable'} 
                 >
-                    {`Table ${table.id}`}
+                    
+                    <p>Table {table.id}</p>
+                    <div className="flex flex-row text-center text-xl font-medium flex items-center space-x-2">
+                        <MdPeopleAlt className="mr-2"/>
+                        {table.seats}
+                    </div>
+                 
+            
                 </button>
 
                 

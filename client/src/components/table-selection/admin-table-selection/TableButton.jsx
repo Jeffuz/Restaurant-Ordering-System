@@ -15,10 +15,10 @@ const TableButton = ({ table, onEditButtonClick }) => {
           >
 
         
-            <p>Table {table.id} </p>
+            <p>Table {table.name} </p>
             
 
-            <div className="flex flex-row text-center text-xl font-montserrat font-medium flex items-center space-x-2">
+            <div className="flex flex-row text-center text-xl font-medium flex items-center space-x-2">
               <MdPeopleAlt  className="mr-2" />
               {`${table.seats}`}
 

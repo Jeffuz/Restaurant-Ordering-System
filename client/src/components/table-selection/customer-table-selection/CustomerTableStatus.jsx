@@ -4,6 +4,7 @@ import CustomerTableButton from '../customer-table-selection/CustomerTableButton
 const CustomerTableStatus = ({tablesNum}) => {
     const [selectedTableId, setSelectedTableId] = useState(null);
     
+    // if the table is selected then update the selected table with the table given 
     const handleTableSelect = (tableId, action) => {
 
         if (action === 'selected'){

@@ -58,6 +58,7 @@ const AdminTableManager = () => {
     const handleTotalTablesSubmit = (total) => {
         const initialTableStatus = Array.from({ length: total }, (_, index) => ({
             id: index + 1,
+            name: index + 1,
             status: 'available', 
             seats: 4,
           }));
@@ -110,10 +111,13 @@ const AdminTableManager = () => {
                 }
 
                 {tablesEntered && (
-                        <button className="button-table" onClick={handleAddTableButtonClick}> Add Table </button>
-
+                        <button
+                            className="button-table bg-blue-500 text-white py-2 px-4 rounded-md mt-4"
+                            onClick={handleAddTableButtonClick}
+                        >
+                            Add Table
+                        </button>
                     )
-
                 }
 
                 {isAddTableOpen &&(
