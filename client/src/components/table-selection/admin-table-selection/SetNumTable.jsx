@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { GrLinkNext } from "react-icons/gr";
+import { FaCircleArrowRight } from "react-icons/fa6";
 const SetNumTables = ({ onTotalTablesSubmit }) => {
   const [totalTables, setTotalTables] = useState('');
 
@@ -15,18 +15,18 @@ const SetNumTables = ({ onTotalTablesSubmit }) => {
 
   return (
     <div className=" flex items-center justify-center h-screen">
-      <form className="text-xl/8 flex flex-col " onSubmit={handleSubmit}>
-        <label className="text-xl/8 fontFamily flex flex-col items-center ">
+      <form className="text-xl/8 flex flex-col bg-white p-8 rounded-3xl" onSubmit={handleSubmit}>
+        <label className="text-xl/8 fontFamily flex flex-col items-center  ">
           <p className="mb-4">Enter Number of Tables </p>
           <div className="flex item-center">
             <input
               type="number"
               value={totalTables}
               onChange={(e) => setTotalTables(e.target.value)}
-              className="w-96 rounded-lg"
+              className="w-70 shadow appearance-none border rounded-lg focus:shadow-outline"
             />
             <button className="bg-grey-200 rounded-lg ml-2 p-2" type="submit">
-                <GrLinkNext />
+              <FaCircleArrowRight />
             </button>
 
           </div>

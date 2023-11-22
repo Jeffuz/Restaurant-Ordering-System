@@ -17,12 +17,12 @@ const CustomerTableStatus = ({tablesNum}) => {
     }
 
     return(
-        <div className="flex flex-col items-center justify-content bg-white p-8 md:rounded-lg">
+        <div className="flex flex-col items-center justify-center bg-white p-8 rounded-3xl h-[40rem]">
         
             <p className="text-xl mb-4">Select your Table:</p>
           
             
-            <div className="grid grid-cols-3 gap-4 ">
+            <div className="grid grid-cols-3 gap-4  overflow-auto">
                 {tablesNum.map((table) => (
                     <CustomerTableButton 
                         key={table.id} 

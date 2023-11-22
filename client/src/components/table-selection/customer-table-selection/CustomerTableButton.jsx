@@ -22,7 +22,7 @@ const CustomerTableButton = ({table, onTableSelect, isSelected, isDisabled}) => 
                     className={`flex shadow-md flex-col items-center justify-center rounded-lg w-20 h-20 text-lg whitespace-normal 
                     ${
                         isSelected ? 'bg-blue-500 text-white': 
-                            (table.status === 'available' ? 'bg-green-500 text-white hover:ring-2 hover:ring-white' : 'bg-red-500 text-white')
+                            (table.status === 'available' ? 'bg-green-500 text-white hover:ring-2 hover:ring-blue' : 'bg-red-500 text-white')
                     }`}
                     disabled={isDisabled || table.status === 'unavailable'} 
                 >

@@ -10,7 +10,7 @@ const TableButton = ({ table, onEditButtonClick }) => {
     return (
         <div className="mb-4 p-2 ">
           <button
-            className={`table-button shadow-md flex flex-col items-center justify-center rounded-lg w-20 h-20 text-lg whitespace-normal  hover:ring-2 hover:ring-white 
+            className={`table-button shadow-md flex flex-col items-center justify-center rounded-lg w-20 h-20 text-lg whitespace-normal  hover:ring-2 hover:ring-blue 
               ${table.status === 'available' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}
             onClick={handleEditClick}
           >

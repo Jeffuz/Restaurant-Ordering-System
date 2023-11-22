@@ -19,7 +19,7 @@ const TableSelectionModal = ({ table, onTableSelect, onClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
 
-      <div className="bg-white p-8 md:rounded-lg">
+      <div className="bg-white p-8 rounded-3xl">
         <div className="flex justify-end">
 
 
