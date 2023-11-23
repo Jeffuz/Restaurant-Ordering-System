@@ -5,7 +5,7 @@ import { MdRestaurantMenu, MdTableRestaurant, MdBorderColor } from 'react-icons/
 import { TbDeviceAnalytics } from 'react-icons/tb'
 import { CgProfile } from 'react-icons/cg'
 
-const AdminNavbar = () => {
+const AdminNavbar = ({ setPage }) => {
     const menuItems = [
         { label: 'Dashboard', icon: 'FaHome', to: '/admin-dashboard' },
         { label: 'Menu', icon: 'MdRestaurantMenu', to: '/admin-menu' },
@@ -20,12 +20,12 @@ const AdminNavbar = () => {
             <div className='p-4 mx-auto text-4xl font-medium'><Link to='/'>115A's Diner</Link></div>
             <div className='flex flex-col gap-8 p-7'>
                 {menuItems.map((item, index) => (
-                    <Link className='flex items-center' to={item.to} key={index}>
+                    <button className='flex items-center' onClick={()=>setPage(item.label)} key={index}>
                         <div className='flex gap-4 items-center'>
                             <span className='text-3xl'>{getIcon(item.icon)}</span>
                             <span className='text-2xl font-normal'>{item.label}</span>
                         </div>
-                    </Link>
+                    </button>
                 ))}
             </div>
         </div>

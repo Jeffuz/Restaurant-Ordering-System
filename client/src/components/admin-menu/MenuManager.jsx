@@ -8,8 +8,9 @@ import FilterBar from '../filterbar';
 import AddCategoryTextBox from '../AddCategoryTextBox';
 import { IoIosAddCircle } from 'react-icons/io'
 import { AiOutlineClose } from 'react-icons/ai'
-const MenuManager = (props) => {
-    const { WebSocketService } = props;
+
+import WebSocketService from '../../WebSocketService';
+const MenuManager = () => {
 
     const [showForm, setShowForm] = useState(false)
     const [menuItems, setMenuItems] = useState([])
@@ -34,21 +35,22 @@ const MenuManager = (props) => {
 
     const [isLoading, setIsLoading] = useState(true); // used to save whether data is loading 
 
-    function getMenu() {
-        const actionObject = {
-            'action': 'getMenus',
-            'restaurantId': '65381ed4030fa645be95b250'
-        };
-
-        WebSocketService.sendRequest(actionObject);
-    }
-
     useEffect(() => {
-        getMenu();
+        setMenuItems(WebSocketService.menu.map(item => ({
+            id: item.menuId,
+            image: item.image,
+            itemFilter: item.filter,
+            itemName: item.name,
+            itemContent: item.description,
+            itemPrice: item.price,
+            itemDiet: item.diet,
+        })));
 
+        // This code should thoeretically update the menu whenever a event is dispatched
+        // Couldn't figure out how to test it though so it will remain like this for now
         const menuUpdateHandler = (event) => {
-            const menuList = event.detail.data;
-            console.log('hello', menuList);
+            console.log("Menu update received!");
+            const menuList = WebSocketService.menu;
             setMenuItems(menuList.map(item => ({
                 id: item.menuId,
                 image: item.image,
@@ -58,14 +60,10 @@ const MenuManager = (props) => {
                 itemPrice: item.price,
                 itemDiet: item.diet,
             })));
-            setIsLoading(false);
         }
 
         window.addEventListener('menuUpdate', menuUpdateHandler);
 
-        return () => {
-            window.removeEventListener('menuUpdate', menuUpdateHandler);
-        };
     }, []);
 
     const addMenuItem = (newItem) => {
@@ -82,7 +80,7 @@ const MenuManager = (props) => {
         };
 
         WebSocketService.sendRequest(actionObject);
-    }
+    };
 
     const deleteMenuItem = (itemId) => {
         const actionObject = {
@@ -92,7 +90,7 @@ const MenuManager = (props) => {
         };
 
         WebSocketService.sendRequest(actionObject);
-    }
+    };
 
     const editMenuItem = (editedItem) => {
         const actionObject = {
@@ -108,7 +106,7 @@ const MenuManager = (props) => {
         };
 
         WebSocketService.sendRequest(actionObject);
-    }
+    };
 
     // for modal popup editing and adding 
     const closeModal = () => {
@@ -123,14 +121,15 @@ const MenuManager = (props) => {
         setShowForm(true)
         setIsOpen(true)
         setIsFormOpen(true);
-    }
+    };
+
     const openModalEdit = (item) => {
         console.log("Trying to open the modal for editing:", item);
         setSelectedItem(item);
         setShowForm(true);
         setIsOpen(true);
         setIsFormOpen(true);
-    }
+    };
 
 
 
@@ -145,15 +144,12 @@ const MenuManager = (props) => {
     const openEditCategoryMenu = (category) => {
         setSelectedCategory(category);
         setIsEditCategoryOn(true);
-
-
-
-    }
+    };
 
     const closeEditCategoryMenu = () => {
         setSelectedCategory(null);
         setIsEditCategoryOn(false);
-    }
+    };
 
     const onEditCategory = (categoryToEdit) => {
         // Find the index of the category to edit
@@ -256,40 +252,6 @@ const MenuManager = (props) => {
                     ))}
                 </div>
             </div>
-
-            {/* {selectedItem && (
-                <ItemModal isOpen={isOpen} onClose={closeModal} item={selectedItem} />
-            )} */}
-
-
-            {/* {selectedItem && (
-
-                <ReactModal isOpen={isOpen} onRequestClose={closeModal}
-                    style={{
-                        overlay: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                        },
-                        content: {
-                            width: '70%',  // Adjust the width as needed, e.g., '50%' for 50% of the parent container's width
-                            height: '70%', // Adjust the height as needed, e.g., '50%' for 50% of the parent container's height
-                            margin: 'auto', // Center the modal horizontally
-                            borderRadius: '1rem',
-                        },
-                    }}
-                >
-                    <div className="flex justify-end p-4">
-                        <button onClick={closeModal} className="close-button text-xl font-bold">
-                            X
-                        </button>
-                    </div>
-                    <AddEditMenuItemForm
-                        selectedItem={selectedItem}
-                        editMenuItem={editMenuItem}
-                        deleteMenuItem={deleteMenuItem}
-                        closeModal={closeModal}
-                    />
-                </ReactModal>
-            )} */}
         </div>
     )
 }
