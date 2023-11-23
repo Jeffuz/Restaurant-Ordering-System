@@ -14,8 +14,8 @@ const SetNumTables = ({ onTotalTablesSubmit }) => {
   };
 
   return (
-    <div className=" flex items-center justify-center h-screen">
-      <form className="text-xl/8 flex flex-col bg-white p-8 rounded-3xl" onSubmit={handleSubmit}>
+    <div className=" flex items-center justify-center ">
+      <form className="text-xl/8 flex flex-col bg-white shadow-lg p-8 rounded-3xl" onSubmit={handleSubmit}>
         <label className="text-xl/8 fontFamily flex flex-col items-center  ">
           <p className="mb-4">Enter Number of Tables </p>
           <div className="flex item-center">
