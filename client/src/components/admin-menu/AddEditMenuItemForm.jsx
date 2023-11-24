@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Camera from '../admin-menu/camera-circle.png';
 import Trash from '../admin-menu/trash-icon.png';
 import Check from '../admin-menu/check-circle.png';
+import MenuCustomization from './MenuCustomization';
 
 const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMenuItem, setIsOpen }) => {
     const [itemData, setItemData] = useState(selectedItem || {});
@@ -188,6 +189,9 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
                                 <button onClick={() => handleEditToggle('itemContent')}>✎</button>
                             </div>
                         )}
+                    </div>
+                    <div className="mb-2 ">
+                        <MenuCustomization />
                     </div>
                 </div>
             </div>
