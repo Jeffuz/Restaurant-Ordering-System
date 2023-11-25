@@ -8,7 +8,7 @@ const restaurantSchema = new mongoose.Schema({
     restaurantName: String,
     restaurantMenu: Menu.schema,
     table: Table.schema,
-    history: [{ usrID: String, userHistory: [OrderHistory.schema] }],
+    history: [{ usrId: String, userHistory: [OrderHistory.schema] }],
 });
 
 const Restaurant = mongoose.model("Restaurant", restaurantSchema);

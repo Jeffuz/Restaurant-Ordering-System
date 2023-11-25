@@ -2,7 +2,7 @@ const mongoose = require("../config/db");
 
 const orderHistorySchema = new mongoose.Schema(
     {
-        menuItemID: {
+        menuItemId: {
             type: String,
             required: true,
         },

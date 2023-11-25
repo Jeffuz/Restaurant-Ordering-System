@@ -28,6 +28,13 @@ const {
     deleteTableOrder,
 } = require("./controllers/table");
 
+const {
+    getOrderHistory,
+    createOrderHistory,
+    updateOrderHistory,
+    deleteOrderHistory,
+} = require("./controllers/orderHistory");
+
 class Server {
     constructor(port) {
         this.server = new WebSocket.Server({ port: port });
@@ -206,6 +213,27 @@ class Server {
                 case "DELETETABLEORDER":
                     console.log("Received request DELETETABLEORDER");
                     deleteTableOrder(client, payload);
+                    break;
+
+                // Order History
+                case "GETORDERHISTORY":
+                    console.log("Received request GETORDERHISTORY");
+                    getOrderHistory(client, payload);
+                    break;
+
+                case "CREATEORDERHISTORY":
+                    console.log("Received request CREATEORDERHISTORY");
+                    createOrderHistory(client, payload);
+                    break;
+
+                case "UPDATEORDERHISTORY":
+                    console.log("Received request UPDATEORDERHISTORY");
+                    updateOrderHistory(client, payload);
+                    break;
+
+                case "DELETEORDERHISTORY":
+                    console.log("Received request DELETEORDERHISTORY");
+                    deleteOrderHistory(client, payload);
                     break;
 
                 default:
