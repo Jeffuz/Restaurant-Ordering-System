@@ -10,6 +10,13 @@ const {
     deleteMenu,
 } = require("./controllers/menu");
 
+const {
+    getRestaurant,
+    createRestaurant,
+    updateRestaurantName,
+    deleteRestaurant,
+} = require("./controllers/restaurant");
+
 class Server {
     constructor(port) {
         this.server = new WebSocket.Server({ port: port });
@@ -108,8 +115,30 @@ class Server {
                     console.log(payload.cart);
                     break;
 
-                case "ORDER":
-                    console.log(`Server received ORDER request`);
+                // Restaurant
+                case "GETRESTAURANT":
+                    console.log("Received request GETRESTAURANT");
+                    getRestaurant(client, payload);
+                    break;
+
+                case "CREATERESTAURANT":
+                    console.log("Received request CREATERESTAURANT");
+                    createRestaurant(client, payload);
+                    break;
+
+                case "UPDATERESTAURANTNAME":
+                    console.log("Received request UPDATERESTAURANTNAME");
+                    updateRestaurantName(client, payload);
+                    break;
+
+                case "DELETERESTAURANT":
+                    console.log("Received request DELETERESTAURANT");
+                    deleteRestaurant(client, payload);
+                    break;
+
+                // Menu
+                case "GETMENUS":
+                    getMenus(client, payload);
                     break;
 
                 case "CREATEMENU":
@@ -127,38 +156,12 @@ class Server {
                     updateMenu(client, payload);
                     break;
 
-                case "getMenus":
-                    getMenus(client, payload);
-                    break;
-
                 default:
                     console.log(
                         `Server received unsupported request "${method}" with payload "${payload}"`
                     );
             }
         });
-
-        /*client.on("message", (message) => {
-            const parsedMessage = JSON.parse(message);
-            const { action } = parsedMessage;
-
-            if (action === "getMenus") {
-                console.log("getMenus");
-                getMenus(client, parsedMessage);
-            } else if (action === "getMenu") {
-                console.log("getMenu");
-                getMenu(client, parsedMessage);
-            } else if (action === "createMenu") {
-                console.log("createMenu");
-                createMenu(client, parsedMessage);
-            } else if (action === "updateMenu") {
-                console.log("updateMenu");
-                updateMenu(client, parsedMessage);
-            } else if (action === "deleteMenu") {
-                console.log("deleteMenu");
-                deleteMenu(client, parsedMessage);
-            }
-        });*/
 
         return;
     }

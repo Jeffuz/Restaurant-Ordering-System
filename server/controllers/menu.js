@@ -1,4 +1,4 @@
-const { Menu, MenuItem } = require("../models");
+const { Menu, MenuItem } = require("../models/menuModel");
 
 function getMenus(ws, message) {
     const restaurantId = message.restaurantId;
@@ -11,7 +11,10 @@ function getMenus(ws, message) {
                 };
                 ws.send(JSON.stringify(response));
             } else {
-                const response = { action: 'menuList', menuList: menu.menuList };
+                const response = {
+                    action: "menuList",
+                    menuList: menu.menuList,
+                };
                 ws.send(JSON.stringify(response));
             }
         })
