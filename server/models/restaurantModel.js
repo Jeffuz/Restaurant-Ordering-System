@@ -1,7 +1,7 @@
 const mongoose = require("../config/db");
 
 const { Menu, MenuItem, MenuCustom } = require("./menuModel");
-const Table = require("./tableModel");
+const { Table } = require("./tableModel");
 const OrderHistory = require("./orderHistoryModel");
 
 const restaurantSchema = new mongoose.Schema({

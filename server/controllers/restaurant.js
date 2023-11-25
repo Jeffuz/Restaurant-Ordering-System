@@ -1,4 +1,5 @@
 const Restaurant = require("../models/restaurantModel");
+const Table = require("../models/tableModel");
 
 function getRestaurant(ws, message) {
     const restaurantId = message.restaurantId;
@@ -26,8 +27,16 @@ function getRestaurant(ws, message) {
 function createRestaurant(ws, message) {
     const restaurantName = message.restaurantName;
 
+    const newTable = new Table({
+        totalTableCount: 0,
+        tableList: [],
+    });
+
     const newRestaurant = new Restaurant({
-        restaurantName,
+        restaurantName: restaurantName,
+        restaurantMenu: null,
+        table: newTable,
+        history: [],
     });
 
     newRestaurant

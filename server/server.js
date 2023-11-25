@@ -17,6 +17,17 @@ const {
     deleteRestaurant,
 } = require("./controllers/restaurant");
 
+const {
+    getTables,
+    createTable,
+    deleteTable,
+    updateTableOccupancy,
+    updateTableSeatCapacity,
+    updateTableOrder,
+    createTableOrder,
+    deleteTableOrder,
+} = require("./controllers/table");
+
 class Server {
     constructor(port) {
         this.server = new WebSocket.Server({ port: port });
@@ -156,9 +167,50 @@ class Server {
                     updateMenu(client, payload);
                     break;
 
+                // Table
+                case "GETTABLES":
+                    console.log("Received request GETTABLES");
+                    getTables(client, payload);
+                    break;
+
+                case "CREATETABLE":
+                    console.log("Received request CREATETABLE");
+                    createTable(client, payload);
+                    break;
+
+                case "DELETETABLE":
+                    console.log("Received request DELETETABLE");
+                    deleteTable(client, payload);
+                    break;
+
+                case "UPDATETABLEOCCUPANCY":
+                    console.log("Received request UPDATETABLEOCCUPANCY");
+                    updateTableOccupancy(client, payload);
+                    break;
+
+                case "UPDATETABLESEATCAPACITY":
+                    console.log("Received request UPDATETABLESEATCAPACITY");
+                    updateTableSeatCapacity(client, payload);
+                    break;
+
+                case "UPDATETABLEORDER":
+                    console.log("Received request UPDATETABLEORDER");
+                    updateTableOrder(client, payload);
+                    break;
+
+                case "CREATETABLEORDER":
+                    console.log("Received request CREATETABLEORDER");
+                    createTableOrder(client, payload);
+                    break;
+
+                case "DELETETABLEORDER":
+                    console.log("Received request DELETETABLEORDER");
+                    deleteTableOrder(client, payload);
+                    break;
+
                 default:
                     console.log(
-                        `Server received unsupported request "${method}" with payload "${payload}"`
+                        `Server received unsupported request "${action}" with payload "${payload}"`
                     );
             }
         });

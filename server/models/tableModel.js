@@ -1,6 +1,6 @@
 const mongoose = require("../config/db");
 
-const orderSchema = mongoose.Schema({
+const orderItemSchema = mongoose.Schema({
     menuItemId: {
         type: String,
         required: true,
@@ -23,10 +23,6 @@ const orderSchema = mongoose.Schema({
 });
 
 const tableItemSchema = new mongoose.Schema({
-    tableNumber: {
-        type: String,
-        required: true,
-    },
     seatCapacity: {
         type: Number,
         required: true,
@@ -36,7 +32,7 @@ const tableItemSchema = new mongoose.Schema({
         required: true,
     },
     order: {
-        type: [orderSchema],
+        type: [orderItemSchema],
     },
 });
 
@@ -49,5 +45,7 @@ const tableSchema = new mongoose.Schema({
 });
 
 const Table = mongoose.model("Table", tableSchema);
+const TableItem = mongoose.model("TableItem", tableItemSchema);
+const OrderItem = mongoose.model("OrderItem", orderItemSchema);
 
-module.exports = Table;
+module.exports = { Table, TableItem, OrderItem };
