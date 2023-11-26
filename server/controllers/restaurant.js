@@ -1,5 +1,6 @@
 const Restaurant = require("../models/restaurantModel");
-const Table = require("../models/tableModel");
+const { Table, TableItem, OrderItem } = require("../models/tableModel");
+const { Menu, MenuItem, MenuCustom } = require("../models/menuModel");
 
 function getRestaurant(ws, message) {
     const restaurantId = message.restaurantId;
@@ -27,15 +28,20 @@ function getRestaurant(ws, message) {
 function createRestaurant(ws, message) {
     const restaurantName = message.restaurantName;
 
-    const newTable = new Table({
+    const emptyMenu = new Menu({
+        totalItemCount: 0,
+        menuList: [],
+    });
+
+    const emptyTable = new Table({
         totalTableCount: 0,
         tableList: [],
     });
 
     const newRestaurant = new Restaurant({
         restaurantName: restaurantName,
-        restaurantMenu: null,
-        table: newTable,
+        restaurantMenu: emptyMenu,
+        table: emptyTable,
         history: [],
     });
 

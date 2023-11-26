@@ -1,19 +1,40 @@
 const { Menu, MenuItem } = require("../models/menuModel");
+const Restaurant = require("../models/restaurantModel");
 
 function getMenus(ws, message) {
-    const restaurantId = message.restaurantId;
+    const restaurantId = "65381ed4030fa645be95b250";
 
-    Menu.findById(restaurantId)
-        .then((menu) => {
-            if (!menu) {
-                const response = {
-                    error: "Menus not found for restaurantId: " + restaurantId,
-                };
+    return new Promise((resolve, reject) => {
+        Menu.findById(restaurantId)
+            .then((menu) => {
+                if (!menu) {
+                    reject({
+                        error:
+                            "Menus not found for restaurantId: " + restaurantId,
+                    });
+                } else {
+                    resolve({ action: "MENU", menuList: menu.menuList });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                reject({
+                    error: "Error while retrieving menus",
+                    detail: err,
+                });
+            });
+    });
+
+    // const restaurantId = message.restaurantId;
+
+    Restaurant.findById(restaurantId)
+        .then((restaurant) => {
+            if (!restaurant) {
+                const response = { error: "Restaurant not found" };
                 ws.send(JSON.stringify(response));
             } else {
                 const response = {
-                    action: "menuList",
-                    menuList: menu.menuList,
+                    menuList: restaurant.restaurantMenu.menuList,
                 };
                 ws.send(JSON.stringify(response));
             }
@@ -32,13 +53,13 @@ function getMenu(ws, message) {
     const restaurantId = message.restaurantId;
     const menuId = message.menuId;
 
-    Menu.findById(restaurantId)
-        .then((menu) => {
-            if (!menu) {
-                const response = { error: "Menus not found" };
+    Restaurant.findById(restaurantId)
+        .then((restaurant) => {
+            if (!restaurant) {
+                const response = { error: "Restaurant not found" };
                 ws.send(JSON.stringify(response));
             } else {
-                const menuItem = menu.menuList.find(
+                const menuItem = restaurant.restaurantMenu.menuList.find(
                     (menuItem) => menuItem.menuId == menuId
                 );
                 const response = { menuItem: menuItem };
@@ -54,7 +75,17 @@ function getMenu(ws, message) {
 
 function createMenu(ws, message) {
     const restaurantId = message.restaurantId;
-    const { menuId, image, filter, name, price, description, diet } = message;
+    const {
+        menuId,
+        image,
+        filter,
+        name,
+        price,
+        description,
+        diet,
+        customizable,
+        custom,
+    } = message;
 
     const newMenuItem = new MenuItem({
         menuId,
@@ -64,18 +95,21 @@ function createMenu(ws, message) {
         price,
         description,
         diet,
+        customizable,
+        custom,
     });
 
-    Menu.findById(restaurantId)
-        .then((menu) => {
-            if (!menu) {
-                const response = { error: "Menus not found" };
+    Restaurant.findById(restaurantId)
+        .then((restaurant) => {
+            if (!restaurant) {
+                const response = { error: "Restaurant not found" };
                 ws.send(JSON.stringify(response));
             }
-            menu.menuList.push(newMenuItem);
-            menu.totalItemCount++;
+            restaurant.restaurantMenu.menuList.push(newMenuItem);
+            restaurant.restaurantMenu.totalItemCount++;
 
-            menu.save()
+            restaurant
+                .save()
                 .then(() => {
                     const response = { menuItem: newMenuItem };
                     ws.send(JSON.stringify(response));
@@ -99,14 +133,24 @@ function createMenu(ws, message) {
 
 function updateMenu(ws, message) {
     const restaurantId = message.restaurantId;
-    const { menuId, image, filter, name, price, description, diet } = message;
+    const {
+        menuId,
+        image,
+        filter,
+        name,
+        price,
+        description,
+        diet,
+        customizable,
+        custom,
+    } = message;
 
-    Menu.findById(restaurantId).then((menu) => {
-        if (!menu) {
-            const response = { error: "Menus not found" };
+    Restaurant.findById(restaurantId).then((restaurant) => {
+        if (!restaurant) {
+            const response = { error: "Restaurant not found" };
             ws.send(JSON.stringify(response));
         }
-        const menuItem = menu.menuList.find(
+        const menuItem = restaurant.restaurantMenu.menuList.find(
             (menuItem) => String(menuItem.menuId) == menuId
         );
         if (!menuItem) {
@@ -119,15 +163,18 @@ function updateMenu(ws, message) {
         if (price) menuItem.price = price;
         if (description) menuItem.description = description;
         if (diet) menuItem.diet = diet;
+        if (customizable) menuItem.customizable = customizable;
+        if (custom) menuItem.custom = custom;
 
-        menu.save()
+        restaurant
+            .save()
             .then(() => {
                 const response = { menuItem: menuItem };
                 ws.send(JSON.stringify(response));
             })
             .catch((err) => {
                 const response = {
-                    error: "Error saving menu",
+                    error: "Error updating menu",
                     details: err,
                 };
                 ws.send(JSON.stringify(response));
@@ -139,27 +186,30 @@ function deleteMenu(ws, message) {
     const restaurantId = message.restaurantId;
     const menuId = message.menuId;
 
-    Menu.findById(restaurantId).then((menu) => {
-        if (!menu) {
-            const response = { error: "Menus not found" };
+    Restaurant.findById(restaurantId).then((restaurant) => {
+        if (!restaurant) {
+            const response = { error: "Restaurant not found" };
             ws.send(JSON.stringify(response));
         }
-        const menuItem = menu.menuList.find(
+        const menuItem = restaurant.restaurantMenu.menuList.find(
             (menuItem) => menuItem.menuId == menuId
         );
-        menu.menuList = menu.menuList.filter(
-            (menuItem) => menuItem.menuId !== menuId
-        );
-        menu.totalItemCount--;
+        restaurant.restaurantMenu.menuList =
+            restaurant.restaurantMenu.menuList.filter(
+                (menuItem) => menuItem.menuId !== menuId
+            );
+        restaurant.restaurantMenu.totalItemCount =
+            restaurant.restaurantMenu.menuList.length;
 
-        menu.save()
+        restaurant
+            .save()
             .then(() => {
                 const response = { menuItem: menuItem };
                 ws.send(JSON.stringify(response));
             })
             .catch((err) => {
                 const response = {
-                    error: "Error saving menu",
+                    error: "Error deleting menu",
                     details: err,
                 };
                 ws.send(JSON.stringify(response));
