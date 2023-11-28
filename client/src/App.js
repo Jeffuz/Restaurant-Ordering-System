@@ -14,11 +14,11 @@ import Admin_table from './pages/admin-table';
 import Admin_orders from './pages/admin-orders';
 import Admin_analytics from './pages/admin-analytics';
 import Admin_customer from './pages/admin-customer';
-import AdminNavbar from './components/adminNavbar';
+import Landing_page from './pages/landing-page';
+
 
 // Websockets
 import WebSocketService from './WebSocketService';
-
 
 function App() {
   // Establish a connection if not already connected
@@ -65,6 +65,7 @@ function App() {
           <Route path='/admin-analytics' element={<Admin_analytics />} />
           <Route path='/admin-customer' element={<Admin_customer />} />
           <Route path='/admin-menu' element={<Admin_Menu WebSocketService={WebSocketService} />} />
+          <Route path='/landing-page' element={<Landing_page/>}/>
           <Route path='*' element={<NoPage />} />
         </Routes>
       </HashRouter>

@@ -11,6 +11,7 @@ const Home = () => {
                 <Link to="/menu">Menu</Link>
                 <Link to="/table">Table</Link>
                 <Link to="/admin-menu">Admin Menu</Link>
+                <Link to="/landing-page">Home</Link>
             </div>
         </div>
     )
