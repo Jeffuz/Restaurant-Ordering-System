@@ -2,30 +2,32 @@ const Restaurant = require("../models/restaurantModel");
 const { Table, TableItem, OrderItem } = require("../models/tableModel");
 const { Menu, MenuItem, MenuCustom } = require("../models/menuModel");
 
-function getRestaurant(ws, message) {
+function getRestaurant(message) {
     const restaurantId = message.restaurantId;
 
-    Restaurant.findById(restaurantId)
-        .then((restaurant) => {
-            if (!restaurant) {
-                const response = { error: "Restaurant not found" };
-                ws.send(JSON.stringify(response));
-            } else {
-                const response = { restaurant: restaurant };
-                ws.send(JSON.stringify(response));
-            }
-        })
-        .catch((err) => {
-            console.log(err);
-            const response = {
-                error: "Error while retrieving restaurant",
-                detail: err,
-            };
-            ws.send(JSON.stringify(response));
-        });
+    return new Promise((resolve, reject) => {
+        Restaurant.findById(restaurantId)
+            .then((restaurant) => {
+                if (!restaurant) {
+                    reject({ error: "Restaurant not found" });
+                } else {
+                    resolve({
+                        action: "GETRESTAURANT",
+                        restaurant: restaurant,
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                reject({
+                    error: "Error while retrieving restaurant",
+                    detail: err,
+                });
+            });
+    });
 }
 
-function createRestaurant(ws, message) {
+function createRestaurant(message) {
     const restaurantName = message.restaurantName;
 
     const emptyMenu = new Menu({
@@ -45,23 +47,23 @@ function createRestaurant(ws, message) {
         history: [],
     });
 
-    newRestaurant
-        .save()
-        .then((restaurant) => {
-            const response = { restaurant: restaurant };
-            ws.send(JSON.stringify(response));
-        })
-        .catch((err) => {
-            console.log(err);
-            const response = {
-                error: "Error while creating restaurant",
-                detail: err,
-            };
-            ws.send(JSON.stringify(response));
-        });
+    return new Promise((resolve, reject) => {
+        newRestaurant
+            .save()
+            .then((restaurant) => {
+                resolve({ action: "CREATERESTAURANT", restaurant: restaurant });
+            })
+            .catch((err) => {
+                console.log(err);
+                reject({
+                    error: "Error while creating restaurant",
+                    detail: err,
+                });
+            });
+    });
 }
 
-function updateRestaurantName(ws, message) {
+function updateRestaurantName(message) {
     const restaurantId = message.restaurantId;
     const restaurantName = message.restaurantName;
 
@@ -72,43 +74,40 @@ function updateRestaurantName(ws, message) {
     )
         .then((restaurant) => {
             if (!restaurant) {
-                const response = { error: "Restaurant not found" };
-                ws.send(JSON.stringify(response));
+                reject({ error: "Restaurant not found" });
             } else {
-                const response = { restaurant: restaurant };
-                ws.send(JSON.stringify(response));
+                resolve({
+                    action: "UPDATERESTAURANTNAME",
+                    restaurant: restaurant,
+                });
             }
         })
         .catch((err) => {
             console.log(err);
-            const response = {
+            reject({
                 error: "Error while updating restaurant name",
                 detail: err,
-            };
-            ws.send(JSON.stringify(response));
+            });
         });
 }
 
-function deleteRestaurant(ws, message) {
+function deleteRestaurant(message) {
     const restaurantId = message.restaurantId;
 
     Restaurant.findByIdAndDelete(restaurantId)
         .then((restaurant) => {
             if (!restaurant) {
-                const response = { error: "Restaurant not found" };
-                ws.send(JSON.stringify(response));
+                reject({ error: "Restaurant not found" });
             } else {
-                const response = { restaurant: restaurant };
-                ws.send(JSON.stringify(response));
+                resolve({ action: "DELETERESTAURANT", restaurant: restaurant });
             }
         })
         .catch((err) => {
             console.log(err);
-            const response = {
+            reject({
                 error: "Error while deleting restaurant",
                 detail: err,
-            };
-            ws.send(JSON.stringify(response));
+            });
         });
 }
 
