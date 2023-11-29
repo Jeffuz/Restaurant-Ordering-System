@@ -1,18 +1,19 @@
-const { Menu, MenuItem } = require("../models");
+const { Menu, MenuItem } = require("../models/menuModel");
+const Restaurant = require("../models/restaurantModel");
 
-function getMenus(ws, message) {
-    //const restaurantId = message.restaurantId;
-    const restaurantId = '65381ed4030fa645be95b250';
-    
+function getMenus(message) {
+    const restaurantId = "65381ed4030fa645be95b250";
+
     return new Promise((resolve, reject) => {
         Menu.findById(restaurantId)
             .then((menu) => {
                 if (!menu) {
                     reject({
-                        error: "Menus not found for restaurantId: " + restaurantId,
+                        error:
+                            "Menus not found for restaurantId: " + restaurantId,
                     });
                 } else {
-                    resolve({ action: 'MENU', menuList: menu.menuList });
+                    resolve({ action: "GETMENUS", menuList: menu.menuList });
                 }
             })
             .catch((err) => {
@@ -25,33 +26,46 @@ function getMenus(ws, message) {
     });
 }
 
-function getMenu(ws, message) {
+function getMenu(message) {
     const restaurantId = message.restaurantId;
     const menuId = message.menuId;
 
-    Menu.findById(restaurantId)
-        .then((menu) => {
-            if (!menu) {
-                const response = { error: "Menus not found" };
-                ws.send(JSON.stringify(response));
-            } else {
-                const menuItem = menu.menuList.find(
-                    (menuItem) => menuItem.menuId == menuId
-                );
-                const response = { menuItem: menuItem };
-                ws.send(JSON.stringify(response));
-            }
-        })
-        .catch((err) => {
-            console.log(err);
-            const response = { error: err };
-            ws.send(JSON.stringify(response));
-        });
+    return new Promise((resolve, reject) => {
+        Restaurant.findById(restaurantId)
+            .then((restaurant) => {
+                if (!restaurant) {
+                    reject({ error: "Restaurant not found" });
+                } else {
+                    const menuItem = restaurant.restaurantMenu.menuList.find(
+                        (menuItem) => menuItem.menuId == menuId
+                    );
+                    resolve({ action: "GETMENU", menuItem: menuItem });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                console.log(err);
+                reject({
+                    error: "Error while retrieving menu",
+                    detail: err,
+                });
+            });
+    });
 }
 
-function createMenu(ws, message) {
+function createMenu(message) {
     const restaurantId = message.restaurantId;
-    const { menuId, image, filter, name, price, description, diet } = message;
+    const {
+        menuId,
+        image,
+        filter,
+        name,
+        price,
+        description,
+        diet,
+        customizable,
+        custom,
+    } = message;
 
     const newMenuItem = new MenuItem({
         menuId,
@@ -61,106 +75,125 @@ function createMenu(ws, message) {
         price,
         description,
         diet,
+        customizable,
+        custom,
     });
 
-    Menu.findById(restaurantId)
-        .then((menu) => {
-            if (!menu) {
-                const response = { error: "Menus not found" };
-                ws.send(JSON.stringify(response));
-            }
-            menu.menuList.push(newMenuItem);
-            menu.totalItemCount++;
+    return new Promise((resolve, reject) => {
+        Restaurant.findById(restaurantId)
+            .then((restaurant) => {
+                if (!restaurant) {
+                    reject({
+                        error: "Restaurant not found",
+                    });
+                }
+                restaurant.restaurantMenu.menuList.push(newMenuItem);
+                restaurant.restaurantMenu.totalItemCount++;
 
-            menu.save()
-                .then(() => {
-                    const response = { menuItem: newMenuItem };
-                    ws.send(JSON.stringify(response));
-                })
-                .catch((err) => {
-                    const response = {
-                        error: "Error saving menu",
-                        details: err,
-                    };
-                    ws.send(JSON.stringify(response));
-                });
-        })
-        .catch((err) => {
-            const response = {
-                error: "Error finding menus",
-                details: err,
-            };
-            ws.send(JSON.stringify(response));
-        });
-}
-
-function updateMenu(ws, message) {
-    const restaurantId = message.restaurantId;
-    const { menuId, image, filter, name, price, description, diet } = message;
-
-    Menu.findById(restaurantId).then((menu) => {
-        if (!menu) {
-            const response = { error: "Menus not found" };
-            ws.send(JSON.stringify(response));
-        }
-        const menuItem = menu.menuList.find(
-            (menuItem) => String(menuItem.menuId) == menuId
-        );
-        if (!menuItem) {
-            const response = { error: "Menu item not found" };
-            ws.send(JSON.stringify(response));
-        }
-        if (image) menuItem.image = image;
-        if (filter) menuItem.filter = filter;
-        if (name) menuItem.name = name;
-        if (price) menuItem.price = price;
-        if (description) menuItem.description = description;
-        if (diet) menuItem.diet = diet;
-
-        menu.save()
-            .then(() => {
-                const response = { menuItem: menuItem };
-                ws.send(JSON.stringify(response));
+                restaurant
+                    .save()
+                    .then(() => {
+                        resolve({
+                            action: "CREATEMENU",
+                            menuItem: newMenuItem,
+                        });
+                    })
+                    .catch((err) => {
+                        reject({
+                            error: "Error saving menu",
+                            details: err,
+                        });
+                    });
             })
             .catch((err) => {
-                const response = {
-                    error: "Error saving menu",
+                reject({
+                    error: "Error finding menus",
                     details: err,
-                };
-                ws.send(JSON.stringify(response));
+                });
             });
     });
 }
 
-function deleteMenu(ws, message) {
+function updateMenu(message) {
+    const restaurantId = message.restaurantId;
+    const {
+        menuId,
+        image,
+        filter,
+        name,
+        price,
+        description,
+        diet,
+        customizable,
+        custom,
+    } = message;
+
+    return new Promise((resolve, reject) => {
+        Restaurant.findById(restaurantId).then((restaurant) => {
+            if (!restaurant) {
+                reject({ error: "Restaurant not found" });
+            }
+            const menuItem = restaurant.restaurantMenu.menuList.find(
+                (menuItem) => String(menuItem.menuId) == menuId
+            );
+            if (!menuItem) {
+                reject({ error: "Menu item not found" });
+            }
+            if (image) menuItem.image = image;
+            if (filter) menuItem.filter = filter;
+            if (name) menuItem.name = name;
+            if (price) menuItem.price = price;
+            if (description) menuItem.description = description;
+            if (diet) menuItem.diet = diet;
+            if (customizable) menuItem.customizable = customizable;
+            if (custom) menuItem.custom = custom;
+
+            restaurant
+                .save()
+                .then(() => {
+                    resolve({ action: "UPDATEMENU", menuItem: menuItem });
+                })
+                .catch((err) => {
+                    reject({
+                        error: "Error updating menu",
+                        details: err,
+                    });
+                });
+        });
+    });
+}
+
+function deleteMenu(message) {
     const restaurantId = message.restaurantId;
     const menuId = message.menuId;
 
-    Menu.findById(restaurantId).then((menu) => {
-        if (!menu) {
-            const response = { error: "Menus not found" };
-            ws.send(JSON.stringify(response));
-        }
-        const menuItem = menu.menuList.find(
-            (menuItem) => menuItem.menuId == menuId
-        );
-        menu.menuList = menu.menuList.filter(
-            (menuItem) => menuItem.menuId !== menuId
-        );
-        menu.totalItemCount--;
+    return new Promise((resolve, reject) => {
+        Restaurant.findById(restaurantId).then((restaurant) => {
+            if (!restaurant) {
+                reject({ error: "Restaurant not found" });
+            }
+            const menuItem = restaurant.restaurantMenu.menuList.find(
+                (menuItem) => menuItem.menuId == menuId
+            );
+            restaurant.restaurantMenu.menuList =
+                restaurant.restaurantMenu.menuList.filter(
+                    (menuItem) => menuItem.menuId !== menuId
+                );
+            restaurant.restaurantMenu.totalItemCount =
+                restaurant.restaurantMenu.menuList.length;
 
-        menu.save()
-            .then(() => {
-                const response = { menuItem: menuItem };
-                ws.send(JSON.stringify(response));
-            })
-            .catch((err) => {
-                const response = {
-                    error: "Error saving menu",
-                    details: err,
-                };
-                ws.send(JSON.stringify(response));
-            });
+            restaurant
+                .save()
+                .then(() => {
+                    resolve({ action: "DELETEMENU", menuItem: menuItem });
+                })
+                .catch((err) => {
+                    reject({
+                        error: "Error deleting menu",
+                        details: err,
+                    });
+                });
+        });
     });
 }
 
