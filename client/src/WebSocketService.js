@@ -23,6 +23,14 @@ const WebSocketService = {
        * @param {String} port 
        * @returns {Promise<[socket: ClientWebSocket, ID: String, isMaster: Bool]>}
        */
+      
+      function dispatchMenuUpdate(action) {
+        const menuUpdateEvent = new CustomEvent('menuUpdate', {
+          detail: { action },
+        });
+        window.dispatchEvent(menuUpdateEvent);
+      }
+        
       function connectToServer(hostname, port) {
         return new Promise((resolve, reject) => {
           const socket = new WebSocket(`ws://${hostname}:${port}`);
@@ -36,12 +44,7 @@ const WebSocketService = {
           // Connection message listener
           socket.addEventListener('message', (e) => {
 
-            function dispatchMenuUpdate(action) {
-              const menuUpdateEvent = new CustomEvent('menuUpdate', {
-                detail: { action },
-              });
-              window.dispatchEvent(menuUpdateEvent);
-            }
+            
 
             const payload = JSON.parse(e.data);
             let action = payload.action;
@@ -105,6 +108,7 @@ const WebSocketService = {
           if (isMaster){
             this.requestMaster();
           }
+          dispatchMenuUpdate('menuUpdate');
         });
     });
   },
