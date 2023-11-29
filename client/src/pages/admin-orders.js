@@ -13,10 +13,7 @@ const Admin_orders = (props) => {
                 <div className="w-[80%] h-screen">
                     <div className='flex flex-col h-screen'>
                         <div className='text-center mt-27 text-black font-Montserrat text-4xl font-bold py-6'>Orders</div>
-
-                        <div>{/* Component */}</div>
-
-
+                        <OrderManager/>
                     </div>
                 </div>
             </div>
