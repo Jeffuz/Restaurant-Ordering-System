@@ -39,9 +39,8 @@ const Menu = () => {
         const menuUpdateHandler = () => {
             console.log("Menu.js update received!");
             const menuList = WebSocketService.menu;
-            console.log("Menu:", menuList);
             if(menuList){
-                setMenuItems(menuList.map(item => ({
+                setItems(menuList.map(item => ({
                     id: item.menuId,
                     image: item.image,
                     itemFilter: item.filter,
