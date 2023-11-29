@@ -1,18 +1,110 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import LpNavBar from '../components/landing-page/lpNavBar'
-import { CgLastpass } from 'react-icons/cg'
 import LpPopularItemCards from '../components/landing-page/lpPopularItemCards'
 
+const items = [
+    {
+        id: "nacho-chips",
+        image: "test/nacho-chips.png",
+        itemName: "Nacho Chips",
+        itemPrice: 9.99,
+    },
+    {
+        id: "steak1",
+        image: "test/steak.png",
+        itemName: "Steak",
+        itemPrice: 19.99,
+    },
+    {
+        id: "nacho-chips",
+        image: "test/nacho-chips.png",
+        itemName: "Nacho Chips",
+        itemPrice: 9.99,
+    },
+    {
+        id: "steak1",
+        image: "test/steak.png",
+        itemName: "Steak",
+        itemPrice: 19.99,
+    },
+    {
+        id: "nacho-chips",
+        image: "test/nacho-chips.png",
+        itemName: "Nacho Chips",
+        itemPrice: 9.99,
+    },
+    {
+        id: "steak1",
+        image: "test/steak.png",
+        itemName: "Steak",
+        itemPrice: 19.99,
+    },
+    {
+        id: "nacho-chips",
+        image: "test/nacho-chips.png",
+        itemName: "Nacho Chips",
+        itemPrice: 9.99,
+    },
+    {
+        id: "steak1",
+        image: "test/steak.png",
+        itemName: "Steak",
+        itemPrice: 19.99,
+    },
+
+];
+
+function getItemsToShow() {
+    const width = window.innerWidth;
+
+    if (width >= 1536) {
+        return 8;
+    } else if (width >= 1024) {
+        return 6;
+    } else if (width >= 640) {
+        return 4;
+    } else {
+        return 2;
+    }
+}
+
 const Landing_page = () => {
+    const [itemsToShow, setItemsToShow] = useState(getItemsToShow());
+
+    useEffect(() => {
+        const handleResize = () => {
+            setItemsToShow(getItemsToShow());
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     return (
-        <>
+        <div className='font-tt-norms-pro'>
             <div className='bg-light-secondary h-screen'>
                 <LpNavBar />
             </div>
-            <div className='bg-light-senary h-screen flex flex-col'>
-                <LpPopularItemCards/>
+            <div className='bg-light-senary h-screen flex flex-col item-center'>
+                <div className='mx-auto'>
+                    <div className='font-bold text-4xl py-6'>Popular Items</div>
+                    <div className={`grid 2xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-8`}>
+                        {items.slice(0, itemsToShow).map((item) => (
+                            <div key={item.id} role="button">
+                                <LpPopularItemCards
+                                    image={item.image}
+                                    itemName={item.itemName}
+                                    itemPrice={item.itemPrice}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
-        </>
+        </div>
     )
 }
 
