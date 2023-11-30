@@ -6,7 +6,7 @@ import Admin_analytics from './admin-analytics';
 import Admin_customer from './admin-customer';
 import Admin_table from './admin-table';
 import Admin_orders from './admin-orders';
-
+import Dashboard from '../components/admin-dashboard'
 import WebSocketService from '../WebSocketService';
 
 const Admin_dashboard = (props) => {
@@ -27,7 +27,10 @@ const Admin_dashboard = (props) => {
                     <div className="w-[80%] h-screen">
                         <div className='flex flex-col'>
                             <div className='text-center mt-27 text-black font-Montserrat text-4xl font-bold py-6'>Dashboard</div>
-                            <div>{/* Component */}</div>
+                            <div>
+                                <Dashboard />
+                                
+                            </div>
                         </div>
                     </div>
                 </div>
