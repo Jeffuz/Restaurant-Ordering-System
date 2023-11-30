@@ -40,6 +40,7 @@ const AdminTableManager = () => {
         // add the new table to the existing tableStatus
         setTableStatus((prevTableStatus) => [...prevTableStatus, newTable]);
         setIsAddTableOpen(false);
+        setTablesEntered(true);
     };
 
     //edit the table selected 
@@ -90,6 +91,8 @@ const AdminTableManager = () => {
         setTableStatus((prevTableStatus) =>
             prevTableStatus.filter((table) => table.id !== tableId)
         );
+
+
     }
     return(
 
@@ -97,32 +100,40 @@ const AdminTableManager = () => {
             <div className="main">
 
                 <div className="flex flex-col items-center justify-content">
-                    {totalTables ? (    
-                            <TableGrid 
-                                tableStatus={tableStatus} 
-                                onEdit={handleEditTableStatus} 
-                                onRemove={handleRemoveTable}
-                                onEditButtonClick={handleEditTableButtonClick}
-                            />
+                    {tablesEntered ? (
+                            <div className="flex flex-col items-center justify-content">
+                                <TableGrid 
+                                    tableStatus={tableStatus} 
+                                    onEdit={handleEditTableStatus} 
+                                    onRemove={handleRemoveTable}
+                                    onEditButtonClick={handleEditTableButtonClick}
+                                />
+                                <button
+                                    className="button-table bg-white text-black py-2 px-4 rounded-md mt-4 flex flex-row items-center justify-content  hover:ring-2 hover:ring-blue"
+                                    onClick={handleAddTableButtonClick}
+                                >
+                                    <IoIosAddCircle className="mr-2" />
+                                    Add Table
+                                </button>
+
+                            </div>
+                            
 
                         ): (
-                            <SetTables 
-                                onTotalTablesSubmit={handleTotalTablesSubmit}
-                            />
+                            <div className="text-xl/8 flex flex-col bg-white shadow-lg p-8 rounded-3xl">
+                                <p>Start adding tables here:</p>
+                                <button
+                                    className="button-table bg-[#D9D9D9] text-black py-2 px-4 rounded-md mt-4 flex flex-row items-center justify-center  hover:ring-2 hover:ring-blue"
+                                    onClick={handleAddTableButtonClick}
+                                >
+                                    <IoIosAddCircle className="mr-2" />
+                                    Add Table
+                                </button>
+                            </div>
 
                         )
                     }
 
-                    {tablesEntered && (
-                            <button
-                                className="button-table bg-white text-black py-2 px-4 rounded-md mt-4 flex flex-row items-center justify-content"
-                                onClick={handleAddTableButtonClick}
-                            >
-                                <IoIosAddCircle className="mr-2" />
-                                Add Table
-                            </button>
-                        )
-                    }
                 </div>
                 
 
