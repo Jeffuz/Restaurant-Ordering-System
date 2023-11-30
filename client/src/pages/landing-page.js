@@ -86,7 +86,7 @@ const Landing_page = () => {
 
     return (
         <div className='font-tt-norms-pro'>
-            <div className='bg-light-tertiary h-screen'>
+            <div className='bg-light-tertiary h-[85vh]'>
                 <LpNavBar />
                 <div className='flex flex-col justify-center items-center h-[90%] '>
                     <span className='md:text-6xl text-5xl'>Welcome to</span>

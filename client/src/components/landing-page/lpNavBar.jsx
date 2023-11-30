@@ -3,7 +3,7 @@ import React from 'react'
 const LpNavBar = () => {
     return (
         <div className='flex justify-between pt-4 font-tt-norms-pro w-[100%] px-12'> 
-            <div className='flex items-center font-bold text-4xl text-light-secondary'>
+            <div className='flex items-center font-bold text-4xl md:text-light-secondary text-light-tertiary'>
                 115A's Diner 
             </div>
             <div className='flex gap-x-2 font-bold'>
