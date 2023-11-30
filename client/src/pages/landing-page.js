@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import LpNavBar from '../components/landing-page/lpNavBar'
 import LpPopularItemCards from '../components/landing-page/lpPopularItemCards'
 import { IoFastFood } from "react-icons/io5";
+import LpFooter from '../components/landing-page/lpFooter';
 
 const items = [
     {
@@ -113,9 +114,12 @@ const Landing_page = () => {
                     </div>
                 </div>
             </div>
-            <div className='bg-light-tertiary h-screen'>
-                Hi
+            <div className='bg-light-tertiary h-[80vh] flex justify-center items-center'>
+                <div className='flex'>
+                    
+                </div>
             </div>
+            <LpFooter/>
         </div>
     )
 }
