@@ -3,6 +3,7 @@ import LpNavBar from '../components/landing-page/lpNavBar'
 import LpPopularItemCards from '../components/landing-page/lpPopularItemCards'
 import { IoFastFood } from "react-icons/io5";
 import LpFooter from '../components/landing-page/lpFooter';
+import LpTestimonial from '../components/landing-page/lpTestimonial';
 
 const items = [
     {
@@ -100,7 +101,7 @@ const Landing_page = () => {
             </div>
             <div className=' h-screen flex flex-col item-center bg-light-secondary'>
                 <div className='mx-auto'>
-                    <div className='font-bold text-4xl py-6 text-light-primary'>Popular Items</div>
+                    <div className='font-bold text-4xl py-6 text-white'>Popular Items</div>
                     <div className={`grid 2xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-8`}>
                         {items.slice(0, itemsToShow).map((item) => (
                             <div key={item.id} role="button">
@@ -114,12 +115,24 @@ const Landing_page = () => {
                     </div>
                 </div>
             </div>
-            <div className='bg-light-tertiary h-[80vh] flex justify-center items-center'>
-                <div className='flex'>
-                    
+            <div className='bg-light-tertiary h-[70vh] flex justify-center items-center'>
+                <div className='container mx-auto'>
+                    <div className='flex flex-col items-center'>
+                        <div className='text-5xl font-bold text-light-primary mb-6'>About Us</div>
+                        <div className='text-2xl text-light-primary max-w-4xl text-center px-5'>
+                            Welcome to 115A's Diner, where passion meets flavor! Our journey began with a simple
+                            idea: to create a dining experience that combines the warmth of home-cooked meals with
+                            the excitement of culinary innovation. At 115A's Diner, we source the finest ingredients 
+                            to craft delicious dishes that cater to every palate. Whether you're a fan of classic 
+                            comfort food or crave bold and adventurous flavors, our menu has something special for you.
+                            Join us on this gastronomic journey and savor the moments at 115A's Diner. We look
+                            forward to serving you with a smile and creating memories that last a lifetime.
+                        </div>
+                    </div>
                 </div>
             </div>
-            <LpFooter/>
+            <LpTestimonial/>
+            <LpFooter />
         </div>
     )
 }
