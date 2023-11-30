@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import LpNavBar from '../components/landing-page/lpNavBar'
 import LpPopularItemCards from '../components/landing-page/lpPopularItemCards'
+import { IoFastFood } from "react-icons/io5";
 
 const items = [
     {
@@ -85,12 +86,20 @@ const Landing_page = () => {
 
     return (
         <div className='font-tt-norms-pro'>
-            <div className='bg-light-secondary h-screen'>
+            <div className='bg-light-tertiary h-screen'>
                 <LpNavBar />
+                <div className='flex flex-col justify-center items-center h-[90%] '>
+                    <span className='md:text-6xl text-5xl'>Welcome to</span>
+                    <span className='md:text-8xl text-7xl'>115A's Diner</span>
+                    <button className='bg-light-secondary text-white rounded-3xl py-2 px-4 mt-7 font-bold text-2xl flex items-center'>
+                        <div>Order Now&nbsp;</div>
+                        <IoFastFood />
+                    </button>
+                </div>
             </div>
-            <div className='bg-light-senary h-screen flex flex-col item-center'>
+            <div className=' h-screen flex flex-col item-center bg-light-secondary'>
                 <div className='mx-auto'>
-                    <div className='font-bold text-4xl py-6'>Popular Items</div>
+                    <div className='font-bold text-4xl py-6 text-light-primary'>Popular Items</div>
                     <div className={`grid 2xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-8`}>
                         {items.slice(0, itemsToShow).map((item) => (
                             <div key={item.id} role="button">
@@ -103,6 +112,9 @@ const Landing_page = () => {
                         ))}
                     </div>
                 </div>
+            </div>
+            <div className='bg-light-tertiary h-screen'>
+                Hi
             </div>
         </div>
     )

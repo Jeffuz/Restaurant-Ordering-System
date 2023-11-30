@@ -9,20 +9,11 @@ module.exports = {
       },
       colors: {
         light: {
-          primary: '#395886',
-          secondary: '#638ECB',
-          tertiary: '#8AAEE0',
-          quaternary: '#B1C9EF',
-          quinary: '#D5DEEF',
-          senary: '#F0F3FA'
+          primary: '#181E27',
+          secondary: '#FE0435',
+          tertiary: '#EAE9EE',
         },
         dark: {
-          primary: '#006DA4',
-          secondary: '#006494',
-          tertiary: '#004D74',
-          quaternary: '#003554',
-          quinary: '#022B42',
-          senary: '#032030'
         },
       },
     },
