@@ -15,84 +15,84 @@ const LpNavBar = () => {
     // let admin = false;
 
     const cartItems = [
-        // {
-        //     itemImage: 'test/nacho-chips.png',
-        //     itemName: 'Nacho chips',
-        //     itemPrice: 9.99,
-        //     itemCount: 1
-        // },
-        // {
-        //     itemImage: 'test/nacho-chips.png',
-        //     itemName: 'Nacho chips',
-        //     itemPrice: 9.99,
-        //     itemCount: 2
-        // },
-        // {
-        //     itemImage: 'test/nacho-chips.png',
-        //     itemName: 'Nacho chips',
-        //     itemPrice: 9.99,
-        //     itemCount: 2
-        // },
-        // {
-        //     itemImage: 'test/nacho-chips.png',
-        //     itemName: 'Nacho chips',
-        //     itemPrice: 9.99,
-        //     itemCount: 2
-        // },
-        // {
-        //     itemImage: 'test/nacho-chips.png',
-        //     itemName: 'Nacho chips',
-        //     itemPrice: 9.99,
-        //     itemCount: 2
-        // },
-        // {
-        //     itemImage: 'test/nacho-chips.png',
-        //     itemName: 'Nacho chips',
-        //     itemPrice: 9.99,
-        //     itemCount: 2
-        // },
-        // {
-        //     itemImage: 'test/nacho-chips.png',
-        //     itemName: 'Nacho chips',
-        //     itemPrice: 9.99,
-        //     itemCount: 2
-        // },
-        // {
-        //     itemImage: 'test/nacho-chips.png',
-        //     itemName: 'Nacho chips',
-        //     itemPrice: 9.99,
-        //     itemCount: 2
-        // },
-        // {
-        //     itemImage: 'test/nacho-chips.png',
-        //     itemName: 'Nacho chips',
-        //     itemPrice: 9.99,
-        //     itemCount: 2
-        // },
-        // {
-        //     itemImage: 'test/nacho-chips.png',
-        //     itemName: 'Nacho chips',
-        //     itemPrice: 9.99,
-        //     itemCount: 2
-        // },
-        // {
-        //     itemImage: 'test/nacho-chips.png',
-        //     itemName: 'Nacho chips',
-        //     itemPrice: 9.99,
-        //     itemCount: 2
-        // },
-        // {
-        //     itemImage: 'test/nacho-chips.png',
-        //     itemName: 'Nacho chips',
-        //     itemPrice: 9.99,
-        //     itemCount: 2
-        // },
-        // {
-        //     itemImage: 'test/nacho-chips.png',
-        //     itemName: 'Nacho chips',
-        //     itemPrice: 9.99,
-        //     itemCount: 2
-        // },
+        {
+            itemImage: 'test/nacho-chips.png',
+            itemName: 'Nacho chips',
+            itemPrice: 9.99,
+            itemCount: 1
+        },
+        {
+            itemImage: 'test/nacho-chips.png',
+            itemName: 'Nacho chips',
+            itemPrice: 9.99,
+            itemCount: 2
+        },
+        {
+            itemImage: 'test/nacho-chips.png',
+            itemName: 'Nacho chips',
+            itemPrice: 9.99,
+            itemCount: 2
+        },
+        {
+            itemImage: 'test/nacho-chips.png',
+            itemName: 'Nacho chips',
+            itemPrice: 9.99,
+            itemCount: 2
+        },
+        {
+            itemImage: 'test/nacho-chips.png',
+            itemName: 'Nacho chips',
+            itemPrice: 9.99,
+            itemCount: 2
+        },
+        {
+            itemImage: 'test/nacho-chips.png',
+            itemName: 'Nacho chips',
+            itemPrice: 9.99,
+            itemCount: 2
+        },
+        {
+            itemImage: 'test/nacho-chips.png',
+            itemName: 'Nacho chips',
+            itemPrice: 9.99,
+            itemCount: 2
+        },
+        {
+            itemImage: 'test/nacho-chips.png',
+            itemName: 'Nacho chips',
+            itemPrice: 9.99,
+            itemCount: 2
+        },
+        {
+            itemImage: 'test/nacho-chips.png',
+            itemName: 'Nacho chips',
+            itemPrice: 9.99,
+            itemCount: 2
+        },
+        {
+            itemImage: 'test/nacho-chips.png',
+            itemName: 'Nacho chips',
+            itemPrice: 9.99,
+            itemCount: 2
+        },
+        {
+            itemImage: 'test/nacho-chips.png',
+            itemName: 'Nacho chips',
+            itemPrice: 9.99,
+            itemCount: 2
+        },
+        {
+            itemImage: 'test/nacho-chips.png',
+            itemName: 'Nacho chips',
+            itemPrice: 9.99,
+            itemCount: 2
+        },
+        {
+            itemImage: 'test/nacho-chips.png',
+            itemName: 'Nacho chips',
+            itemPrice: 9.99,
+            itemCount: 2
+        },
 
     ];
 

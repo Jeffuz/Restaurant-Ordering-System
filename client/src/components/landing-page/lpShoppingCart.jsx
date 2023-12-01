@@ -29,7 +29,7 @@ const LpShoppingCart = ({ isOpen, onClose, cartItems }) => {
                         </button>
                         <div className='flex justify-center text-3xl p-3'>Shopping Cart</div>
                         <div className='h-screen overflow-y-auto'>
-                            <div className='grid grid-cols-3 gap-8 p-8'>
+                            <div className='grid xl:grid-cols-2 grid-cols-1 gap-8 p-8'>
                                 {cartItems.map((cartItem) => (
                                     <ShoppingCartCard
                                         key={cartItem.id}
@@ -60,7 +60,7 @@ const LpShoppingCart = ({ isOpen, onClose, cartItems }) => {
                             </button>
                             <div className='flex justify-center text-3xl p-3'>Check Out</div>
                             <div className='h-screen overflow-y-auto'>
-                                <div className='grid grid-cols-3 gap-8 p-8'>
+                                <div className='grid xl:grid-cols-2 grid-cols-1 gap-8 p-8'>
                                     {cartItems.map((cartItem) => (
                                         <ShoppingCartCard
                                             key={cartItem.id}
