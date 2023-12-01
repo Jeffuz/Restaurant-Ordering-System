@@ -19,6 +19,7 @@ const Login = ({ isOpen, onClose }) => {
                                 <label htmlFor="email" className="block text-light-primary">Email Address</label>
                                 <input
                                     id="email"
+                                    // onChange={}
                                     type="email"
                                     className="mt-1 block w-full rounded-md shadow-sm"
                                     required
@@ -28,6 +29,7 @@ const Login = ({ isOpen, onClose }) => {
                                 <label htmlFor="password" className="block text-light-primary">Password</label>
                                 <input
                                     id="password"
+                                    // onChange={}
                                     type="password"
                                     className="mt-1 block w-full rounded-md shadow-sm"
                                     required
@@ -43,7 +45,7 @@ const Login = ({ isOpen, onClose }) => {
                     </div>
                     <button
                         //onClick={} google sign in
-                        className="mt-4 flex items-center justify-center bg-light-tertiary text-light-primary py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                        className="mt-4 flex items-center justify-center bg-light-tertiary text-light-primary py-2 px-4 rounded-md w-96"
                     >
                         <FcGoogle className="mr-2" /> Sign In with Google
                     </button>
