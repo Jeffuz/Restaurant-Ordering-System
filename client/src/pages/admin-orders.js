@@ -9,7 +9,7 @@ const Admin_orders = () => {
                 <div className='w-[20%]'><AdminNavbar /></div>
                 <div className="w-[80%] h-screen">
                     <div className='flex flex-col h-screen'>
-                        <div className='text-center mt-27 text-black font-Montserrat text-4xl font-bold py-6'>Orders</div>
+                        <div className='text-center mt-27 text-black font-Montserrat text-4xl font-bold py-6 '>Orders</div>
                         <OrderManager />
                     </div>
                 </div>
