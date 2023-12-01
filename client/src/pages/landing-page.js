@@ -91,7 +91,7 @@ const Landing_page = () => {
             <div className='font-tt-norms-pro'>
                 <div className='bg-light-tertiary h-[85vh]'>
                     <LpNavBar />
-                    <div className='flex flex-col justify-center items-center h-[90%] '>
+                    <div className='flex flex-col justify-center items-center h-[90%] z-10'>
                         <span className='md:text-6xl text-5xl'>Welcome to</span>
                         <span className='md:text-8xl text-7xl'>115A's Diner</span>
                         <button className='bg-light-secondary text-white rounded-3xl py-2 px-4 mt-7 font-bold text-2xl flex items-center'>
