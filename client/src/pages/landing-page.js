@@ -4,6 +4,7 @@ import LpPopularItemCards from '../components/landing-page/lpPopularItemCards'
 import { IoFastFood } from "react-icons/io5";
 import LpFooter from '../components/landing-page/lpFooter';
 import LpTestimonial from '../components/landing-page/lpTestimonial';
+import { Link } from 'react-router-dom';
 
 const items = [
     {
@@ -94,10 +95,12 @@ const Landing_page = () => {
                     <div className='flex flex-col justify-center items-center h-[90%] z-10'>
                         <span className='md:text-6xl text-5xl'>Welcome to</span>
                         <span className='md:text-8xl text-7xl'>115A's Diner</span>
-                        <button className='bg-light-secondary text-white rounded-3xl py-2 px-4 mt-7 font-bold text-2xl flex items-center'>
-                            <div>Order Now&nbsp;</div>
-                            <IoFastFood />
-                        </button>
+                        <Link to="/menu">
+                            <button className='bg-light-secondary text-white rounded-3xl py-2 px-4 mt-7 font-bold text-2xl flex items-center'>
+                                <div>Order Now&nbsp;</div>
+                                <IoFastFood />
+                            </button>
+                        </Link>
                     </div>
                 </div>
                 <div className=' h-screen flex flex-col item-center bg-light-secondary'>

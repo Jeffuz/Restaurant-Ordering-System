@@ -3,12 +3,25 @@ import ItemCard from '../components/itemCard'
 import Filterbar from '../components/filterbar';
 import ItemModal from '../components/itemModal';
 import ShoppingCart from '../components/shoppingCart';
+import LpNavBar from '../components/landing-page/lpNavBar';
 
 // louis handle getting menu from database
 // try to connect
 let menuList = null;
 
 const Menu = (props) => {
+
+
+    // Testing
+    let admin = true;
+    // let admin = false;
+
+
+
+
+
+
+
     // Jeff:
     // let items = [
     //     {
@@ -138,7 +151,7 @@ const Menu = (props) => {
     else {
 
         return (
-            <>
+            <div className='font-tt-norms-pro'>
                 <div className="flex flex-row h-screen">
                     <div className="w-[75%]">
                         <div className='flex flex-col h-screen p-8'>
@@ -163,13 +176,19 @@ const Menu = (props) => {
 
                         </div>
                     </div>
-                    <div className='flex flex-col w-[25%] gap-8'>
-                        <ShoppingCart orderNum="222" tableNum="1" date="October 26, 2023" cartItems={cartItems} subTotal="$20.00" tax="$2.00" total="22.00" WebSocketService={WebSocketService}/>
-                    </div>
+                    {admin ? (
+                        <div className='flex flex-col w-[25%] gap-8'>
+                            <ShoppingCart orderNum="222" tableNum="1" date="October 26, 2023" cartItems={cartItems} subTotal="$20.00" tax="$2.00" total="22.00" WebSocketService={WebSocketService} />
+                        </div>
+                    ) : (
+                        <>
+                            <LpNavBar/>
+                        </>
+                    )}
                 </div>
 
                 <ItemModal isOpen={selectedItem !== null} onClose={closeModal} item={selectedItem} />
-            </>
+            </div>
         );
     }
 };

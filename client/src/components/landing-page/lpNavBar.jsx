@@ -117,7 +117,7 @@ const LpNavBar = () => {
     };
 
     // Shopping Cart
-    const itemCount = 3;
+    const itemCount = 3; // Item Count Here
     const [selectedCartItem, setSelectedCartItem] = useState(null);
     const openCartModal = () => {
         setSelectedCartItem();
@@ -144,7 +144,8 @@ const LpNavBar = () => {
                             <div className='flex gap-3 items-center'>
                                 <button className='flex items-center text-black rounded-3xl leading-10 px-3' onClick={() => openCartModal()}>
                                     <IoCartOutline size={30} />
-                                    {itemCount > 0 && <span className='ml-1'>{itemCount}</span>}
+                                    {/* Adjust Item Count here */}
+                                    {itemCount > 0 && <span className='ml-1'>{itemCount}</span>} 
                                 </button>
                                 <Link to="" >
                                     <img src="profile.png" alt='Profile' className='w-10 h-10 rounded-full' />

@@ -27,7 +27,7 @@ const ShoppingCartCard = ({ itemImage, itemName, itemPrice, itemCounter }) => {
                 </div>
             </div>
             {/* Customizaton */}
-            <div className='flex items-center md:mt-0 mt-4 justify-center'>
+            <div className='flex items-center md:mt-0 md:mb-0 mt-4 mb-4 justify-center'>
                 {/* Item Notes */}
                 <button className='mx-2'>
                     <AiOutlineMessage size={30} />
