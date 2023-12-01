@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { Routes, Route, HashRouter } from 'react-router-dom';
 
 import Home from './pages/home'
-import Login from './pages/login';
 import Menu from './pages/menu';
 import Table from './pages/table';
 import NoPage from './pages/noPage';
@@ -56,7 +55,6 @@ function App() {
         <Routes>
           <Route index element={<Home />} />
           <Route path='/' element={<Home />} />
-          <Route path='/login' element={<Login />} />
           <Route path='/menu' element={<Menu WebSocketService={WebSocketService} />} />
           <Route path='/table' element={<Table />} />
           <Route path='/admin-dashboard' element={<Admin_dashboard />} />
