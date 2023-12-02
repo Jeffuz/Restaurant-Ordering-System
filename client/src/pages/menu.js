@@ -12,29 +12,15 @@ const Menu = () => {
     const [isLoading, setIsLoading] = useState(true); // used to save whether data is loading 
 
     const [menuItems, setMenuItems] = useState([]);
-    
+
     const menuSet = false;
 
     useEffect(() => {
-        const menuUpdateHandler = (event) => {
-            const menuList = WebSocketService.menu;
 
-            setItems(menuList.map(item => ({
-
-                id: item.menuId,
-                image: item.image,
-                itemFilter: item.filter,
-                itemName: item.name,
-                itemContent: item.description,
-                itemPrice: item.price,
-                itemDiet: item.diet,
-            }))); 
-        }*/
-      
         const menuUpdateHandler = () => {
             console.log("Menu.js update received!");
             const menuList = WebSocketService.menu;
-            if(menuList){
+            if (menuList) {
                 setItems(menuList.map(item => ({
                     id: item.menuId,
                     image: item.image,
@@ -47,17 +33,17 @@ const Menu = () => {
             }
         }
 
-        if (!WebSocketService.socket){
+        if (!WebSocketService.socket) {
             WebSocketService.connect('127.0.0.1', '8080', false)
-            .then(
-                alert("Connected!"),
-                setIsLoading(false),
-            );
+                .then(
+                    alert("Connected!"),
+                    setIsLoading(false),
+                );
         }
 
         window.addEventListener('menuUpdate', menuUpdateHandler);
     }, []);
-    
+
     const [cartItems, setCartItems] = useState([
         {
             index: 0,
