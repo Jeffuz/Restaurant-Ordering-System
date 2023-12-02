@@ -172,6 +172,12 @@ class Server {
 
                 case "DELETEMENU":
                     console.log("Received request DELETEMENU");
+
+                    // testing
+                    console.log("testing delete working?");
+                    // checking payload
+                    console.log(payload);
+
                     deleteMenu(client, payload);
                     break;
 

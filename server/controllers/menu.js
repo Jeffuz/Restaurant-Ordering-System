@@ -164,8 +164,14 @@ function updateMenu(message) {
 }
 
 function deleteMenu(message) {
+
+
     const restaurantId = message.restaurantId;
     const menuId = message.menuId;
+
+    // testing message
+    console.log(restaurantId,menuId);
+    return;
 
     return new Promise((resolve, reject) => {
         Restaurant.findById(restaurantId).then((restaurant) => {
