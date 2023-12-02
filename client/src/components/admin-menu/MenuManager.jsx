@@ -71,14 +71,16 @@ const MenuManager = () => {
     const addMenuItem = (newItem) => {
         const actionObject = {
             "action": "CREATEMENU",
-            "restaurantId": "65381ed4030fa645be95b250",
+            "restaurantId": "6562c6cdc09336bb395262ae",
             "menuId": newItem.itemName,
             "image": newItem.image,
             "filter": [], // havent support
             "name": newItem.itemName,
             "price": newItem.itemPrice,
             "description": newItem.itemContent,
-            "diet": [] // havent support
+            "diet": [], // havent support
+            "customizable": false, // haven't support in frontend
+            "custom": [] // haven;t support in frontend
         };
 
         WebSocketService.sendRequest(actionObject);
@@ -87,7 +89,7 @@ const MenuManager = () => {
     const deleteMenuItem = (itemId) => {
         const actionObject = {
             "action": "DELETEMENU",
-            "restaurantId": "65381ed4030fa645be95b250",
+            "restaurantId": "6562c6cdc09336bb395262ae",
             "menuId": itemId
         };
 
@@ -97,14 +99,16 @@ const MenuManager = () => {
     const editMenuItem = (editedItem) => {
         const actionObject = {
             "action": "EDITMENU",
-            "restaurantId": "65381ed4030fa645be95b250",
+            "restaurantId": "6562c6cdc09336bb395262ae",
             "menuId": editedItem.itemName,
             "image": editedItem.image,
             "filter": [], // havent support
             "name": editedItem.itemName,
             "price": editedItem.itemPrice,
             "description": editedItem.itemContent,
-            "diet": [] // havent support
+            "diet": [], // havent support
+            "customizable": false, // haven't support in frontend
+            "custom": [] // haven;t support in frontend
         };
 
         WebSocketService.sendRequest(actionObject);
@@ -115,7 +119,6 @@ const MenuManager = () => {
         setIsOpen(false);
         setShowForm(false);
         setIsFormOpen(false);
-
     };
 
     const openModalAdd = () => {

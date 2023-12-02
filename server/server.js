@@ -136,101 +136,101 @@ class Server {
                 // Restaurant
                 case "GETRESTAURANT":
                     console.log("Received request GETRESTAURANT");
-                    getRestaurant(client, payload);
+                    getRestaurant(payload);
                     break;
 
                 case "CREATERESTAURANT":
                     console.log("Received request CREATERESTAURANT");
-                    createRestaurant(client, payload);
+                    createRestaurant(payload);
                     break;
 
                 case "UPDATERESTAURANTNAME":
                     console.log("Received request UPDATERESTAURANTNAME");
-                    updateRestaurantName(client, payload);
+                    updateRestaurantName(payload);
                     break;
 
                 case "DELETERESTAURANT":
                     console.log("Received request DELETERESTAURANT");
-                    deleteRestaurant(client, payload);
+                    deleteRestaurant(payload);
                     break;
 
                 // Menu
                 case "GETMENUS":
                     console.log("Received request GETMENUS");
-                    getMenus(client, payload);
+                    getMenus(payload);
                     break;
 
                 case "GETMENU":
                     console.log("Received request GETMENU");
-                    getMenu(client, payload);
+                    getMenu(payload);
                     break;
 
                 case "CREATEMENU":
                     console.log("Received request CREATEMENU");
-                    createMenu(client, payload);
+                    createMenu(payload);
                     break;
 
                 case "DELETEMENU":
                     console.log("Received request DELETEMENU");
 
-                    // testing
-                    console.log("testing delete working?");
-                    // checking payload
-                    console.log(payload);
+                    // // testing fixing by Rixin Li
+                    // console.log("testing delete working?");
+                    // // checking payload
+                    // console.log(payload);
 
-                    deleteMenu(client, payload);
+                    deleteMenu(payload);
                     break;
 
                 case "EDITMENU":
                     console.log("Received request EDITMENU");
-                    updateMenu(client, payload);
+                    updateMenu(payload);
                     break;
 
                 // Table
                 case "GETTABLES":
                     console.log("Received request GETTABLES");
-                    getTables(client, payload);
+                    getTables(payload);
                     break;
 
                 case "CREATETABLE":
                     console.log("Received request CREATETABLE");
-                    createTable(client, payload);
+                    createTable(payload);
                     break;
 
                 case "DELETETABLE":
                     console.log("Received request DELETETABLE");
-                    deleteTable(client, payload);
+                    deleteTable(payload);
                     break;
 
                 case "UPDATETABLEOCCUPANCY":
                     console.log("Received request UPDATETABLEOCCUPANCY");
-                    updateTableOccupancy(client, payload);
+                    updateTableOccupancy(payload);
                     break;
 
                 case "UPDATETABLESEATCAPACITY":
                     console.log("Received request UPDATETABLESEATCAPACITY");
-                    updateTableSeatCapacity(client, payload);
+                    updateTableSeatCapacity(payload);
                     break;
 
                 case "UPDATETABLEORDER":
                     console.log("Received request UPDATETABLEORDER");
-                    updateTableOrder(client, payload);
+                    updateTableOrder(payload);
                     break;
 
                 case "CREATETABLEORDER":
                     console.log("Received request CREATETABLEORDER");
-                    createTableOrder(client, payload);
+                    createTableOrder(payload);
                     break;
 
                 case "DELETETABLEORDER":
                     console.log("Received request DELETETABLEORDER");
-                    deleteTableOrder(client, payload);
+                    deleteTableOrder(payload);
                     break;
 
                 // Order History
                 case "GETORDERHISTORY":
                     console.log("Received request GETORDERHISTORY");
-                    getOrderHistory(client, payload);
+                    getOrderHistory(payload);
                     break;
 
                 case "CREATEORDERHISTORY":
