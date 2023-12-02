@@ -16,15 +16,11 @@ const Menu = () => {
     const menuSet = false;
 
     useEffect(() => {
-        if (!WebSocketService.socket){
-            WebSocketService.connect('127.0.0.1', '8080')
-            .then(
-                alert("Connected!"),
-            );
-        }
-        // Loads the menu items from the menu stored in WebSocketService.menu
-        /*if (!menuSet && WebSocketService.socket){
-            setMenuItems(WebSocketService.menu.map(item => ({
+        const menuUpdateHandler = (event) => {
+            const menuList = WebSocketService.menu;
+
+            setItems(menuList.map(item => ({
+
                 id: item.menuId,
                 image: item.image,
                 itemFilter: item.filter,
@@ -34,8 +30,7 @@ const Menu = () => {
                 itemDiet: item.diet,
             }))); 
         }*/
-        
-
+      
         const menuUpdateHandler = () => {
             console.log("Menu.js update received!");
             const menuList = WebSocketService.menu;
@@ -52,12 +47,17 @@ const Menu = () => {
             }
         }
 
-        setIsLoading(false);
+        if (!WebSocketService.socket){
+            WebSocketService.connect('127.0.0.1', '8080', false)
+            .then(
+                alert("Connected!"),
+                setIsLoading(false),
+            );
+        }
 
         window.addEventListener('menuUpdate', menuUpdateHandler);
     }, []);
-
-
+    
     const [cartItems, setCartItems] = useState([
         {
             index: 0,
