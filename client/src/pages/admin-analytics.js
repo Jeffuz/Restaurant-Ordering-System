@@ -1,6 +1,6 @@
 import React from 'react'
 import AdminNavbar from '../components/adminNavbar'
-
+import Analytics from '../components/analyticsManager'
 const Admin_analytics = (props) => {
 
   const { WebSocketService, setPage } = props;
@@ -11,7 +11,7 @@ const Admin_analytics = (props) => {
         <div className="w-[80%] h-screen">
           <div className='flex flex-col'>
             <div className='text-center mt-27 text-black font-Montserrat text-4xl font-bold py-6'>Analytics</div>
-            <div>{/* Component */}</div>
+            <div><Analytics /></div>
           </div>
         </div>
       </div>
