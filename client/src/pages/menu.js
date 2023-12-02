@@ -11,11 +11,16 @@ const Menu = () => {
     const [items, setItems] = useState([]); // used to save data states
     const [isLoading, setIsLoading] = useState(true); // used to save whether data is loading 
 
+    const [menuItems, setMenuItems] = useState([]);
+    
+    const menuSet = false;
+
     useEffect(() => {
         const menuUpdateHandler = (event) => {
             const menuList = WebSocketService.menu;
 
             setItems(menuList.map(item => ({
+
                 id: item.menuId,
                 image: item.image,
                 itemFilter: item.filter,
@@ -23,7 +28,23 @@ const Menu = () => {
                 itemContent: item.description,
                 itemPrice: item.price,
                 itemDiet: item.diet,
-            })));
+            }))); 
+        }*/
+      
+        const menuUpdateHandler = () => {
+            console.log("Menu.js update received!");
+            const menuList = WebSocketService.menu;
+            if(menuList){
+                setItems(menuList.map(item => ({
+                    id: item.menuId,
+                    image: item.image,
+                    itemFilter: item.filter,
+                    itemName: item.name,
+                    itemContent: item.description,
+                    itemPrice: item.price,
+                    itemDiet: item.diet,
+                })));
+            }
         }
 
         if (!WebSocketService.socket){
@@ -33,6 +54,7 @@ const Menu = () => {
                 setIsLoading(false),
             );
         }
+
         window.addEventListener('menuUpdate', menuUpdateHandler);
     }, []);
     
