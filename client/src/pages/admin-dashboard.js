@@ -7,17 +7,18 @@ import Admin_customer from './admin-customer';
 import Admin_table from './admin-table';
 import Admin_orders from './admin-orders';
 
-import WebSocketService from '../WebSocketService';
-
 const Admin_dashboard = (props) => {
+
+    const [page, setPage] = useState("Dashboard");
+
+    const {WebSocketService} = props;
+
     useEffect(() => {
         if (!WebSocketService.socket){
             WebSocketService.connect('127.0.0.1', '8080', true)
             .then(alert("Connected!"));
         }
     }, []);
-
-    const [page, setPage] = useState("Dashboard");
 
     if (page === "Dashboard"){
         return (

@@ -153,6 +153,9 @@ const WebSocketService = {
    * @param {ActionObject} actionObject
    */
   sendRequest(actionObject) {
+    // testing actionObject
+    console.log(actionObject);
+
     this.socket.send(JSON.stringify(actionObject));
   },
 

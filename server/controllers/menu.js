@@ -2,18 +2,18 @@ const { Menu, MenuItem } = require("../models/menuModel");
 const Restaurant = require("../models/restaurantModel");
 
 function getMenus(message) {
-    const restaurantId = "65381ed4030fa645be95b250";
+    const restaurantId = "6562c6cdc09336bb395262ae";
 
     return new Promise((resolve, reject) => {
-        Menu.findById(restaurantId)
-            .then((menu) => {
-                if (!menu) {
+        Restaurant.findById(restaurantId)
+            .then((restaurant) => {
+                if (!restaurant) {
                     reject({
                         error:
                             "Menus not found for restaurantId: " + restaurantId,
                     });
                 } else {
-                    resolve({ action: "GETMENUS", menuList: menu.menuList });
+                    resolve({ action: "GETMENUS", menuList: restaurant.restaurantMenu.menuList});
                 }
             })
             .catch((err) => {
@@ -79,7 +79,7 @@ function createMenu(message) {
         custom,
     });
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {  
         Restaurant.findById(restaurantId)
             .then((restaurant) => {
                 if (!restaurant) {
@@ -104,13 +104,14 @@ function createMenu(message) {
                             details: err,
                         });
                     });
-            })
-            .catch((err) => {
+            }).catch((err) => {
                 reject({
-                    error: "Error finding menus",
+                    error: "Error finding restaurant",
                     details: err,
                 });
             });
+    }).catch((err) => {
+        console.error('Unhandled error:', err);
     });
 }
 
@@ -159,13 +160,26 @@ function updateMenu(message) {
                         details: err,
                     });
                 });
+        }).catch((err) => {
+            reject({
+                error: "Error finding restaurant",
+                details: err,
+            });
         });
+    }).catch((err) => {
+        console.error('Unhandled error:', err);
     });
 }
 
 function deleteMenu(message) {
+
+
     const restaurantId = message.restaurantId;
     const menuId = message.menuId;
+
+    // // testing message
+    // console.log(restaurantId,menuId);
+    // return;
 
     return new Promise((resolve, reject) => {
         Restaurant.findById(restaurantId).then((restaurant) => {
@@ -193,6 +207,11 @@ function deleteMenu(message) {
                         details: err,
                     });
                 });
+        }).catch((err) => {
+            reject({
+                error: "Error finding restaurant",
+                details: err,
+            });
         });
     });
 }
