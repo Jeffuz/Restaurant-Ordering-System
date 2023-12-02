@@ -87,12 +87,14 @@ const Landing_page = () => {
         };
     }, []);
 
+    const backgroundImagePath = 'WelcomePanel.png';
+
     return (
         <>
             <div className='font-tt-norms-pro'>
-                <div className='bg-light-tertiary h-[85vh]'>
+                <div className='relative'>
                     <LpNavBar />
-                    <div className='flex flex-col justify-center items-center h-[90%] z-10'>
+                    <div className='flex flex-col justify-center items-center h-[85vh] z-10 relative'>
                         <span className='md:text-6xl text-5xl'>Welcome to</span>
                         <span className='md:text-8xl text-7xl'>115A's Diner</span>
                         <Link to="/menu">
@@ -102,6 +104,7 @@ const Landing_page = () => {
                             </button>
                         </Link>
                     </div>
+                    <div className='bg-light-tertiary h-[85vh] absolute inset-0' style={{ backgroundImage: `url(${backgroundImagePath})`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: -1 }}></div>
                 </div>
                 <div className=' h-screen flex flex-col item-center bg-light-secondary'>
                     <div className='mx-auto'>

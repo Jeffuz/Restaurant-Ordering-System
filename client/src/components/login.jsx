@@ -6,7 +6,7 @@ const Login = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center">
+        <div className="fixed inset-0 flex items-center justify-center z-20">
             <div className="bg-white w-[75%] h-[75%] p-3 rounded-[25px] shadow-lg flex flex-col">
                 <button className='flex justify-end p-5 fixed'>
                     <AiOutlineClose onClick={onClose} size={20} />

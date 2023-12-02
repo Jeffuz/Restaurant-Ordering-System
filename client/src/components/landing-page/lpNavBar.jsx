@@ -129,7 +129,7 @@ const LpNavBar = () => {
 
     return (
         <>
-            <div className='font-tt-norms-pro px-12'>
+            <div className='font-tt-norms-pro px-12 relative z-20'>
                 <div className='md:flex absolute items-center font-bold text-4xl text-light-secondary hidden top-4 left-8 '>
                     <Link to={"/"}>115A's Diner</Link>
                 </div>
