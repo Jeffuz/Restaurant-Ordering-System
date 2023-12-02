@@ -47,6 +47,17 @@ const Analytics = () => {
         },
     ]);
 
+    const [orderItemHistory, setOrderItemHistory] = useState([
+
+        {
+            menuItemId:
+            quantity:
+            price:
+            status:
+
+        },
+    ]);
+
     //get total orders
     const totalOrders = orderHistory.length;
 
