@@ -31,7 +31,7 @@ const LpShoppingCart = ({ isOpen, onClose, cartItems }) => {
 
     return (
         <>
-            <div className='fixed inset-0 flex items-center justify-center'>
+            <div className='fixed inset-0 flex items-center justify-center z-20'>
                 <ReactCardFlip
                     flipDirection='horizontal'
                     isFlipped={isFlipped}

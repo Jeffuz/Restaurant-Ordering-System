@@ -9,10 +9,10 @@ import LpShoppingCart from './lpShoppingCart';
 const LpNavBar = () => {
 
     /* Testing */
-    // let email = true;
-    let email = false;
-    // let admin = true;
-    let admin = false;
+    let email = true;
+    // let email = false;
+    let admin = true;
+    // let admin = false;
 
     const cartItems = [
         {
