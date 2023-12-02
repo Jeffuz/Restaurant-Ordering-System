@@ -16,6 +16,8 @@ import Admin_analytics from './pages/admin-analytics';
 import Admin_customer from './pages/admin-customer';
 import AdminNavbar from './components/adminNavbar';
 
+import Landing_page from './pages/landing-page';
+
 // Websockets
 import WebSocketService from './WebSocketService';
 
@@ -61,6 +63,7 @@ function App() {
           <Route path='/table' element={<Table />} />
           <Route path='/admin-dashboard' element={<Admin_dashboard WebSocketService={WebSocketService}/>} />
           <Route path='*' element={<NoPage />} />
+          <Route path='/landing-page' element={<Landing_page/>}/>
         </Routes>
       </HashRouter>
     </div>

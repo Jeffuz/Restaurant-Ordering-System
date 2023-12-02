@@ -4,16 +4,19 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        montserrat: ['Montserrat', 'sans'],//Define Montserrat font
+        montserrat: ['Montserrat', 'sans'],
+        'tt-norms-pro': ['TT Norms Pro', 'sans-serif']
       },
-
-      
-      
-
+      colors: {
+        light: {
+          primary: '#181E27',
+          secondary: '#FE0435',
+          tertiary: '#EAE9EE',
+        },
+        dark: {
+        },
+      },
     },
   },
-  plugins: [
-    
-  ],
+  plugins: [],
 }
-
