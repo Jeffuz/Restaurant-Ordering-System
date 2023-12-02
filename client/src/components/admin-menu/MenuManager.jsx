@@ -84,6 +84,11 @@ const MenuManager = () => {
         };
 
         WebSocketService.sendRequest(actionObject);
+
+        // frontend reflect
+        setMenuItems([...menuItems, newItem]);
+                setShowForm(false);
+                setSelectedItem(null);
     };
 
     const deleteMenuItem = (itemId) => {
@@ -94,6 +99,12 @@ const MenuManager = () => {
         };
 
         WebSocketService.sendRequest(actionObject);
+
+        // frontend reflect
+        const updatedItems = menuItems.filter((item) => item.id !== itemId);
+                setMenuItems(updatedItems);
+                setShowForm(false);
+                setSelectedItem(null);
     };
 
     const editMenuItem = (editedItem) => {
@@ -112,6 +123,12 @@ const MenuManager = () => {
         };
 
         WebSocketService.sendRequest(actionObject);
+
+        //checks to see if item exists, then adds to exisitng item, else new item is added
+        const updatedItems = menuItems.map((item) => item.id == editedItem.id ? editedItem : item);
+        setMenuItems(updatedItems);
+        setSelectedItem(null);
+        setShowForm(false);
     };
 
     // for modal popup editing and adding 

@@ -79,8 +79,7 @@ function createMenu(message) {
         custom,
     });
 
-    return new Promise((resolve, reject) => {
-        console.log("nmbd");   
+    return new Promise((resolve, reject) => {  
         Restaurant.findById(restaurantId)
             .then((restaurant) => {
                 if (!restaurant) {
