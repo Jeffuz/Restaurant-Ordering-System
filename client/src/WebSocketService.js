@@ -71,7 +71,7 @@ const WebSocketService = {
                 break;
 
               case 'MENU':
-                const menuList = payload.menuList;
+                WebSocketService.menu = payload.menuList;
                 dispatchMenuUpdate('menuUpdate');
                 break;
 
@@ -84,7 +84,6 @@ const WebSocketService = {
                 console.log(message);
                 alert("received message:", message);
                 break;
-
 
               default:
                 console.log('ERROR: NO METHOD DETECTED IN MESSAGE');

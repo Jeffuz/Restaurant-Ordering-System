@@ -13,8 +13,8 @@ const Menu = () => {
 
     useEffect(() => {
         const menuUpdateHandler = (event) => {
-            console.log("Menu update received!");
-            const menuList = event.detail.data;
+            const menuList = WebSocketService.menu;
+
             setItems(menuList.map(item => ({
                 id: item.menuId,
                 image: item.image,
@@ -31,16 +31,11 @@ const Menu = () => {
             .then(
                 alert("Connected!"),
                 setIsLoading(false),
-
             );
         }
-
         window.addEventListener('menuUpdate', menuUpdateHandler);
-
-
     }, []);
-
-
+    
     const [cartItems, setCartItems] = useState([
         {
             index: 0,
