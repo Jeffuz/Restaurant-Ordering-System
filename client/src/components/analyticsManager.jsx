@@ -31,6 +31,22 @@ const Analytics = () => {
         },
     ]);
 
+    const [tableHistory, setTableHistory] = useState([
+
+        {
+            seatCapacity:
+            isOccupied:
+            order:
+
+        },
+        {
+            seatCapacity:
+            isOccupied:
+            order:
+
+        },
+    ]);
+
     //get total orders
     const totalOrders = orderHistory.length;
 
