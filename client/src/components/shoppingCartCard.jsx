@@ -2,15 +2,18 @@ import React from 'react';
 import { useState } from 'react';
 import { AiOutlinePlusCircle, AiOutlineMinusCircle, AiOutlineMessage } from 'react-icons/ai'
 
-const ShoppingCartCard = ({ itemImage, itemName, itemPrice, itemCounter }) => {
-    const [counter, setCounter] = useState(itemCounter);
+const ShoppingCartCard = ({ itemImage, itemName, itemPrice, itemCounter, ifChangeCounter}) => {
+    const[counter, setCounter] = useState(itemCounter);
+
     const counterIncrement = () => {
         setCounter(counter + 1);
+        ifChangeCounter(counter + 1);
     };
 
     const counterDecrement = () => {
-        if (counter > 0) {
+        if (counter > 1) {
             setCounter(counter - 1);
+            ifChangeCounter(counter - 1);
         }
     };
 

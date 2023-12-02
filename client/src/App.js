@@ -16,16 +16,18 @@ import Admin_customer from './pages/admin-customer';
 import Landing_page from './pages/landing-page';
 
 
+import Landing_page from './pages/landing-page';
+
 // Websockets
 import WebSocketService from './WebSocketService';
 
 function App() {
   // Establish a connection if not already connected
-  useEffect(() => {
+  /*useEffect(() => {
     if (!WebSocketService.socket) {
       WebSocketService.connect();
     }
-  }, []);
+  }, []);*/
 
   // broadcastMessage() and crashConnection() are testing functions, don't use them in implementation
   function broadcastMessage(){
@@ -55,16 +57,12 @@ function App() {
         <Routes>
           <Route index element={<Home />} />
           <Route path='/' element={<Home />} />
-          <Route path='/menu' element={<Menu WebSocketService={WebSocketService} />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/menu' element={<Menu />} />
           <Route path='/table' element={<Table />} />
-          <Route path='/admin-dashboard' element={<Admin_dashboard />} />
-          <Route path='/admin-table' element={<Admin_table />} />
-          <Route path='/admin-orders' element={<Admin_orders />} />
-          <Route path='/admin-analytics' element={<Admin_analytics />} />
-          <Route path='/admin-customer' element={<Admin_customer />} />
-          <Route path='/admin-menu' element={<Admin_Menu WebSocketService={WebSocketService} />} />
-          <Route path='/landing-page' element={<Landing_page/>}/>
+          <Route path='/admin-dashboard' element={<Admin_dashboard WebSocketService={WebSocketService}/>} />
           <Route path='*' element={<NoPage />} />
+          <Route path='/landing-page' element={<Landing_page/>}/>
         </Routes>
       </HashRouter>
     </div>
