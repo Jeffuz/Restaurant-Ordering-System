@@ -15,9 +15,6 @@ import Admin_analytics from './pages/admin-analytics';
 import Admin_customer from './pages/admin-customer';
 import Landing_page from './pages/landing-page';
 
-
-import Landing_page from './pages/landing-page';
-
 // Websockets
 import WebSocketService from './WebSocketService';
 
@@ -57,7 +54,6 @@ function App() {
         <Routes>
           <Route index element={<Home />} />
           <Route path='/' element={<Home />} />
-          <Route path='/login' element={<Login />} />
           <Route path='/menu' element={<Menu />} />
           <Route path='/table' element={<Table />} />
           <Route path='/admin-dashboard' element={<Admin_dashboard WebSocketService={WebSocketService}/>} />
