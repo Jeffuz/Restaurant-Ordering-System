@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        montserrat: ['Montserrat', 'sans'],
+        montserrat: ['Montserrat', 'sans'], 
         'tt-norms-pro': ['TT Norms Pro', 'sans-serif']
       },
       colors: {

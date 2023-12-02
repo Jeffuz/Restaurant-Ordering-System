@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { Routes, Route, HashRouter } from 'react-router-dom';
 
 import Home from './pages/home'
-import Login from './pages/login';
 import Menu from './pages/menu';
 import Table from './pages/table';
 import NoPage from './pages/noPage';
@@ -14,13 +13,10 @@ import Admin_table from './pages/admin-table';
 import Admin_orders from './pages/admin-orders';
 import Admin_analytics from './pages/admin-analytics';
 import Admin_customer from './pages/admin-customer';
-import AdminNavbar from './components/adminNavbar';
-
 import Landing_page from './pages/landing-page';
 
 // Websockets
 import WebSocketService from './WebSocketService';
-
 
 function App() {
   // Establish a connection if not already connected
@@ -58,7 +54,6 @@ function App() {
         <Routes>
           <Route index element={<Home />} />
           <Route path='/' element={<Home />} />
-          <Route path='/login' element={<Login />} />
           <Route path='/menu' element={<Menu />} />
           <Route path='/table' element={<Table />} />
           <Route path='/admin-dashboard' element={<Admin_dashboard WebSocketService={WebSocketService}/>} />

@@ -18,7 +18,7 @@ const ShoppingCartCard = ({ itemImage, itemName, itemPrice, itemCounter, ifChang
     };
 
     return (
-        <div className="flex flex-column justify-between bg-gray-100 rounded-lg shadow-md px-2">
+        <div className="flex justify-between md:flex-row flex-col bg-gray-100 rounded-lg shadow-md px-2">
             {/* Item Content */}
             <div className='flex'>
                 <img src={itemImage} alt={itemName} className="h-24 object-cover" loading="lazy" />
@@ -30,7 +30,7 @@ const ShoppingCartCard = ({ itemImage, itemName, itemPrice, itemCounter, ifChang
                 </div>
             </div>
             {/* Customizaton */}
-            <div className='flex items-center'>
+            <div className='flex items-center md:mt-0 md:mb-0 mt-4 mb-4 justify-center'>
                 {/* Item Notes */}
                 <button className='mx-2'>
                     <AiOutlineMessage size={30} />
