@@ -6,18 +6,35 @@ import Admin_analytics from './admin-analytics';
 import Admin_customer from './admin-customer';
 import Admin_table from './admin-table';
 import Admin_orders from './admin-orders';
+import Banner from '../components/admin-customer/Banner';
 
 const Admin_dashboard = (props) => {
 
     const [page, setPage] = useState("Dashboard");
-
+    const [help, setHelp] = useState(true);
+    const [tableNum, setTableNum] = useState('12');
+    const [helpMessage, setHelpMessage] = useState('');
     const {WebSocketService} = props;
+    const [displayBanner, setDisplayBanner] = useState(true);
+
+    const checkHelp = () => {
+        if (help) {
+            setHelpMessage('Customer at table number ' + tableNum +  ' requires assistance');
+            setDisplayBanner(true);
+        }
+    }
+    
+    const closeBanner = () => {
+        setDisplayBanner(false);
+        setHelp(false);
+    }
 
     useEffect(() => {
         if (!WebSocketService.socket){
             WebSocketService.connect('127.0.0.1', '8080', true)
             .then(alert("Connected!"));
         }
+        checkHelp();
     }, []);
 
     if (page === "Dashboard"){
@@ -28,6 +45,11 @@ const Admin_dashboard = (props) => {
                     <div className="w-[80%] h-screen">
                         <div className='flex flex-col'>
                             <div className='text-center mt-27 text-black font-Montserrat text-4xl font-bold py-6'>Dashboard</div>
+                            <div>
+                                {displayBanner && (
+                                    <Banner message={helpMessage} onClose={closeBanner}/>
+                                )}
+                            </div>
                             <div>{/* Component */}</div>
                         </div>
                     </div>

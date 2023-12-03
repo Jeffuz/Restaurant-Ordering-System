@@ -4,6 +4,7 @@ import { AiOutlineClose } from 'react-icons/ai'
 const BroadcastModal = ({ isOpen, onClose}) => {
     //State for storing the message
     const [announcement, setAnnouncement] = useState('');
+    const [displayAnnouncement, setDisplayAnnouncement] = useState(true);
     //set announcement to whatever user inputs in the text area
     const handleChange = (e) => {
         setAnnouncement(e.target.value)

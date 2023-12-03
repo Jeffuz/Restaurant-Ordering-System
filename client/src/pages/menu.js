@@ -5,18 +5,19 @@ import ItemModal from '../components/itemModal';
 import ShoppingCart from '../components/shoppingCart';
 import LpNavBar from '../components/landing-page/lpNavBar';
 import WebSocketService from '../WebSocketService';
+import Banner from '../components/admin-customer/Banner';
 
 const Menu = (props) => {
 
 
     // Testing
-    // let admin = true;
-    let admin = false;
-
+    let admin = true;
+    //let admin = false;
+    const [announcement, setAnnouncement] = useState('Restaurant is closing soon');
     const [items, setItems] = useState([]); // used to save data states
     const [isLoading, setIsLoading] = useState(true); // used to save whether data is loading 
-
     const [menuItems, setMenuItems] = useState([]);
+    const [displayBanner, setDisplayBanner] = useState(false);
 
     const menuSet = false;
 
@@ -68,6 +69,10 @@ const Menu = (props) => {
 
     const [selectedItem, setSelectedItem] = useState(null);
 
+    const closeBanner = () => {
+        setDisplayBanner(false);
+    }
+
     const openModal = (item) => {
         setSelectedItem(item);
     };
@@ -83,6 +88,10 @@ const Menu = (props) => {
     else {
 
         return (
+            <div>
+            {admin && displayBanner && (
+                <Banner message={announcement} onClose={closeBanner}/>
+            )}
             <div className='font-tt-norms-pro'>
                 {admin ? (
                     <>
@@ -142,6 +151,7 @@ const Menu = (props) => {
                         </div>
                     </>
                 )}
+            </div>
             </div>
         );
     }
