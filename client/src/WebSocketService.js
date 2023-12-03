@@ -24,9 +24,9 @@ const WebSocketService = {
        * @returns {Promise<[socket: ClientWebSocket, ID: String, isMaster: Bool]>}
        */
       
-      function dispatchMenuUpdate(action) {
+      function dispatchMenuUpdate(action,ev,error) {
         const menuUpdateEvent = new CustomEvent('menuUpdate', {
-          detail: { action },
+          detail: { action , ev, error}
         });
         window.dispatchEvent(menuUpdateEvent);
       }
@@ -75,7 +75,7 @@ const WebSocketService = {
 
               case 'MENU':
                 WebSocketService.menu = payload.menuList;
-                dispatchMenuUpdate('menuUpdate');
+                dispatchMenuUpdate('menuUpdate',payload.ev,payload.error);
                 break;
 
               case 'ORDERSUBMIT':
@@ -154,9 +154,13 @@ const WebSocketService = {
    */
   sendRequest(actionObject) {
     // testing actionObject
-    console.log(actionObject);
-
+    // console.log(actionObject);
     this.socket.send(JSON.stringify(actionObject));
+
+    // this.socket.addEventListener('message',(e)=>{
+    //   const payload = JSON.parse(e.data);
+    //   console.log(payload);
+    // });
   },
 
   addListener(callback) {

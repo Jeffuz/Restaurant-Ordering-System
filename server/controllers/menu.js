@@ -13,7 +13,7 @@ function getMenus(message) {
                             "Menus not found for restaurantId: " + restaurantId,
                     });
                 } else {
-                    resolve({ action: "GETMENUS", menuList: restaurant.restaurantMenu.menuList});
+                    resolve({ action: "MENU", menuList: restaurant.restaurantMenu.menuList});
                 }
             })
             .catch((err) => {
@@ -53,7 +53,7 @@ function getMenu(message) {
     });
 }
 
-function createMenu(message) {
+function createMenu(ws,message) {
     const restaurantId = message.restaurantId;
     const {
         menuId,
@@ -87,6 +87,18 @@ function createMenu(message) {
                         error: "Restaurant not found",
                     });
                 }
+
+                // Finding whether a duplicating item is adding
+                const menuItem = restaurant.restaurantMenu.menuList.find(
+                    (menuItem) => String(menuItem.menuId) == menuId
+                );
+                if (menuItem){
+                    reject({ error: "Menu item Duplicate" });
+                    const response = { action: "MENU", error:"Error creating menu item, item name duplicate"};
+                    ws.send(JSON.stringify(response));
+                    return;
+                }
+
                 restaurant.restaurantMenu.menuList.push(newMenuItem);
                 restaurant.restaurantMenu.totalItemCount++;
 
@@ -97,12 +109,20 @@ function createMenu(message) {
                             action: "CREATEMENU",
                             menuItem: newMenuItem,
                         });
+
+                        // if success then send updated MenuList by to client
+                        const response = { action: "MENU", ev:"CREATEMENU",menuList: restaurant.restaurantMenu.menuList};
+                        ws.send(JSON.stringify(response));
+
                     })
                     .catch((err) => {
                         reject({
-                            error: "Error saving menu",
+                            error: "Error creating menu item, name and price is required",
                             details: err,
                         });
+                        // alert admin when their operations are not passed by database
+                        const response = { action: "MENU", error:"Error creating menu item, name and price is required"};
+                        ws.send(JSON.stringify(response));
                     });
             }).catch((err) => {
                 reject({
@@ -111,11 +131,11 @@ function createMenu(message) {
                 });
             });
     }).catch((err) => {
-        console.error('Unhandled error:', err);
+        console.log(err.error);    
     });
 }
 
-function updateMenu(message) {
+function updateMenu(ws,message) {
     const restaurantId = message.restaurantId;
     const {
         menuId,
@@ -139,6 +159,9 @@ function updateMenu(message) {
             );
             if (!menuItem) {
                 reject({ error: "Menu item not found" });
+                const response = { action: "MENU", error:"Error editing menu item, not allowed to change menu item name, please add new item or delete current item"};
+                ws.send(JSON.stringify(response));
+                return;
             }
             if (image) menuItem.image = image;
             if (filter) menuItem.filter = filter;
@@ -153,6 +176,11 @@ function updateMenu(message) {
                 .save()
                 .then(() => {
                     resolve({ action: "UPDATEMENU", menuItem: menuItem });
+
+                    // if success then send updated MenuList by to client
+                    const response = { action: "MENU", ev:"UPDATEMENU", menuList: restaurant.restaurantMenu.menuList };
+                    ws.send(JSON.stringify(response));
+
                 })
                 .catch((err) => {
                     reject({
@@ -171,7 +199,7 @@ function updateMenu(message) {
     });
 }
 
-function deleteMenu(message) {
+function deleteMenu(ws,message) {
 
 
     const restaurantId = message.restaurantId;
@@ -200,6 +228,9 @@ function deleteMenu(message) {
                 .save()
                 .then(() => {
                     resolve({ action: "DELETEMENU", menuItem: menuItem });
+                    // if success then send updated MenuList by to client
+                    const response = { action: "MENU", menuList: restaurant.restaurantMenu.menuList };
+                    ws.send(JSON.stringify(response));
                 })
                 .catch((err) => {
                     reject({

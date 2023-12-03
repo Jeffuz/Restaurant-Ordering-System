@@ -167,7 +167,7 @@ class Server {
 
                 case "CREATEMENU":
                     console.log("Received request CREATEMENU");
-                    createMenu(payload);
+                    createMenu(client,payload);
                     break;
 
                 case "DELETEMENU":
@@ -178,12 +178,12 @@ class Server {
                     // // checking payload
                     // console.log(payload);
 
-                    deleteMenu(payload);
+                    deleteMenu(client,payload);
                     break;
 
                 case "EDITMENU":
                     console.log("Received request EDITMENU");
-                    updateMenu(payload);
+                    updateMenu(client,payload);
                     break;
 
                 // Table
