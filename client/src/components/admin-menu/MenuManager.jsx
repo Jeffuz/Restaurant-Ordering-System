@@ -49,6 +49,7 @@ const MenuManager = () => {
 
         // This code should thoeretically update the menu whenever a event is dispatched
         // Couldn't figure out how to test it though so it will remain like this for now
+        
         // solved by louis on 12/2/23
         const menuUpdateHandler = (event) => {
             // fix how to distinguish the different update event

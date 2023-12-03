@@ -173,7 +173,7 @@ class Server {
                 case "DELETEMENU":
                     console.log("Received request DELETEMENU");
 
-                    // // testing fixing by Rixin Li
+                    // // testing fixing by Louis
                     // console.log("testing delete working?");
                     // // checking payload
                     // console.log(payload);
