@@ -114,16 +114,26 @@ export const signUpWithGoogle = async (isRestaurantOwner) => {
     try {
         const result = await signInWithPopup(auth, provider);
 
-        const docRef = await writeUserData(
-            result.user.uid,
-            result.user.displayName,
-            result.user.displayName,
-            isRestaurantOwner ? result.user.uid : 0,
-            result.user.email,
-            result.user.photoURL,
-            []
-        );
-        return docRef.id;
+        // Check if the user already exists in your database
+        const existingUserData = await readUserData(result.user.uid);
+
+        if (!existingUserData) {
+            // User does not exist, proceed with writing user data
+            const docRef = await writeUserData(
+                result.user.uid,
+                result.user.displayName,
+                result.user.displayName,
+                isRestaurantOwner ? result.user.uid : 0,
+                result.user.email,
+                result.user.photoURL,
+                []
+            );
+            return docRef.id;
+        } else {
+            // User already exists, handle it as needed
+            alert("User already exists in the database.");
+            // You might want to throw an error or handle this case differently
+        }
     } catch (error) {
         console.log(error);
     }

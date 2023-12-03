@@ -35,13 +35,18 @@ const Signup = ({ isOpen, onClose, signupSuccess, setSignupSuccess }) => {
                 auth.currentUser.uid,
                 name,
                 name,
-                isRestaurantOwner,
+                isRestaurantOwner ? auth.currentUser.uid : 0,
                 email,
                 ""
             );
             setSignupSuccess(true);
         } catch (error) {
-            console.error("Signup error:", error.message);
+            if (error.code === "auth/email-already-in-use") {
+                alert("Email is already in use. Please choose another email.");
+                // Handle the case where the email is already in use (display an error message, etc.)
+            } else {
+                console.error("Signup error:", error.message);
+            }
         }
 
         // Reset the form after submission
