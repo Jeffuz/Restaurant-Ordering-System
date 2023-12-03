@@ -49,19 +49,38 @@ const MenuManager = () => {
 
         // This code should thoeretically update the menu whenever a event is dispatched
         // Couldn't figure out how to test it though so it will remain like this for now
+        
+        // solved by louis on 12/2/23
         const menuUpdateHandler = (event) => {
-            console.log("Menu Update Received!");
-            const menuList = WebSocketService.menu;
-            console.log("MenuList: ", menuList);
-            setMenuItems(menuList.map(item => ({
-                id: item.menuId,
-                image: item.image,
-                itemFilter: item.filter,
-                itemName: item.name,
-                itemContent: item.description,
-                itemPrice: item.price,
-                itemDiet: item.diet,
-            })));
+            // fix how to distinguish the different update event
+            // console.log(event.detail);
+            // getting which event in {CREATEMENU,UPDATEMENU,DELETEMENU} 
+            // in order to reflect them in fronted
+            // detail:{ev:{CREATEMENU,UPDATEMENU,DELETEMENU},menuItem}
+            const ev = event.detail;
+            console.log(ev);
+
+            if (ev.error){
+                alert(ev.error);
+            }
+            else{
+                // before 12/2/23
+                console.log("Menu Update Received!");
+                const menuList = WebSocketService.menu;
+                console.log("MenuList: ", menuList);
+                setMenuItems(menuList.map(item => ({
+                    id: item.menuId,
+                    image: item.image,
+                    itemFilter: item.filter,
+                    itemName: item.name,
+                    itemContent: item.description,
+                    itemPrice: item.price,
+                    itemDiet: item.diet,
+                })));
+
+                setShowForm(false);
+                setSelectedItem(null);
+            }
         }
 
         window.addEventListener('menuUpdate', menuUpdateHandler);
@@ -85,10 +104,10 @@ const MenuManager = () => {
 
         WebSocketService.sendRequest(actionObject);
 
-        // frontend reflect
-        setMenuItems([...menuItems, newItem]);
-                setShowForm(false);
-                setSelectedItem(null);
+        // // frontend reflect
+        // setMenuItems([...menuItems, newItem]);
+        //         setShowForm(false);
+        //         setSelectedItem(null);
     };
 
     const deleteMenuItem = (itemId) => {
@@ -100,11 +119,11 @@ const MenuManager = () => {
 
         WebSocketService.sendRequest(actionObject);
 
-        // frontend reflect
-        const updatedItems = menuItems.filter((item) => item.id !== itemId);
-                setMenuItems(updatedItems);
-                setShowForm(false);
-                setSelectedItem(null);
+        // // frontend reflect
+        // const updatedItems = menuItems.filter((item) => item.id !== itemId);
+        //         setMenuItems(updatedItems);
+        //         setShowForm(false);
+        //         setSelectedItem(null);
     };
 
     const editMenuItem = (editedItem) => {
@@ -125,10 +144,10 @@ const MenuManager = () => {
         WebSocketService.sendRequest(actionObject);
 
         //checks to see if item exists, then adds to exisitng item, else new item is added
-        const updatedItems = menuItems.map((item) => item.id == editedItem.id ? editedItem : item);
-        setMenuItems(updatedItems);
-        setSelectedItem(null);
-        setShowForm(false);
+        // const updatedItems = menuItems.map((item) => item.id == editedItem.id ? editedItem : item);
+        // setMenuItems(updatedItems);
+        // setSelectedItem(null);
+        // setShowForm(false);
     };
 
     // for modal popup editing and adding 

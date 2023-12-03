@@ -19,6 +19,7 @@ const menuItemSchema = new mongoose.Schema({
     menuId: {
         type: String,
         required: true,
+        unique: true
     },
     image: {
         type: String,
@@ -56,5 +57,6 @@ const menuSchema = new mongoose.Schema({
 const MenuCustom = mongoose.model("menuCustom", menuCustomSchema);
 const MenuItem = mongoose.model("MenuItem", menuItemSchema);
 const Menu = mongoose.model("Menu", menuSchema);
+MenuItem.init();
 
 module.exports = { Menu, MenuItem, MenuCustom };

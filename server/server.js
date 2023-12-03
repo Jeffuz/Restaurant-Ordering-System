@@ -167,23 +167,23 @@ class Server {
 
                 case "CREATEMENU":
                     console.log("Received request CREATEMENU");
-                    createMenu(payload);
+                    createMenu(client,payload);
                     break;
 
                 case "DELETEMENU":
                     console.log("Received request DELETEMENU");
 
-                    // // testing fixing by Rixin Li
+                    // // testing fixing by Louis
                     // console.log("testing delete working?");
                     // // checking payload
                     // console.log(payload);
 
-                    deleteMenu(payload);
+                    deleteMenu(client,payload);
                     break;
 
                 case "EDITMENU":
                     console.log("Received request EDITMENU");
-                    updateMenu(payload);
+                    updateMenu(client,payload);
                     break;
 
                 // Table
