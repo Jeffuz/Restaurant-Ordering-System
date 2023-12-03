@@ -35,6 +35,7 @@ const ShoppingCart = ({ orderNum, tableNum, date, cartItems, setCartItems, WebSo
     const [subTotal, setSubTotal] = useState(0);
     const [total, setTotal] = useState(0);
     const [tax, setTax] = useState(0);
+    const [help, setHelp] = useState(true);
     useEffect(() => {
         const sum = cartItems.reduce((accu, cartItem) => {
             return accu + cartItem.itemPrice * cartItem.itemCount;

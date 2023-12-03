@@ -15,7 +15,7 @@ const Admin_dashboard = (props) => {
     const [tableNum, setTableNum] = useState('12');
     const [helpMessage, setHelpMessage] = useState('');
     const {WebSocketService} = props;
-    const [displayBanner, setDisplayBanner] = useState(true);
+    const [displayBanner, setDisplayBanner] = useState(false);
 
     const checkHelp = () => {
         if (help) {
