@@ -6,7 +6,7 @@ import ShoppingCart from '../components/shoppingCart';
 import LpNavBar from '../components/landing-page/lpNavBar';
 import WebSocketService from '../WebSocketService';
 
-const Menu = (props) => {
+const Menu = () => {
     let admin = false;
 
     const [items, setItems] = useState([]); // used to save data states
@@ -45,33 +45,48 @@ const Menu = (props) => {
         window.addEventListener('menuUpdate', menuUpdateHandler);
     }, []);
 
-    var [cartItems, renderCartItems] = useState([
-        /*{
-            index: 0,
+    /*
+{
             itemImage: 'test/nacho-chips.png',
             itemName: 'Nacho chips',
             itemPrice: 9.99,
             itemCount: 1
         },
-        {
-            index: 1,
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        }*/
-    ]);
+    */
+    const [cartItems, renderCartItems] = useState([]);
+    const [cartSize, renderCartSize] = useState(cartItems.length);
 
     const [selectedItem, setSelectedItem] = useState(null);
 
     const addItemToCart = (item) => {
-        const updatedCart = [...cartItems, item];
-        renderCartItems(updatedCart);
+        // if item is already in cart, increment
+        let itemInCart = false;
+        cartItems.forEach((cartItem) => {
+            if (cartItem[0] === item){
+                cartItem[1] += 1;
+                itemInCart = true;
+            }
+        });
+        // otherwise add
+        if (!itemInCart){
+            const updatedCart = [...cartItems, [item, 1]];
+            renderCartItems(updatedCart);
+        }
+        
+        renderCartSize(cartSize + 1);
     }
 
-    const removeItemFromCart = (index) => {
-        const updatedCart = cartItems.filter((item) => item.index !== index);
-        renderCartItems(updatedCart);
+    const removeItemFromCart = (item) => {
+        renderCartSize(cartSize - cartItems[0][1])
+        //console.log(item);
+        //console.log("cart before:", cartItems);
+        //console.log("cart after:", cartItems.filter((cartItem) => cartItem[0].id !== item[0].id));
+        renderCartItems(cartItems.filter((cartItem) => cartItem[0] !== item[0]));
+        /*renderCartSize(cartSize - item[1]);
+
+        renderCartItems((prevCartItems) => {
+            prevCartItems.filter(([cartItem, _]) => cartItem !== item);
+        });*/
     }
 
     const openModal = (item) => {
@@ -127,7 +142,7 @@ const Menu = (props) => {
                     </>
                 ) : (
                     <div className="h-screen">
-                        <LpNavBar />
+                        <LpNavBar cartItems={cartItems} cartSize={cartSize} renderCartSize={renderCartSize} removeFromCart={removeItemFromCart}/>
                         <div className='flex flex-col h-screen p-8'>
                             <div className='text-center mt-27 text-black font-Montserrat text-4xl font-bold px-6 mb-6 '>Menu</div>
                             <div className='scrollbar-hide '><Filterbar /></div>
@@ -136,14 +151,12 @@ const Menu = (props) => {
 
                                     {items.map((item) => (
                                         <div key={item.id}>
-                                            CUT FROM HERE
                                             <ItemCard item={item} onItemClick={openModal} />
                                         </div>
                                     ))}
                                 </div>
                             </div>
                         </div>
-
                         <ItemModal isOpen={selectedItem !== null} onClose={closeModal} parentCallback={handleItemClick} item={selectedItem} />
                     </div>
                 )}

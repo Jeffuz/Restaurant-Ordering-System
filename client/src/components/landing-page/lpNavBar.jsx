@@ -6,7 +6,12 @@ import { Link } from 'react-router-dom';
 import { MdOutlineDashboard } from "react-icons/md";
 import LpShoppingCart from './lpShoppingCart';
 
-const LpNavBar = () => {
+const LpNavBar = ({cartItems, cartSize, renderCartSize, removeFromCart}) => {
+
+    /*const cartItems = props.cartItems;
+    const cartSize = props.cartSize;
+    const renderCartSize = props.renderCartSize;
+    const removeFromCart = props.removeFromCart;*/
 
     /* Testing */
     let email = true;
@@ -14,7 +19,7 @@ const LpNavBar = () => {
     let admin = true;
     // let admin = false;
 
-    const cartItems = [
+    /*const cartItems = [
         {
             itemImage: 'test/nacho-chips.png',
             itemName: 'Nacho chips',
@@ -93,8 +98,7 @@ const LpNavBar = () => {
             itemPrice: 9.99,
             itemCount: 2
         },
-
-    ];
+    ];*/
 
     // Sign In/Up
     const [selectedLoginItem, setSelectedLoginItem] = useState(null);
@@ -117,7 +121,7 @@ const LpNavBar = () => {
     };
 
     // Shopping Cart
-    const itemCount = 3; // Item Count Here
+    const itemCount = cartSize; // Item Count Here
     const [selectedCartItem, setSelectedCartItem] = useState(null);
     const openCartModal = () => {
         setSelectedCartItem();
@@ -174,7 +178,7 @@ const LpNavBar = () => {
             </div>
             <Login isOpen={selectedLoginItem !== null} onClose={closeLoginModal} />
             <Signup isOpen={selectedSignupItem !== null} onClose={closeSignupModal} />
-            <LpShoppingCart isOpen={selectedCartItem !== null} onClose={closeCartModal} cartItems={cartItems} />
+            <LpShoppingCart isOpen={selectedCartItem !== null} onClose={closeCartModal} cartItems={cartItems} cartSize={cartSize} renderCartSize={renderCartSize} removeFromCart={removeFromCart}/>
         </>
     )
 }

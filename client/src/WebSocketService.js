@@ -75,6 +75,7 @@ const WebSocketService = {
 
               case 'MENU':
                 WebSocketService.menu = payload.menuList;
+                console.log("RECEIVED MENU:", payload);
                 dispatchMenuUpdate('menuUpdate');
                 break;
 

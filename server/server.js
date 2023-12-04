@@ -168,6 +168,7 @@ class Server {
                 case "CREATEMENU":
                     console.log("Received request CREATEMENU");
                     createMenu(payload);
+                    this.pushMenuUpdate();
                     break;
 
                 case "DELETEMENU":
@@ -179,11 +180,13 @@ class Server {
                     // console.log(payload);
 
                     deleteMenu(payload);
+                    this.pushMenuUpdate();
                     break;
 
                 case "EDITMENU":
                     console.log("Received request EDITMENU");
                     updateMenu(payload);
+                    this.pushMenuUpdate();
                     break;
 
                 // Table
@@ -357,11 +360,18 @@ class Server {
      * Pushes a menu update to all clients
      */
     pushMenuUpdate() {
-        getMenus().then((menu) => {
+        /*getMenus().then((menu) => {
             this.clients.forEach((client) => {
-                client.send(JSON.stringify(menu));
+                const actionObject = {
+                    action: "MENU",
+                    menuList: menu.menuList,
+                }
+                client.send(JSON.stringify(actionObject));
             });
-        });
+        });*/
+        this.clients.forEach((client) => {
+            this.sendMenu(client);
+        })
 
         return;
     }
@@ -373,6 +383,8 @@ class Server {
      */
     sendMenu(client) {
         getMenus().then((menu) => {
+            menu.action = 'MENU';
+            console.log('MENU:', menu);
             client.send(JSON.stringify(menu));
         });
 
