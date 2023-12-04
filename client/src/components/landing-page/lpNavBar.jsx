@@ -195,7 +195,7 @@ const LpNavBar = () => {
                                         </span>
                                     )}
                                 </button>
-                                <Link to="">
+                                <Link to={`/profile/${auth.currentUser.displayName}`}>
                                     <img
                                         src={
                                             auth.currentUser.photoURL ||

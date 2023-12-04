@@ -11,6 +11,7 @@ import Landing_page from './pages/landing-page';
 
 // Websockets
 import WebSocketService from './WebSocketService';
+import Profile from './pages/profile';
 
 function App() {
   // Establish a connection if not already connected
@@ -47,6 +48,7 @@ function App() {
           <Route path='/' element={<Landing_page />} />
           <Route path='/menu' element={<Menu />} />
           <Route path='/table' element={<Table />} />
+          <Route path="/profile/:username" element={<Profile />} />
           <Route path='/admin-dashboard' element={<Admin_dashboard WebSocketService={WebSocketService} />} />
           <Route path='*' element={<NoPage />} />
         </Routes>
