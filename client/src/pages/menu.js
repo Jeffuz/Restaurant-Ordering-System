@@ -7,21 +7,15 @@ import LpNavBar from '../components/landing-page/lpNavBar';
 import WebSocketService from '../WebSocketService';
 
 const Menu = (props) => {
-
-
-    // Testing
-    // let admin = true;
     let admin = false;
 
     const [items, setItems] = useState([]); // used to save data states
     const [isLoading, setIsLoading] = useState(true); // used to save whether data is loading 
 
-    const [menuItems, setMenuItems] = useState([]);
-
-    const menuSet = false;
+    let menuSet = false;
 
     useEffect(() => {
-
+        // Function invoked when WebSocketService receives a menu update
         const menuUpdateHandler = () => {
             console.log("Menu.js update received!");
             const menuList = WebSocketService.menu;
@@ -35,22 +29,24 @@ const Menu = (props) => {
                     itemPrice: item.price,
                     itemDiet: item.diet,
                 })));
+                setIsLoading(false);
             }
         }
 
+        // Connect to server if not already connected
         if (!WebSocketService.socket) {
             WebSocketService.connect('127.0.0.1', '8080', false)
                 .then(
                     alert("Connected!"),
-                    setIsLoading(false),
+                    //setIsLoading(false),
                 );
         }
 
         window.addEventListener('menuUpdate', menuUpdateHandler);
     }, []);
 
-    const [cartItems, setCartItems] = useState([
-        {
+    var [cartItems, renderCartItems] = useState([
+        /*{
             index: 0,
             itemImage: 'test/nacho-chips.png',
             itemName: 'Nacho chips',
@@ -63,10 +59,20 @@ const Menu = (props) => {
             itemName: 'Nacho chips',
             itemPrice: 9.99,
             itemCount: 2
-        }
+        }*/
     ]);
 
     const [selectedItem, setSelectedItem] = useState(null);
+
+    const addItemToCart = (item) => {
+        const updatedCart = [...cartItems, item];
+        renderCartItems(updatedCart);
+    }
+
+    const removeItemFromCart = (index) => {
+        const updatedCart = cartItems.filter((item) => item.index !== index);
+        renderCartItems(updatedCart);
+    }
 
     const openModal = (item) => {
         setSelectedItem(item);
@@ -76,10 +82,16 @@ const Menu = (props) => {
         setSelectedItem(null);
     };
 
+    // callback listener for itemcard 
+    const handleItemClick = (clickedItem) => {
+        addItemToCart(clickedItem);
+    }
+
     // render the pages if the data is loaded
     if (isLoading) {
         return <div>Loading...</div>; // if data is loading, rending a loading pages
     }
+
     else {
 
         return (
@@ -101,46 +113,39 @@ const Menu = (props) => {
                                                     itemFilter={item.itemFilter}
                                                     itemPrice={item.itemPrice}
                                                     itemContent={item.itemContent}
-                                                    itemDiet={item.itemDiet}
-                                                />
+                                                    itemDiet={item.itemDiet} />
                                             </div>
                                         ))}
                                     </div>
                                 </div>
                             </div>
                             <div className='flex flex-col w-[25vw] gap-8'>
-                                <ShoppingCart orderNum="222" tableNum="1" date="October 26, 2023" cartItems={cartItems} setCartItems={setCartItems} WebSocketService={WebSocketService} />
+                                <ShoppingCart orderNum="222" tableNum="1" date="October 26, 2023" cartItems={cartItems} setCartItems={renderCartItems} WebSocketService={WebSocketService} />
                             </div>
                             <ItemModal isOpen={selectedItem !== null} onClose={closeModal} item={selectedItem} />
                         </div>
                     </>
                 ) : (
-                    <>
-                        <div className="h-screen">
-                            <LpNavBar />
-                            <div className='flex flex-col h-screen p-8'>
-                                <div className='text-center mt-27 text-black font-Montserrat text-4xl font-bold px-6 mb-6 '>Menu</div>
-                                <div className='scrollbar-hide '><Filterbar /></div>
-                                <div className='mt-8 overflow-y-auto '>
-                                    <div className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8">
-                                        {items.map((item) => (
-                                            <div onClick={() => openModal(item)} role="button">
-                                                <ItemCard
-                                                    image={item.image}
-                                                    itemName={item.itemName}
-                                                    itemFilter={item.itemFilter}
-                                                    itemPrice={item.itemPrice}
-                                                    itemContent={item.itemContent}
-                                                    itemDiet={item.itemDiet}
-                                                />
-                                            </div>
-                                        ))}
-                                    </div>
+                    <div className="h-screen">
+                        <LpNavBar />
+                        <div className='flex flex-col h-screen p-8'>
+                            <div className='text-center mt-27 text-black font-Montserrat text-4xl font-bold px-6 mb-6 '>Menu</div>
+                            <div className='scrollbar-hide '><Filterbar /></div>
+                            <div className='mt-8 overflow-y-auto '>
+                                <div className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8">
+
+                                    {items.map((item) => (
+                                        <div key={item.id}>
+                                            CUT FROM HERE
+                                            <ItemCard item={item} onItemClick={openModal} />
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
-
                         </div>
-                    </>
+
+                        <ItemModal isOpen={selectedItem !== null} onClose={closeModal} parentCallback={handleItemClick} item={selectedItem} />
+                    </div>
                 )}
             </div>
         );

@@ -49,7 +49,7 @@ const MenuManager = () => {
 
         // This code should thoeretically update the menu whenever a event is dispatched
         // Couldn't figure out how to test it though so it will remain like this for now
-        const menuUpdateHandler = (event) => {
+        const menuUpdateHandler = () => {
             console.log("Menu Update Received!");
             const menuList = WebSocketService.menu;
             console.log("MenuList: ", menuList);
@@ -260,16 +260,7 @@ const MenuManager = () => {
 
                     {menuItems.map((item) => (
                         <div key={item.id} onClick={() => openModalEdit(item)}>
-                            <ItemCard
-                                key={item.id}
-                                image={item.image}
-                                itemName={item.itemName}
-
-                                itemFilter={item.itemFilter}
-                                itemPrice={item.itemPrice}
-                                itemContent={item.itemContent}
-                                itemDiet={item.itemDiet}
-                            />
+                            <ItemCard item={item}/>
                         </div>
                     ))}
                 </div>
