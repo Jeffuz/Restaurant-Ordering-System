@@ -7,6 +7,7 @@ import { MdOutlineDashboard } from "react-icons/md";
 import LpShoppingCart from "./lpShoppingCart";
 import { auth, readUserData } from "../../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const LpNavBar = () => {
     /* Testing */
@@ -19,6 +20,8 @@ const LpNavBar = () => {
     const [admin, setAdmin] = useState(false);
     const [signupSuccess, setSignupSuccess] = useState(false);
     const [signinSuccess, setSigninSuccess] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Define an async function to handle user authentication
@@ -50,6 +53,7 @@ const LpNavBar = () => {
                 setAdmin(false);
                 setSigninSuccess(false);
                 setSignupSuccess(false);
+                navigate('/');
             })
             .catch((error) => {
                 console.error("Logout error:", error);
@@ -195,7 +199,7 @@ const LpNavBar = () => {
                                         </span>
                                     )}
                                 </button>
-                                <Link to="">
+                                <Link to={`/profile/${auth.currentUser.displayName}`}>
                                     <img
                                         src={
                                             auth.currentUser.photoURL ||

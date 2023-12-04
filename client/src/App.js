@@ -11,6 +11,7 @@ import Landing_page from "./pages/landing-page";
 
 // Websockets
 import WebSocketService from "./WebSocketService";
+import Profile from "./pages/profile";
 
 import { auth, readUserData } from "./firebase";
 
@@ -87,6 +88,7 @@ function App() {
                     <Route path="/" element={<Landing_page />} />
                     <Route path="/menu" element={<Menu />} />
                     <Route path="/table" element={<Table />} />
+                    <Route path="/profile/:username" element={<Profile />} />
                     <Route
                         path="/admin-dashboard"
                         element={<PrivateRoute element={Admin_dashboard} />}
