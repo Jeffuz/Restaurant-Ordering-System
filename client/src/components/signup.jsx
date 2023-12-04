@@ -8,7 +8,6 @@ const Signup = ({ isOpen, onClose, signupSuccess, setSignupSuccess }) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [isRestaurantOwner, setIsRestaurantOwner] = useState(false); // New state for the checkbox
 
     useEffect(() => {
         if (signupSuccess) {
@@ -19,7 +18,7 @@ const Signup = ({ isOpen, onClose, signupSuccess, setSignupSuccess }) => {
     if (!isOpen) return null;
 
     const handleSignUpWithGoogle = async () => {
-        await signUpWithGoogle(isRestaurantOwner);
+        await signUpWithGoogle();
         setSignupSuccess(true);
     };
 
@@ -31,14 +30,7 @@ const Signup = ({ isOpen, onClose, signupSuccess, setSignupSuccess }) => {
                 email,
                 password
             );
-            writeUserData(
-                auth.currentUser.uid,
-                name,
-                name,
-                isRestaurantOwner ? auth.currentUser.uid : 0,
-                email,
-                ""
-            );
+            writeUserData(auth.currentUser.uid, name, name, 0, email, "");
             setSignupSuccess(true);
         } catch (error) {
             if (error.code === "auth/email-already-in-use") {
@@ -57,7 +49,6 @@ const Signup = ({ isOpen, onClose, signupSuccess, setSignupSuccess }) => {
         setName("");
         setEmail("");
         setPassword("");
-        setIsRestaurantOwner(false);
     };
 
     return (
@@ -119,24 +110,6 @@ const Signup = ({ isOpen, onClose, signupSuccess, setSignupSuccess }) => {
                                     className="mt-1 block w-full rounded-md shadow-sm"
                                     required
                                 />
-                            </div>
-
-                            <div className="flex items-center">
-                                <input
-                                    id="isRestaurantOwner"
-                                    type="checkbox"
-                                    onChange={() =>
-                                        setIsRestaurantOwner(!isRestaurantOwner)
-                                    }
-                                    checked={isRestaurantOwner}
-                                    className="mr-2"
-                                />
-                                <label
-                                    htmlFor="isRestaurantOwner"
-                                    className="text-light-primary"
-                                >
-                                    I am a restaurant owner
-                                </label>
                             </div>
 
                             <button

@@ -72,19 +72,9 @@ export const readUserData = async (userId) => {
         });
 
         return userData;
-        // const docRef = await getDocs(collection(db, "users"));
-        // let userData = null;
-
-        // docRef.forEach((doc) => {
-        //     if (doc.id === docId) {
-        //         userData = doc.data();
-        //     }
-        // });
-
-        // return userData; // Return the data explicitly
     } catch (error) {
         console.error(error);
-        throw error; // Re-throw the error to propagate it to the caller
+        throw error;
     }
 };
 
@@ -92,24 +82,7 @@ export const auth = getAuth(app);
 
 const provider = new GoogleAuthProvider();
 
-export const signInWithGoogle = () => {
-    signInWithPopup(auth, provider)
-        .then((result) => {
-            // const name = result.user.displayName;
-            // const email = result.user.email;
-            // const profilePic = result.user.photoURL;
-
-            // localStorage.setItem("name", name);
-            // localStorage.setItem("email", email);
-            // localStorage.setItem("profilePic", profilePic);
-            console.log(result);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-};
-
-export const signUpWithGoogle = async (isRestaurantOwner) => {
+export const signInWithGoogle = async () => {
     try {
         const result = await signInWithPopup(auth, provider);
 
@@ -120,7 +93,33 @@ export const signUpWithGoogle = async (isRestaurantOwner) => {
                 result.user.uid,
                 result.user.displayName,
                 result.user.displayName,
-                isRestaurantOwner ? result.user.uid : 0,
+                0,
+                result.user.email,
+                result.user.photoURL,
+                []
+            );
+            return docRef.id;
+        }
+        // else {
+        //     alert("User already exists in the database.");
+        // }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const signUpWithGoogle = async () => {
+    try {
+        const result = await signInWithPopup(auth, provider);
+
+        const existingUserData = await readUserData(result.user.uid);
+
+        if (!existingUserData) {
+            const docRef = await writeUserData(
+                result.user.uid,
+                result.user.displayName,
+                result.user.displayName,
+                0,
                 result.user.email,
                 result.user.photoURL,
                 []
