@@ -38,17 +38,14 @@ const LpNavBar = () => {
             }
         };
 
-        // Set up the auth state change listener
         const unsubscribe = onAuthStateChanged(auth, handleAuthChange);
 
-        // Clean up the subscription when the component unmounts
         return () => unsubscribe();
     }, [auth]);
 
     const handleLogout = () => {
         signOut(auth)
             .then(() => {
-                // Clear user-related state or perform any other necessary actions
                 setEmail(false);
                 setAdmin(false);
                 setSigninSuccess(false);
@@ -200,7 +197,10 @@ const LpNavBar = () => {
                                 </button>
                                 <Link to="">
                                     <img
-                                        src="profile.png"
+                                        src={
+                                            auth.currentUser.photoURL ||
+                                            "profile.png"
+                                        }
                                         alt="Profile"
                                         className="w-10 h-10 rounded-full"
                                     />
