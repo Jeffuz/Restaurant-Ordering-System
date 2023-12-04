@@ -177,27 +177,27 @@ class Server {
                 case "CREATEMENU":
                     console.log("Received request CREATEMENU");
                     createMenu(payload)
-                    .then(
-                        this.pushMenuUpdate()
-                    );
+                    .then((updatedMenu) => {
+                        //console.log('updated menu:', updateMenu);
+                        console.log('updated menu:', updatedMenu);
+                        this.pushMenuUpdate(updatedMenu);
+                    });
                     break;
 
                 case "DELETEMENU":
                     console.log("Received request DELETEMENU");
-
-                    // // testing fixing by Rixin Li
-                    // console.log("testing delete working?");
-                    // // checking payload
-                    // console.log(payload);
-
-                    deleteMenu(payload);
-                    this.pushMenuUpdate();
+                    deleteMenu(payload)
+                    .then((updatedMenu) => {
+                        this.pushMenuUpdate(updatedMenu);
+                    })
                     break;
 
                 case "EDITMENU":
                     console.log("Received request EDITMENU");
-                    updateMenu(payload);
-                    this.pushMenuUpdate();
+                    updateMenu(payload)
+                    .then((updatedMenu) => {
+                        this.pushMenuUpdate(updatedMenu);
+                    });
                     break;
 
                 // Table
@@ -382,13 +382,12 @@ class Server {
      * @returns
      */
     sendMenu(client, menu) {
-        if(!menu){
+        /*if(!menu){
             getMenus().then((menu) => {
                 const actionObject = {
                     action: 'MENU',
                     menuList: menu,
                 }
-                console.log('not sendmenu:', menu);
                 client.send(JSON.stringify(actionObject));
             });
         }else{
@@ -396,9 +395,15 @@ class Server {
                 action: "MENU",
                 menuList: menu,
             }
-            console.log('sendmenu:', menu);
             client.send(JSON.stringify(actionObject));
-        }
+        }*/
+        getMenus().then((menu) => {
+            const actionObject = {
+                action: 'MENU',
+                menuList: menu,
+            }
+            client.send(JSON.stringify(actionObject));
+        })
 
         return;
     }

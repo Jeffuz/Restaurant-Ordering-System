@@ -94,7 +94,8 @@ function createMenu(message) {
                     .save()
                     .then(() => {
                         resolve({
-                            menuList: newMenuItem,
+                            //menuList: newMenuItem,
+                            menuList: getMenus(),
                         });
                     })
                     .catch((err) => {
@@ -151,7 +152,7 @@ function updateMenu(message) {
             restaurant
                 .save()
                 .then(() => {
-                    resolve({ menuList: menuItem });
+                    resolve({ menuList: getMenus() });
                 })
                 .catch((err) => {
                     reject({
@@ -198,7 +199,7 @@ function deleteMenu(message) {
             restaurant
                 .save()
                 .then(() => {
-                    resolve(menuItem);
+                    resolve({menuList: getMenus()});
                 })
                 .catch((err) => {
                     reject({
