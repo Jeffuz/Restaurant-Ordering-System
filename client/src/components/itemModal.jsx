@@ -16,6 +16,41 @@ const ItemModal = ({ isOpen, onClose, item }) => {
                     <div className='mt-8 flex flex-col px-12 justify-between'>
                         <div className='flex flex-col gap-3'>
                             <div className='font-medium text-4xl'>{item.itemName}</div>
+                            <div> 
+                            {item?.categories?.map((category) => (
+                        <div>
+                            <div>{category.name}</div>
+                            {category.optionType === 'Single Option Selectable' && (
+                                <div>
+                                {category.options.map((option) => (
+                                    <div>
+                                        <input
+                                            type="radio"
+                                            value={option}
+                                            name={category.name}
+                                        />
+                                        <label>{option}</label>
+                                    </div>
+                                ))}
+                                </div>
+                            )}
+                            {category.optionType === 'Multiple Options Selectable' && (
+                                <div>
+                                    {category.options.map((option) => (
+                                        <div>
+                                            <input
+                                                type="checkbox"
+                                                value={option}
+                                                name={category.name}
+                                            />
+                                            <label>{option}</label>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                            </div>
                             <div className='flex flex-row gap-3 text-gray-600'>
                                 {item.itemFilter.map((filter, index) => (
                                     <div key={index}>{filter}</div>

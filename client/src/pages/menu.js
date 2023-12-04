@@ -34,6 +34,7 @@ const Menu = (props) => {
                     itemContent: item.description,
                     itemPrice: item.price,
                     itemDiet: item.diet,
+                    itemCustomization: item.customize,
                 })));
             }
         }
@@ -102,6 +103,7 @@ const Menu = (props) => {
                                                     itemPrice={item.itemPrice}
                                                     itemContent={item.itemContent}
                                                     itemDiet={item.itemDiet}
+                                                    itemCustomization = {item.itemCustomization}
                                                 />
                                             </div>
                                         ))}
@@ -132,13 +134,14 @@ const Menu = (props) => {
                                                     itemPrice={item.itemPrice}
                                                     itemContent={item.itemContent}
                                                     itemDiet={item.itemDiet}
+                                                    itemCustomization = {item.itemCustomization}
                                                 />
                                             </div>
                                         ))}
                                     </div>
                                 </div>
                             </div>
-
+                            <ItemModal isOpen={selectedItem !== null} onClose={closeModal} item={selectedItem} />
                         </div>
                     </>
                 )}
