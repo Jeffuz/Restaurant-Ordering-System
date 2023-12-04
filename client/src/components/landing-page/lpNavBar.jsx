@@ -7,12 +7,6 @@ import { MdOutlineDashboard } from "react-icons/md";
 import LpShoppingCart from './lpShoppingCart';
 
 const LpNavBar = ({cartItems, cartSize, renderCartSize, removeFromCart}) => {
-
-    /*const cartItems = props.cartItems;
-    const cartSize = props.cartSize;
-    const renderCartSize = props.renderCartSize;
-    const removeFromCart = props.removeFromCart;*/
-
     /* Testing */
     let email = true;
     // let email = false;
@@ -149,7 +143,7 @@ const LpNavBar = ({cartItems, cartSize, renderCartSize, removeFromCart}) => {
                                 <button className='flex items-center text-black rounded-3xl leading-10 px-3' onClick={() => openCartModal()}>
                                     <IoCartOutline size={30} />
                                     {/* Adjust Item Count here */}
-                                    {itemCount > 0 && <span className='ml-1'>{itemCount}</span>}
+                                    {cartSize > 0 && <span className='ml-1'>{itemCount}</span>}
                                 </button>
                                 <Link to="" >
                                     <img src="profile.png" alt='Profile' className='w-10 h-10 rounded-full' />

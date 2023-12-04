@@ -19,6 +19,7 @@ const Menu = () => {
         const menuUpdateHandler = () => {
             console.log("Menu.js update received!");
             const menuList = WebSocketService.menu;
+            console.log('menuList:', menuList);
             if (menuList) {
                 setItems(menuList.map(item => ({
                     id: item.menuId,
@@ -54,39 +55,27 @@ const Menu = () => {
         },
     */
     const [cartItems, renderCartItems] = useState([]);
-    const [cartSize, renderCartSize] = useState(cartItems.length);
+    const [cartSize, renderCartSize] = useState(0);
 
     const [selectedItem, setSelectedItem] = useState(null);
 
+    const getRandomNumber = () => Math.floor(Math.random() * (9999999999 - 1000000000 + 1) + 1000000000);
+    
     const addItemToCart = (item) => {
-        // if item is already in cart, increment
-        let itemInCart = false;
-        cartItems.forEach((cartItem) => {
-            if (cartItem[0] === item){
-                cartItem[1] += 1;
-                itemInCart = true;
-            }
-        });
-        // otherwise add
-        if (!itemInCart){
-            const updatedCart = [...cartItems, [item, 1]];
-            renderCartItems(updatedCart);
-        }
-        
+        const hash = getRandomNumber();
+        console.log('assigned hash', hash);
+        const updatedCart = [...cartItems, [item, hash]];
+        renderCartItems(updatedCart); 
+        console.log(updatedCart);
         renderCartSize(cartSize + 1);
     }
 
-    const removeItemFromCart = (item) => {
-        renderCartSize(cartSize - cartItems[0][1])
-        //console.log(item);
-        //console.log("cart before:", cartItems);
-        //console.log("cart after:", cartItems.filter((cartItem) => cartItem[0].id !== item[0].id));
-        renderCartItems(cartItems.filter((cartItem) => cartItem[0] !== item[0]));
-        /*renderCartSize(cartSize - item[1]);
+    
 
-        renderCartItems((prevCartItems) => {
-            prevCartItems.filter(([cartItem, _]) => cartItem !== item);
-        });*/
+    const removeItemFromCart = (hash) => {
+        renderCartSize(cartSize - 1)
+        const newCartItems = cartItems.filter((cartItem) => cartItem[1] !== hash);
+        renderCartItems(newCartItems);
     }
 
     const openModal = (item) => {

@@ -151,24 +151,35 @@ class Server {
 
                 case "DELETERESTAURANT":
                     console.log("Received request DELETERESTAURANT");
-                    deleteRestaurant(payload);
+                    // flying a little too close to the sun here no?
+                    //deleteRestaurant(payload);
                     break;
 
                 // Menu
                 case "GETMENUS":
                     console.log("Received request GETMENUS");
-                    getMenus(payload);
+                    this.sendMenu(client);
+                    //this.sendMenu(client);
                     break;
 
                 case "GETMENU":
                     console.log("Received request GETMENU");
-                    getMenu(payload);
+                    getMenu(payload)
+                    .then((menu) => {
+                        const actionObject = {
+                            action: 'GETMENU',
+                            menuList: menu,
+                        }
+                        this.sendMenu(client, menu);
+                    });
                     break;
 
                 case "CREATEMENU":
                     console.log("Received request CREATEMENU");
-                    createMenu(payload);
-                    this.pushMenuUpdate();
+                    createMenu(payload)
+                    .then(
+                        this.pushMenuUpdate()
+                    );
                     break;
 
                 case "DELETEMENU":
@@ -323,7 +334,6 @@ class Server {
      * @param {Bool} isMaster Signals if system is master or slave
      */
     sendInit(client, id, isMaster) {
-        var actionObject;
         getMenus().then((menu) => {
             var actionObject = {
                 action: "INIT",
@@ -359,20 +369,10 @@ class Server {
      * Wrapper function for sendMenu
      * Pushes a menu update to all clients
      */
-    pushMenuUpdate() {
-        /*getMenus().then((menu) => {
-            this.clients.forEach((client) => {
-                const actionObject = {
-                    action: "MENU",
-                    menuList: menu.menuList,
-                }
-                client.send(JSON.stringify(actionObject));
-            });
-        });*/
+    pushMenuUpdate(menu) {
         this.clients.forEach((client) => {
-            this.sendMenu(client);
+            this.sendMenu(client, menu);
         })
-
         return;
     }
 
@@ -381,12 +381,24 @@ class Server {
      * @param {ClientWebSocket} client
      * @returns
      */
-    sendMenu(client) {
-        getMenus().then((menu) => {
-            menu.action = 'MENU';
-            console.log('MENU:', menu);
-            client.send(JSON.stringify(menu));
-        });
+    sendMenu(client, menu) {
+        if(!menu){
+            getMenus().then((menu) => {
+                const actionObject = {
+                    action: 'MENU',
+                    menuList: menu,
+                }
+                console.log('not sendmenu:', menu);
+                client.send(JSON.stringify(actionObject));
+            });
+        }else{
+            const actionObject = {
+                action: "MENU",
+                menuList: menu,
+            }
+            console.log('sendmenu:', menu);
+            client.send(JSON.stringify(actionObject));
+        }
 
         return;
     }

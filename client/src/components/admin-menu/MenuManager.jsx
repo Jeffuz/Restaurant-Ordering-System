@@ -37,6 +37,8 @@ const MenuManager = () => {
 
     useEffect(() => {
         // Loads the menu items from the menu stored in WebSocketService.menu
+        const menuList = WebSocketService.menu;
+        console.log('menumanager menu:', menuList);
         setMenuItems(WebSocketService.menu.map(item => ({
             id: item.menuId,
             image: item.image,

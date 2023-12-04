@@ -58,7 +58,7 @@ const WebSocketService = {
 
                 console.log("Received menu", menu);
 
-                resolve([socket, id, menu.menuList]);
+                resolve([socket, id, menu]);
                 return;
 
               case 'BROADCAST':
@@ -105,6 +105,7 @@ const WebSocketService = {
           this.socket = socket;
           this.id = id;
           this.menu = menu;
+          console.log(menu)
           if (isMaster){
             this.requestMaster();
           }
