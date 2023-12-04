@@ -68,7 +68,6 @@ export const readUserData = async (userId) => {
         let userData = null;
 
         querySnapshot.forEach((doc) => {
-            // Assuming userId is unique, you might want to break out of the loop if found
             userData = doc.data();
         });
 
@@ -114,11 +113,9 @@ export const signUpWithGoogle = async (isRestaurantOwner) => {
     try {
         const result = await signInWithPopup(auth, provider);
 
-        // Check if the user already exists in your database
         const existingUserData = await readUserData(result.user.uid);
 
         if (!existingUserData) {
-            // User does not exist, proceed with writing user data
             const docRef = await writeUserData(
                 result.user.uid,
                 result.user.displayName,
@@ -130,9 +127,7 @@ export const signUpWithGoogle = async (isRestaurantOwner) => {
             );
             return docRef.id;
         } else {
-            // User already exists, handle it as needed
             alert("User already exists in the database.");
-            // You might want to throw an error or handle this case differently
         }
     } catch (error) {
         console.log(error);

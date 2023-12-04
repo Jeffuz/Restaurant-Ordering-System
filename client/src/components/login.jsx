@@ -28,7 +28,17 @@ const Login = ({ isOpen, onClose, signinSuccess, setSigninSuccess }) => {
             await signInWithEmailAndPassword(auth, email, password);
             setSigninSuccess(true);
         } catch (error) {
-            console.log(error);
+            if (error.code === "auth/user-not-found") {
+                alert("User not found. Please try again.");
+            } else if (error.code === "auth/wrong-password") {
+                alert("Incorrect password. Please try again.");
+            } else if (error.code === "auth/invalid-credential") {
+                alert(
+                    "The email and password did not match. Please try again."
+                );
+            } else {
+                console.error("Login error:", error.message);
+            }
         }
 
         setEmail("");

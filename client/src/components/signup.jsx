@@ -43,7 +43,11 @@ const Signup = ({ isOpen, onClose, signupSuccess, setSignupSuccess }) => {
         } catch (error) {
             if (error.code === "auth/email-already-in-use") {
                 alert("Email is already in use. Please choose another email.");
-                // Handle the case where the email is already in use (display an error message, etc.)
+            } else if (error.code === "auth/weak-password") {
+                alert("Password must be at least 6 characters.");
+                console.error("Signup error:", error.message);
+            } else if (error.code === "auth/invalid-email") {
+                alert("Email is invalid.");
             } else {
                 console.error("Signup error:", error.message);
             }
