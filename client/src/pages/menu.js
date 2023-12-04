@@ -194,6 +194,11 @@ const Menu = (props) => {
                                 </div>
                             </div>
                         </div>
+                        <ItemModal
+                            isOpen={selectedItem !== null}
+                            onClose={closeModal}
+                            item={selectedItem}
+                        />
                     </>
                 )}
             </div>
