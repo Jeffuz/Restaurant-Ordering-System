@@ -5,9 +5,10 @@ import { PieChart, Pie, Tooltip, Legend, Cell } from 'recharts';
 import { BarChart, Bar, XAxis, YAxis} from 'recharts';
 import AnalyticsCard from './analyticsCard'
 import { MdFastfood } from "react-icons/md";
-import { MdAttachMoney } from "react-icons/md";
+import { FiDollarSign } from "react-icons/fi";
 import { MdPeopleAlt } from "react-icons/md";
 import { FaMoneyBillWave } from "react-icons/fa";
+import { TbArrowZigZag } from "react-icons/tb";
 const Analytics = () => {
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF', '#FF4D4F', '#36CFC9'];
@@ -306,6 +307,50 @@ const Analytics = () => {
           // Add more order histories as needed
         ],
       },
+      {
+        userId: 'user11',
+        userHistory: [
+          {
+            menuItemId: '2',
+            quantity: 3,
+            custom: ['extra sauce'],
+            price: 30,
+            createdAt: new Date('2021-01-03T13:45:00'), 
+          },
+          {
+            menuItemId: '1',
+            quantity: 3,
+            custom: ['extra sauce'],
+            price: 30,
+            createdAt: new Date('2023-01-03T13:45:00'), 
+          },
+   
+       
+          // Add more order histories as needed
+        ],
+      },
+      {
+        userId: 'user12',
+        userHistory: [
+          {
+            menuItemId: '2',
+            quantity: 3,
+            custom: ['extra sauce'],
+            price: 30,
+            createdAt: new Date('2021-05-03T13:45:00'), 
+          },
+          {
+            menuItemId: '1',
+            quantity: 3,
+            custom: ['extra sauce'],
+            price: 30,
+            createdAt: new Date('2023-05-03T13:45:00'), 
+          },
+   
+       
+          // Add more order histories as needed
+        ],
+      },
       // Add more user data as needed
     ],
   });
@@ -357,15 +402,24 @@ const Analytics = () => {
       if (history.userHistory) {
         history.userHistory.forEach((order) => {
           const menuItemId = order.menuItemId;
-          itemCounts[menuItemId] = (itemCounts[menuItemId] || 0) + 1;
+          const menuItem = restaurantData.restaurantMenu.menuList.find((item) => item.menuId === menuItemId);
+  
+          if (menuItem) {
+            const menuItemName = menuItem.name;
+            itemCounts[menuItemId] = {
+              count: (itemCounts[menuItemId]?.count || 0) + 1,
+              name: menuItemName,
+            };
+          }
         });
       }
     });
-
-    // turn the itemCounts object to an array 
+  
+    // Turn the itemCounts object to an array
     return Object.keys(itemCounts).map((menuItemId) => ({
       menuItemId,
-      count: itemCounts[menuItemId],
+      name: itemCounts[menuItemId].name,
+      count: itemCounts[menuItemId].count,
     }));
   };
 
@@ -423,7 +477,7 @@ const Analytics = () => {
 
   const totalOrders = calculateTotalOrders();
 
-  const totalSales = calculateTotalSales();
+  const totalSales = calculateTotalSales().toLocaleString();
 
   const totalCustomers = calculateTotalCustomers();
 
@@ -437,13 +491,13 @@ const Analytics = () => {
 
 
       <div className="flex flex-col">
-        <div className="flex flex-row items-center justify-content">
+        <div className="flex flex-row items-center justify-between">
 
             <div className="grid grid-cols-2 space-4">
               <AnalyticsCard description='Total Orders' icon={<MdFastfood />} stat={totalOrders}/>
-              <AnalyticsCard description='Total Sales' icon={<MdAttachMoney />} stat={totalSales}/>
+              <AnalyticsCard description='Total Sales' icon={<FiDollarSign />} stat={totalSales}/>
               <AnalyticsCard description='Total Users' icon={<MdPeopleAlt />} stat={totalCustomers}/>
-              <AnalyticsCard description='Average Customer Spending' icon={<FaMoneyBillWave />} stat={avgCustomerSpending}/>
+              <AnalyticsCard description='Average Spending' icon={<FiDollarSign />} stat={avgCustomerSpending}/>
 
 
             </div>
@@ -451,16 +505,16 @@ const Analytics = () => {
 
 
             <div className="grid grid-cols-2 space-4">
-              <div className="bg-white rounded-3xl m-4 p-2 flex flex-col items-center justify-content">
-                <p className="text-2xl">Popular menu items</p>
-                <PieChart  width={400} height={400} className="mx-auto">
+              <div className="bg-white rounded-2xl m-8 p-2 flex flex-col items-center justify-center">
+                <p className="text-2xl text-gray-500 mt-4 mb-4">Popular Menu Items</p>
+                <PieChart width={300} height={300}  className="mx-auto">
                   <Pie
                     data={menuItemCounts}
                     dataKey="count"
                     nameKey="menuItemId"
                     cx="50%"
                     cy="50%"
-                    outerRadius={80}
+                    outerRadius={120}
                     fill="#8884d8"
                     label
                   >
@@ -468,8 +522,15 @@ const Analytics = () => {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip content={({ payload }) => <div>Total: {payload[0]?.payload.menuItemId}</div>} />
-                  <Legend />
+                  <Tooltip
+                    content={({ payload }) => (
+                      <div className="bg-white border rounded p-4 shadow-md">
+                        <p>{`Menu Item: ${payload[0]?.payload.name}`}</p>
+                        <p>{`Total Orders: ${payload[0]?.payload.count}`}</p>
+                      </div>
+                    )}
+                  />
+                  
                 </PieChart>
               </div>
             </div>
@@ -477,9 +538,9 @@ const Analytics = () => {
 
         
 
-          <div className="bg-white rounded-3xl m-4 p-2 flex flex-col items-center justify-between">
-                <p className="text-2xl">Most to Least Popular Times</p>
-                <BarChart width={400} height={300} data={sortedPopularTimesData}>
+          <div className="bg-white rounded-2xl m-4 p-2 flex flex-col items-center justify-between">
+                <p className="text-2xl text-gray-500 mt-4 mb-4">Most to Least Popular Times</p>
+                <BarChart width={400} height={300} data={sortedPopularTimesData} >
                   <XAxis dataKey="hour" 
                         tickFormatter={(value) => {
                           const originalHour = parseInt(value, 10);
@@ -488,6 +549,7 @@ const Analytics = () => {
                           return `${formattedHour} ${ampm}`;
                         }}
                   />
+                  <YAxis label={{ value: 'Total Orders', angle: -90, position: 'insideLeft' }} />
                   <Bar dataKey="count" fill={COLORS[0]} />
                 </BarChart>
 
