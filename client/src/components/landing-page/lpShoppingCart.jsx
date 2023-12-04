@@ -32,14 +32,14 @@ const LpShoppingCart = ({ isOpen, onClose, cartItems }) => {
     return (
         <>
             <div className='fixed inset-0 flex items-center justify-center z-20'>
-                <ReactCardFlip
+                {/* <ReactCardFlip
                     flipDirection='horizontal'
                     isFlipped={isFlipped}
                     containerClassName="card"
-                >
+                > */}
                     {/* Shopping Cart Side */}
 
-                    <div className="bg-white p-3 rounded-[25px] shadow-lg flex flex-col w-[75vw] h-[75vh]">
+                    {/* <div className="bg-white p-3 rounded-[25px] shadow-lg flex flex-col w-[75vw] h-[75vh]">
                         <button className='flex justify-end p-5 fixed'>
                             <AiOutlineClose onClick={onClose} size={20} />
                         </button>
@@ -65,7 +65,7 @@ const LpShoppingCart = ({ isOpen, onClose, cartItems }) => {
                                 </div>
                             </button>
                         </div>
-                    </div>
+                    </div> */}
 
 
                     {/* Checkout Side */}
@@ -74,7 +74,8 @@ const LpShoppingCart = ({ isOpen, onClose, cartItems }) => {
                             <button className='flex justify-end p-5 fixed'>
                                 <AiOutlineClose onClick={onClose} size={20} />
                             </button>
-                            <div className='flex justify-center text-3xl p-3'>Check Out</div>
+                            {/* <div className='flex justify-center text-3xl p-3'>Check Out</div> */}
+                            <div className='flex justify-center text-3xl p-3'>Shopping Cart</div>
 
 
                             <div className='h-screen overflow-y-auto'>
@@ -116,7 +117,7 @@ const LpShoppingCart = ({ isOpen, onClose, cartItems }) => {
                             </div>
                         </div>
                     </div>
-                </ReactCardFlip>
+                {/* </ReactCardFlip> */}
             </div>
             {/* <ReactCardFlip flipDirection='horizontal' isFlipped={isFlipped}> */}
             {/* Shopping Cart Side */}
