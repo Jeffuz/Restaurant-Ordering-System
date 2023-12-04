@@ -11,11 +11,10 @@ import { FaMoneyBillWave } from "react-icons/fa";
 import { TbArrowZigZag } from "react-icons/tb";
 const Analytics = () => {
 
+  //colors for the pie chart 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF', '#FF4D4F', '#36CFC9'];
 
   //mock data for fake restaurant containing menu , tables, and history
-
-  
   const [restaurantData, setRestaurantData] = useState({
     restaurantName: 'Your Restaurant',
     restaurantMenu: {
@@ -371,11 +370,13 @@ const Analytics = () => {
   });
 
 
+  //if restaurant data is not there 
   if (!restaurantData) {
    
     return <p>Loading...</p>;
   }
-  //total orders across all users
+
+  //total orders across all users in restaurant history 
   const calculateTotalOrders = () => {
     if (!restaurantData || !restaurantData.history) {
       return 0;
@@ -387,7 +388,7 @@ const Analytics = () => {
     );
   };
 
-  // get count of all item order price
+  // get total revenue of restaurant based on user order history 
   const calculateTotalSales = () => {
     if (!restaurantData || !restaurantData.history) {
       return 0;
@@ -415,12 +416,18 @@ const Analytics = () => {
     //keep count in dictionary here of all items 
     const itemCounts = {};
 
+    //go through restaurant history and each user's history 
     restaurantData.history.forEach((history) => {
+      //check if user history exists
       if (history.userHistory) {
+        //go through each order in history
         history.userHistory.forEach((order) => {
+          // get the item id
           const menuItemId = order.menuItemId;
+          // find the item in list that matches id
           const menuItem = restaurantData.restaurantMenu.menuList.find((item) => item.menuId === menuItemId);
   
+          //if it exists, update count of item to keep track of total num orders of each item 
           if (menuItem) {
             const menuItemName = menuItem.name;
             itemCounts[menuItemId] = {
@@ -432,7 +439,7 @@ const Analytics = () => {
       }
     });
   
-    // Turn the itemCounts object to an array
+    // Turn the itemCounts object to an array, this is for the pie chart data visualization
     return Object.keys(itemCounts).map((menuItemId) => ({
       menuItemId,
       name: itemCounts[menuItemId].name,
@@ -440,31 +447,41 @@ const Analytics = () => {
     }));
   };
 
+
+  //get the most popular times based on when users come to place order 
   const calculatePopularTimes = () => {
     if (!restaurantData || !restaurantData.history) {
       return [];
     }
   
+    //get count of users at a time 
     const userCounts = {};
   
+    // go through history 
     restaurantData.history.forEach((history) => {
       if (history.userHistory) {
+        //go through user history 
         history.userHistory.forEach((order) => {
+          //check when order was created
           if (order.createdAt) {
+            //get the hour of the order time 
             const hour = new Date(order.createdAt).getHours();
+            //
             const timeKey = `${hour}:00`; 
   
+            // if there is no existing user at that time, create set
             if (!userCounts[timeKey]) {
               userCounts[timeKey] = new Set();
             }
   
+            //update the list of users at that time
             userCounts[timeKey].add(history.userId);
           }
         });
       }
     });
   
-    // Convert the userCounts object to an array of objects
+    // Convert the userCounts object to an array of objects, used for the bar chart 
     return Object.keys(userCounts).map((timeKey) => ({
       hour: timeKey,
       count: userCounts[timeKey].size,
@@ -472,20 +489,24 @@ const Analytics = () => {
 
   };
 
+  //Get total unique users
   const calculateTotalCustomers = () => {
     if (!restaurantData || !restaurantData.history) {
       return 0;
     }
 
-    
+    //set for keeping unique users id
     const uniqueUserIds = new Set();
 
+    //go through history
     restaurantData.history.forEach((history) => {
+      // check if user exists, then add to set
       if (history.userId) {
         uniqueUserIds.add(history.userId);
       }
     });
 
+    //return the size to show how many users there are 
     return uniqueUserIds.size;
   };
 
@@ -496,7 +517,7 @@ const Analytics = () => {
       return null; 
     }
   
-  
+    //map each item in the menuList to a price 
     const prices = menuList.map(item => item.price);
   
     // Find the minimum and maximum prices
@@ -507,6 +528,7 @@ const Analytics = () => {
     return { minPrice, maxPrice };
   };
 
+  //get the price range based on restaurants menu list 
   const priceRange = calculatePriceRange(restaurantData.restaurantMenu.menuList);
 
 
@@ -532,10 +554,11 @@ const Analytics = () => {
   return (
     <div className=" mb-10 mr-10 ml-10">
 
-
       <div className="flex flex-col">
         <div className="flex flex-row items-center ">
+          {/* Basic Restaurant Card to get the name, table count, menu count, and price range  */}
           <div className="bg-white rounded-2xl m-8 p-4 flex flex-col pl-8 pr-8 mx-auto" style={{ width: '350px', height: '350px' }}>
+
             <div className="flex flex-row items-center justify-content">
               <IoMdRestaurant className="text-5xl mr-2"/>
               <p className="text-3xl text-black-500 mt-4 mb-4 text-center">{restaurantData.restaurantName}</p>
@@ -563,13 +586,9 @@ const Analytics = () => {
               menu price range 
               
             </div>
-
-          
-            
-            
-        
           </div>
 
+          {/* Stat card for total orders and total revenue */}
           <div className="flex flex-col">
             <AnalyticsCard description='Total Orders' icon={<MdFastfood />} stat={totalOrders}/>
             <AnalyticsCard description='Total Revenue' icon={<FiDollarSign />} stat={totalSales}/>
@@ -577,9 +596,7 @@ const Analytics = () => {
 
           </div>
 
-
-
-           
+              {/* pie chart to show the items and visualize popularity of each item  */}
               <div className="bg-white rounded-2xl m-8 p-2 flex flex-col items-center justify-center mx-auto overflow-auto">
                 <p className="text-2xl text-gray-500 mt-4 mb-4">Popular Menu Items</p>
                 <PieChart width={550} height={275}  className="mx-auto">
@@ -616,11 +633,9 @@ const Analytics = () => {
                 </PieChart>
               </div>
             </div>
-      
-
-        
 
           <div className="flex flex-row">
+            {/* Bar Graph to show the times that are most popular based on number of users that have come in at that time in restaurant history  */}
             <div className="bg-white rounded-2xl p-2 flex flex-col items-center justify-between overflow-auto">
                   <p className="text-2xl text-gray-500 mt-4 mb-4">Most to Least Popular Times</p>
                   <BarChart width={900} height={300} data={sortedPopularTimesData} >
@@ -632,26 +647,19 @@ const Analytics = () => {
                             return `${formattedHour} ${ampm}`;
                           }}
                     />
-                    <YAxis label={{ value: 'Total Orders', angle: -90, position: 'insideLeft' } }
+                    <YAxis label={{ value: 'Total Users', angle: -90, position: 'insideLeft' } }
                     interval={0} // interval to 0
                     allowDecimals={false} />
                     <Bar dataKey="count" fill={COLORS[0]} />
                   </BarChart>
-
-                  
-
             </div>
 
+            {/* Stat cards for total users and avg spending of users */}
             <div className="flex flex-col">
                <AnalyticsCard description='Total Users' icon={<MdPeopleAlt />} stat={totalCustomers}/>
                 <AnalyticsCard description='Average Spending' icon={<FiDollarSign />} stat={avgCustomerSpending}/>
 
-
-
             </div>
-               
-
-
           </div>
           
         </div>
