@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { IoMdRestaurant } from "react-icons/io";
 //import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { PieChart, Pie, Tooltip, Legend, Cell } from 'recharts';
 import { BarChart, Bar, XAxis, YAxis} from 'recharts';
@@ -13,13 +13,6 @@ const Analytics = () => {
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF', '#FF4D4F', '#36CFC9'];
 
-  // const [selectedTimePeriod, setSelectedTimePeriod] = useState('all');
-
-  // const handleTimePeriodChange = (newTimePeriod) => {
-  //   setSelectedTimePeriod(newTimePeriod);
-  // };
-
-  
   //mock data for fake restaurant containing menu , tables, and history
 
   
@@ -315,14 +308,14 @@ const Analytics = () => {
             quantity: 3,
             custom: ['extra sauce'],
             price: 30,
-            createdAt: new Date('2021-01-03T13:45:00'), 
+            createdAt: new Date('2021-01-03T20:45:00'), 
           },
           {
             menuItemId: '1',
             quantity: 3,
             custom: ['extra sauce'],
             price: 30,
-            createdAt: new Date('2023-01-03T13:45:00'), 
+            createdAt: new Date('2023-01-03T20:45:00'), 
           },
    
        
@@ -337,14 +330,36 @@ const Analytics = () => {
             quantity: 3,
             custom: ['extra sauce'],
             price: 30,
-            createdAt: new Date('2021-05-03T13:45:00'), 
+            createdAt: new Date('2021-05-03T11:45:00'), 
           },
           {
             menuItemId: '1',
             quantity: 3,
             custom: ['extra sauce'],
             price: 30,
-            createdAt: new Date('2023-05-03T13:45:00'), 
+            createdAt: new Date('2023-05-03T11:45:00'), 
+          },
+   
+       
+          // Add more order histories as needed
+        ],
+      },
+      {
+        userId: 'user13',
+        userHistory: [
+          {
+            menuItemId: '2',
+            quantity: 3,
+            custom: ['extra sauce'],
+            price: 30,
+            createdAt: new Date('2021-05-03T09:45:00'), 
+          },
+          {
+            menuItemId: '1',
+            quantity: 3,
+            custom: ['extra sauce'],
+            price: 30,
+            createdAt: new Date('2023-05-03T09:45:00'), 
           },
    
        
@@ -372,6 +387,7 @@ const Analytics = () => {
     );
   };
 
+  // get count of all item order price
   const calculateTotalSales = () => {
     if (!restaurantData || !restaurantData.history) {
       return 0;
@@ -390,6 +406,7 @@ const Analytics = () => {
 
   
 
+  //get the count of each menu item to display on pie chart to visualize most popular items
   const calculateMenuItemCounts = () => {
     if (!restaurantData || !restaurantData.history) {
       return [];
@@ -472,51 +489,109 @@ const Analytics = () => {
     return uniqueUserIds.size;
   };
 
+  
+  //get the min and max range of menu item price
+  const calculatePriceRange = (menuList) => {
+    if (!menuList || menuList.length === 0) {
+      return null; 
+    }
+  
+  
+    const prices = menuList.map(item => item.price);
+  
+    // Find the minimum and maximum prices
+    const minPrice = Math.min(...prices);
+    const maxPrice = Math.max(...prices);
+  
+    
+    return { minPrice, maxPrice };
+  };
+
+  const priceRange = calculatePriceRange(restaurantData.restaurantMenu.menuList);
+
+
   //for popular items 
   const menuItemCounts = calculateMenuItemCounts();
 
+  //count the orders
   const totalOrders = calculateTotalOrders();
 
+  //total revenue from items only
   const totalSales = calculateTotalSales().toLocaleString();
 
+  //count users from history 
   const totalCustomers = calculateTotalCustomers();
 
+  //get avg spending of custoemr total
   const avgCustomerSpending = totalCustomers > 0 ? (totalSales / totalCustomers).toFixed(2) : 0;
 
+  //get times that people come in on based on order time
   const popularTimesData = calculatePopularTimes();
   const sortedPopularTimesData = popularTimesData.sort((a, b) => b.count - a.count);
 
   return (
-    <div>
+    <div className=" mb-10 mr-10 ml-10">
 
 
       <div className="flex flex-col">
-        <div className="flex flex-row items-center justify-between">
-
-            <div className="grid grid-cols-2 space-4">
-              <AnalyticsCard description='Total Orders' icon={<MdFastfood />} stat={totalOrders}/>
-              <AnalyticsCard description='Total Sales' icon={<FiDollarSign />} stat={totalSales}/>
-              <AnalyticsCard description='Total Users' icon={<MdPeopleAlt />} stat={totalCustomers}/>
-              <AnalyticsCard description='Average Spending' icon={<FiDollarSign />} stat={avgCustomerSpending}/>
-
+        <div className="flex flex-row items-center ">
+          <div className="bg-white rounded-2xl m-8 p-4 flex flex-col pl-8 pr-8 mx-auto" style={{ width: '350px', height: '350px' }}>
+            <div className="flex flex-row items-center justify-content">
+              <IoMdRestaurant className="text-5xl mr-2"/>
+              <p className="text-3xl text-black-500 mt-4 mb-4 text-center">{restaurantData.restaurantName}</p>
 
             </div>
+            
+            <div className="text-xl text-gray-500 mt-4 mb-4 text-left flex flex-row items-center justify-content">
+             <div className="text-5xl text-black mr-2">
+                {restaurantData.table.totalTableCount}
+              </div>
+              tables
+              
+            </div>
+            <div className="text-xl text-gray-500 mt-4 mb-4 text-left flex flex-row items-center justify-content">
+             <div className="text-5xl text-black mr-2">
+                {restaurantData.restaurantMenu.totalItemCount}
+              </div>
+              items on menu
+              
+            </div>
+            <div className="text-xl text-gray-500 mt-4 mb-4 text-left flex flex-row items-center justify-content">
+             <div className="text-3xl text-black mr-2">
+                {priceRange && `$${priceRange.minPrice}-${priceRange.maxPrice}`}
+              </div>
+              menu price range 
+              
+            </div>
+
+          
+            
+            
+        
+          </div>
+
+          <div className="flex flex-col">
+            <AnalyticsCard description='Total Orders' icon={<MdFastfood />} stat={totalOrders}/>
+            <AnalyticsCard description='Total Revenue' icon={<FiDollarSign />} stat={totalSales}/>
+            
+
+          </div>
 
 
 
-            <div className="grid grid-cols-2 space-4">
-              <div className="bg-white rounded-2xl m-8 p-2 flex flex-col items-center justify-center">
+           
+              <div className="bg-white rounded-2xl m-8 p-2 flex flex-col items-center justify-center mx-auto overflow-auto">
                 <p className="text-2xl text-gray-500 mt-4 mb-4">Popular Menu Items</p>
-                <PieChart width={300} height={300}  className="mx-auto">
+                <PieChart width={550} height={275}  className="mx-auto">
                   <Pie
                     data={menuItemCounts}
                     dataKey="count"
                     nameKey="menuItemId"
                     cx="50%"
                     cy="50%"
-                    outerRadius={120}
+                    outerRadius={95}
                     fill="#8884d8"
-                    label
+                    label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
                   >
                     {menuItemCounts.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -530,31 +605,55 @@ const Analytics = () => {
                       </div>
                     )}
                   />
+                  <Legend
+                    layout="vertical"
+                    align="right"
+                    verticalAlign="middle"
+                    wrapperStyle={{ right: 10, top: 0, bottom: 0 }}
+                  />
+                  
                   
                 </PieChart>
               </div>
             </div>
-          </div>
+      
 
         
 
-          <div className="bg-white rounded-2xl m-4 p-2 flex flex-col items-center justify-between">
-                <p className="text-2xl text-gray-500 mt-4 mb-4">Most to Least Popular Times</p>
-                <BarChart width={400} height={300} data={sortedPopularTimesData} >
-                  <XAxis dataKey="hour" 
-                        tickFormatter={(value) => {
-                          const originalHour = parseInt(value, 10);
-                          const formattedHour = originalHour % 12 || 12; // Convert to 12-hour format
-                          const ampm = originalHour >= 12 ? 'PM' : 'AM';
-                          return `${formattedHour} ${ampm}`;
-                        }}
-                  />
-                  <YAxis label={{ value: 'Total Orders', angle: -90, position: 'insideLeft' }} />
-                  <Bar dataKey="count" fill={COLORS[0]} />
-                </BarChart>
+          <div className="flex flex-row">
+            <div className="bg-white rounded-2xl p-2 flex flex-col items-center justify-between overflow-auto">
+                  <p className="text-2xl text-gray-500 mt-4 mb-4">Most to Least Popular Times</p>
+                  <BarChart width={900} height={300} data={sortedPopularTimesData} >
+                    <XAxis dataKey="hour" 
+                          tickFormatter={(value) => {
+                            const originalHour = parseInt(value, 10);
+                            const formattedHour = originalHour % 12 || 12; // Convert to 12-hour format
+                            const ampm = originalHour >= 12 ? 'PM' : 'AM';
+                            return `${formattedHour} ${ampm}`;
+                          }}
+                    />
+                    <YAxis label={{ value: 'Total Orders', angle: -90, position: 'insideLeft' } }
+                    interval={0} // interval to 0
+                    allowDecimals={false} />
+                    <Bar dataKey="count" fill={COLORS[0]} />
+                  </BarChart>
+
+                  
+
+            </div>
+
+            <div className="flex flex-col">
+               <AnalyticsCard description='Total Users' icon={<MdPeopleAlt />} stat={totalCustomers}/>
+                <AnalyticsCard description='Average Spending' icon={<FiDollarSign />} stat={avgCustomerSpending}/>
+
+
+
+            </div>
+               
+
 
           </div>
-
+          
         </div>
       
         
