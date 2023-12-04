@@ -9,13 +9,13 @@ import { MdTableRestaurant } from "react-icons/md";
 
 const Dashboard = () => {
 
-    const [sales, setSales] = useState(172845);
+    // const [sales, setSales] = useState(172845);
     //for the incomplete/open orders
     const [pending, setPending] = useState(0);
     //for the completed / processed orders;
     const [completed, setCompleted] = useState(0);
     const [rating, setRatings] = useState(4);
-    const [tablesAvailable, setTablesAvailable] = useState(8);
+    // const [tablesAvailable, setTablesAvailable] = useState(8);
 
     //mock restaurant data for getting user and order history 
     const [restaurantData, setRestaurantData] = useState({
@@ -234,6 +234,7 @@ const Dashboard = () => {
         ],
       });
 
+      //get the order status of tables checking if processed or pending
       useEffect(() => {
         // Calculate total processed orders based on restaurantData
         const calculateOrderStats = () => {
@@ -259,6 +260,7 @@ const Dashboard = () => {
         calculateOrderStats();
       }, [restaurantData]);
 
+      //total sales from restaurnat data history 
       const calculateTotalSales = () => {
         if (!restaurantData || !restaurantData.history) {
           return 0;
