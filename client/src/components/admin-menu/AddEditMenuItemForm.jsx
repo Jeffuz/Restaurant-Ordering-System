@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Camera from '../admin-menu/camera-circle.png';
 import Trash from '../admin-menu/trash-icon.png';
 import Check from '../admin-menu/check-circle.png';
+import MenuCustomization from './MenuCustomization';
 
 const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMenuItem, setIsOpen }) => {
     const [itemData, setItemData] = useState(selectedItem || {});
+    const [categories, setCategories] = useState([]);
     const [editMode, setEditMode] = useState({
         id: false,
         image: false, 
@@ -24,6 +26,7 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
                 itemPrice: '',
                 itemContent: '',
                 image: '',
+                categories: [],
             });
         }
     }, [selectedItem]);
@@ -61,9 +64,15 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
                 itemPrice: '',
                 itemContent: '',
                 image: '',
+                categories: [],
             });
         }
     };
+
+    const handleCategoriesUpdate = (updatedCategories) => {
+        setCategories(updatedCategories);
+        setItemData({...itemData, categories: updatedCategories});
+    }
 
     // const handleImageUpload = (files) => {
     //     const file = files[0];
@@ -189,6 +198,40 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
                             </div>
                         )}
                     </div>
+                    <MenuCustomization categories={itemData.categories} setCategories={handleCategoriesUpdate}/>
+                    {itemData?.categories?.map((category) => (
+                        <div>
+                            <div>{category.name}</div>
+                            {category.optionType === 'Single Option Selectable' && (
+                                <div>
+                                {category.options.map((option) => (
+                                    <div>
+                                        <input
+                                            type="radio"
+                                            value={option}
+                                            name={category.name}
+                                        />
+                                        <label>{option}</label>
+                                    </div>
+                                ))}
+                                </div>
+                            )}
+                            {category.optionType === 'Multiple Options Selectable' && (
+                                <div>
+                                    {category.options.map((option) => (
+                                        <div>
+                                            <input
+                                                type="checkbox"
+                                                value={option}
+                                                name={category.name}
+                                            />
+                                            <label>{option}</label>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    ))}
                 </div>
             </div>
             <div className="flex justify-end space-x-4 p-4">
