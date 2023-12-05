@@ -111,7 +111,6 @@ const Signup = ({ isOpen, onClose, signupSuccess, setSignupSuccess }) => {
                                     required
                                 />
                             </div>
-
                             <button
                                 type="submit"
                                 className="w-full bg-light-secondary text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-200"

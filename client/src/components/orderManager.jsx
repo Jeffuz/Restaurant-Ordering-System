@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { DragDropContext } from 'react-beautiful-dnd';
-import AdminOrderStatusColumn from './adminOrderStatusColumn';
+import React, { useState, useEffect } from "react";
+import { DragDropContext } from "react-beautiful-dnd";
+import AdminOrderStatusColumn from "./adminOrderStatusColumn";
 
 const reorderColumnList = (sourceCol, startIndex, endIndex) => {
     const newTaskIds = Array.from(sourceCol.taskIds);
@@ -13,48 +13,48 @@ const reorderColumnList = (sourceCol, startIndex, endIndex) => {
     };
 
     return newColumn;
-}
+};
 
 const initializeTasks = () => {
     return {
         1: {
             id: 1,
             item: {
-                itemImage: 'test/nacho-chips.png',
-                itemName: 'Nacho chips',
-                itemOrderNum: '69',
+                itemImage: "test/nacho-chips.png",
+                itemName: "Nacho chips",
+                itemOrderNum: "69",
                 itemCount: 5,
-                itemStatus: 'processing'
+                itemStatus: "processing",
             },
         },
         2: {
             id: 2,
             item: {
-                itemImage: 'test/nacho-chips.png',
-                itemName: 'Nacho chips',
-                itemOrderNum: '69',
+                itemImage: "test/nacho-chips.png",
+                itemName: "Nacho chips",
+                itemOrderNum: "69",
                 itemCount: 5,
-                itemStatus: 'pending'
+                itemStatus: "pending",
             },
         },
         3: {
             id: 3,
             item: {
-                itemImage: 'test/nacho-chips.png',
-                itemName: 'Nacho chips',
-                itemOrderNum: '70',
+                itemImage: "test/nacho-chips.png",
+                itemName: "Nacho chips",
+                itemOrderNum: "70",
                 itemCount: 6,
-                itemStatus: 'pending'
+                itemStatus: "pending",
             },
         },
         4: {
             id: 4,
             item: {
-                itemImage: 'test/nacho-chips.png',
-                itemName: 'Nacho chips',
-                itemOrderNum: '70',
+                itemImage: "test/nacho-chips.png",
+                itemName: "Nacho chips",
+                itemOrderNum: "70",
                 itemCount: 6,
-                itemStatus: 'completed'
+                itemStatus: "completed",
             },
         },
     };
@@ -80,7 +80,7 @@ const initializeColumns = () => {
     };
 };
 
-const OrderManager = () => {
+const OrderManager = ({ pq }) => {
     const [state, setState] = useState({
         tasks: initializeTasks(),
         columns: initializeColumns(),
@@ -122,7 +122,10 @@ const OrderManager = () => {
                 },
             };
 
-            console.log('Updated Item Status:', updatedTasks[taskId].item.itemStatus);
+            console.log(
+                "Updated Item Status:",
+                updatedTasks[taskId].item.itemStatus
+            );
 
             return {
                 ...prevState,
@@ -133,7 +136,8 @@ const OrderManager = () => {
     };
 
     const onDragEnd = (result) => {
-        console.log('Drag Result:', result);
+        console.log("Drag Result:", result);
+        pq();
         const { destination, source } = result;
 
         // Check if user tries to drop in an unknown destination
@@ -142,7 +146,10 @@ const OrderManager = () => {
         }
 
         // Check if users drops in the same destination as the current position
-        if (destination.droppableId === source.droppableId && destination.index === source.index) {
+        if (
+            destination.droppableId === source.droppableId &&
+            destination.index === source.index
+        ) {
             return;
         }
 
@@ -152,7 +159,11 @@ const OrderManager = () => {
 
         // Check if user drops within the same column but in a different position
         if (sourceCol.id === destinationCol.id) {
-            const newColumn = reorderColumnList(sourceCol, source.index, destination.index);
+            const newColumn = reorderColumnList(
+                sourceCol,
+                source.index,
+                destination.index
+            );
 
             setState((prevState) => {
                 const newState = {
@@ -166,7 +177,10 @@ const OrderManager = () => {
                 updateColumns(newState);
 
                 const movedTaskId = newColumn.taskIds[destination.index];
-                updateItemStatus(movedTaskId, getColumnStatus(destinationCol.id));
+                updateItemStatus(
+                    movedTaskId,
+                    getColumnStatus(destinationCol.id)
+                );
 
                 return newState;
             });
@@ -215,11 +229,11 @@ const OrderManager = () => {
 
     const getColumnIndex = (itemStatus) => {
         switch (itemStatus) {
-            case 'pending':
+            case "pending":
                 return 1;
-            case 'processing':
+            case "processing":
                 return 2;
-            case 'completed':
+            case "completed":
                 return 3;
             default:
                 return 1; // Default to order pending
@@ -228,25 +242,33 @@ const OrderManager = () => {
 
     const getColumnStatus = (columnId) => {
         switch (columnId) {
-            case 'column-1':
-                return 'pending';
-            case 'column-2':
-                return 'processing';
-            case 'column-3':
-                return 'completed';
+            case "column-1":
+                return "pending";
+            case "column-2":
+                return "processing";
+            case "column-3":
+                return "completed";
             default:
-                return 'pending'; // Default to order pending
+                return "pending"; // Default to order pending
         }
     };
 
     return (
         <>
             <DragDropContext onDragEnd={onDragEnd}>
-                <div className='grid grid-cols-3 h-full gap-8 mx-8 mb-8'>
+                <div className="grid grid-cols-3 h-full gap-8 mx-8 mb-8">
                     {state.columnOrder.map((columnId) => {
                         const column = state.columns[columnId];
-                        const tasks = column.taskIds.map((taskId) => state.tasks[taskId]);
-                        return <AdminOrderStatusColumn key={column.id} column={column} tasks={tasks} />;
+                        const tasks = column.taskIds.map(
+                            (taskId) => state.tasks[taskId]
+                        );
+                        return (
+                            <AdminOrderStatusColumn
+                                key={column.id}
+                                column={column}
+                                tasks={tasks}
+                            />
+                        );
                     })}
                 </div>
             </DragDropContext>
@@ -255,4 +277,3 @@ const OrderManager = () => {
 };
 
 export default OrderManager;
-
