@@ -7,6 +7,55 @@ import LpTestimonial from '../components/landing-page/lpTestimonial';
 import { Link } from 'react-router-dom';
 
 const items = [
+    {
+        id: "nacho-chips",
+        image: "test/nacho-chips.png",
+        itemName: "Nacho Chips",
+        itemPrice: 9.99,
+    },
+    {
+        id: "steak1",
+        image: "test/steak.png",
+        itemName: "Steak",
+        itemPrice: 19.99,
+    },
+    {
+        id: "nacho-chips",
+        image: "test/nacho-chips.png",
+        itemName: "Nacho Chips",
+        itemPrice: 9.99,
+    },
+    {
+        id: "steak1",
+        image: "test/steak.png",
+        itemName: "Steak",
+        itemPrice: 19.99,
+    },
+    {
+        id: "nacho-chips",
+        image: "test/nacho-chips.png",
+        itemName: "Nacho Chips",
+        itemPrice: 9.99,
+    },
+    {
+        id: "steak1",
+        image: "test/steak.png",
+        itemName: "Steak",
+        itemPrice: 19.99,
+    },
+    {
+        id: "nacho-chips",
+        image: "test/nacho-chips.png",
+        itemName: "Nacho Chips",
+        itemPrice: 9.99,
+    },
+    {
+        id: "steak1",
+        image: "test/steak.png",
+        itemName: "Steak",
+        itemPrice: 19.99,
+    },
+
 ];
 
 function getItemsToShow() {
@@ -44,7 +93,7 @@ const Landing_page = () => {
         <>
             <div className='font-tt-norms-pro'>
                 <div className='relative'>
-                    <LpNavBar cartItems={items}/>
+                    <LpNavBar />
                     <div className='flex flex-col justify-center items-center h-[85vh] z-10 relative'>
                         <span className='md:text-6xl text-5xl'>Welcome to</span>
                         <span className='md:text-8xl text-7xl'>115A's Diner</span>

@@ -4,95 +4,12 @@ import Signup from '../signup';
 import { IoCartOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { MdOutlineDashboard } from "react-icons/md";
-import LpShoppingCart from './lpShoppingCart';
+import LpShoppingCart from "./lpShoppingCart";
+import { auth, readUserData } from "../../firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const LpNavBar = ({cartItems, cartSize, renderCartSize, removeFromCart, WebSocketService}) => {
-    /* Testing */
-    let email = true;
-    // let email = false;
-    let admin = true;
-    // let admin = false;
-
-    /*const cartItems = [
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 1
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-    ];*/
 
     // Sign In/Up
     const [selectedLoginItem, setSelectedLoginItem] = useState(null);
@@ -115,7 +32,7 @@ const LpNavBar = ({cartItems, cartSize, renderCartSize, removeFromCart, WebSocke
     };
 
     // Shopping Cart
-    const itemCount = cartSize; // Item Count Here
+    const itemCount = 3; // Item Count Here
     const [selectedCartItem, setSelectedCartItem] = useState(null);
     const openCartModal = () => {
         setSelectedCartItem();
@@ -170,9 +87,21 @@ const LpNavBar = ({cartItems, cartSize, renderCartSize, removeFromCart, WebSocke
                     </div>
                 )}
             </div>
-            <Login isOpen={selectedLoginItem !== null} onClose={closeLoginModal} />
-            <Signup isOpen={selectedSignupItem !== null} onClose={closeSignupModal} />
+
+            <Login
+                isOpen={selectedLoginItem !== null}
+                onClose={closeLoginModal}
+                signinSuccess={signinSuccess}
+                setSigninSuccess={setSigninSuccess}
+            />
+            <Signup
+                isOpen={selectedSignupItem !== null}
+                onClose={closeSignupModal}
+                signupSuccess={signupSuccess}
+                setSignupSuccess={setSignupSuccess}
+            />
             <LpShoppingCart isOpen={selectedCartItem !== null} onClose={closeCartModal} cartItems={cartItems} cartSize={cartSize} renderCartSize={renderCartSize} removeFromCart={removeFromCart} WebSocketService={WebSocketService}/>
+
         </>
     )
 }

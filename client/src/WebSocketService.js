@@ -1,5 +1,4 @@
 import { AiOutlineConsoleSql } from "react-icons/ai";
-import { useState } from 'react';
 
 /**
  * WebSocketService is what the client systems will use to communicate with the server
@@ -9,11 +8,6 @@ const WebSocketService = {
   ID: null, // type String
   isMaster: null, // type Bool
   menu: null, // type json object
-
-  waitingOrders: [],
-  workingOrders: [],
-  finishedOrders: [],
-  allOrders: [],
 
   /**
    * Establishes a WebSocket connection with the server
@@ -36,24 +30,12 @@ const WebSocketService = {
         });
         window.dispatchEvent(menuUpdateEvent);
       }
-
-      function dispatchOrderUpdate(orders) {
-        const orderUpdateEvent = new CustomEvent('orderUpdate', {
-          detail: {
-            waitingOrders: orders.waitingOrders,
-            workingOrders: orders.workingOrders,
-            finishedOrders: orders.finishedOrders,
-          }
-        });
-        window.dispatchEvent(orderUpdateEvent);
-      }
         
       function connectToServer(hostname, port) {
         return new Promise((resolve, reject) => {
           const socket = new WebSocket(`ws://${hostname}:${port}`);
           var id = 'NO_ID';
           var menu = {};
-          var allOrders = null;
 
           socket.addEventListener('open', (e) => {
             console.log('WebSocket connection is open (connected).');
@@ -73,11 +55,10 @@ const WebSocketService = {
                 console.log('Received INIT from server');
                 id = payload.ID;
                 menu = payload.menu;
-                allOrders = payload.allOrders;
 
                 console.log("Received menu", menu);
 
-                resolve([socket, id, menu, allOrders]);
+                resolve([socket, id, menu.menuList]);
                 return;
 
               case 'BROADCAST':
@@ -94,7 +75,6 @@ const WebSocketService = {
 
               case 'MENU':
                 WebSocketService.menu = payload.menuList;
-                console.log("RECEIVED MENU:", payload);
                 dispatchMenuUpdate('menuUpdate');
                 break;
 
@@ -104,22 +84,8 @@ const WebSocketService = {
 
               case 'ORDERPLACED':
                 const message = payload.order;
-                console.log('order:', payload);
-                console.log(payload.waitingOrders);
-                allOrders = payload.allOrders;
-                WebSocketService.waitingOrders = payload.waitingOrders;
-                WebSocketService.workingOrders = payload.workingOrders;
-                WebSocketService.finishedOrders = payload.finishedOrders;
-                console.log("all queues:");
-                console.log('Waiting orders:', WebSocketService.waitingOrders);
-                console.log('Working orders:', WebSocketService.workingOrders);
-                console.log('FInished orders:', WebSocketService.finishedOrders);
-                dispatchOrderUpdate(allOrders);
-                break;
-
-              case 'ALLORDERS':
-                console.log('ALLORDERS payload:', payload.allOrders);
-                dispatchOrderUpdate(allOrders);
+                console.log(message);
+                alert("received message:", message);
                 break;
 
               default:
@@ -133,16 +99,13 @@ const WebSocketService = {
 
       //this.socket = connectToServer(this.socket, hostname, port);
       connectToServer(hostname, port)
-        .then(([socket, id, menu, allOrders]) => {
+        .then(([socket, id, menu]) => {
           console.log("PROMISE RESOLVED", socket, id);
           this.socket = socket;
           this.id = id;
           this.menu = menu;
-          this.allOrders = allOrders;
-          console.log(menu)
           if (isMaster){
             this.requestMaster();
-            dispatchOrderUpdate(this.allOrders);
           }
           dispatchMenuUpdate('menuUpdate');
         });
@@ -171,6 +134,7 @@ const WebSocketService = {
       'order': order,
     };
 
+    console.log(this.socket);
     this.socket.send(JSON.stringify(actionObject));
     return;
   },
@@ -184,14 +148,6 @@ const WebSocketService = {
     return;
   },
 
-  requestOrders() {
-    const actionObject = {
-      'action': 'REQUESTORDERS'
-    };
-    this.socket.send(JSON.stringify(actionObject));
-    return;
-  },
-
   /**
    * Sends a actionObject request to the server
    * @param {ActionObject} actionObject
@@ -200,22 +156,6 @@ const WebSocketService = {
     // testing actionObject
     console.log(actionObject);
 
-    this.socket.send(JSON.stringify(actionObject));
-  },
-
-  workOnItem(item) {
-    const actionObject = {
-      action: 'WORKONITEM',
-      item: item
-    };
-    this.socket.send(JSON.stringify(actionObject));
-  },
-
-  finishItem(item) {
-    const actionObject = {
-      action: 'FINISHITEM',
-      item: item
-    };
     this.socket.send(JSON.stringify(actionObject));
   },
 
