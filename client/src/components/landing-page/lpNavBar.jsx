@@ -9,7 +9,8 @@ import { auth, readUserData } from "../../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
-const LpNavBar = () => {
+
+const LpNavBar = ({cartItems, cartSize, renderCartSize, removeFromCart, WebSocketService}) => {
     /* Testing */
     // let email = true;
     // let email = false;
@@ -60,87 +61,6 @@ const LpNavBar = () => {
             });
     };
 
-    const cartItems = [
-        {
-            itemImage: "test/nacho-chips.png",
-            itemName: "Nacho chips",
-            itemPrice: 9.99,
-            itemCount: 1,
-        },
-        {
-            itemImage: "test/nacho-chips.png",
-            itemName: "Nacho chips",
-            itemPrice: 9.99,
-            itemCount: 2,
-        },
-        {
-            itemImage: "test/nacho-chips.png",
-            itemName: "Nacho chips",
-            itemPrice: 9.99,
-            itemCount: 2,
-        },
-        {
-            itemImage: "test/nacho-chips.png",
-            itemName: "Nacho chips",
-            itemPrice: 9.99,
-            itemCount: 2,
-        },
-        {
-            itemImage: "test/nacho-chips.png",
-            itemName: "Nacho chips",
-            itemPrice: 9.99,
-            itemCount: 2,
-        },
-        {
-            itemImage: "test/nacho-chips.png",
-            itemName: "Nacho chips",
-            itemPrice: 9.99,
-            itemCount: 2,
-        },
-        {
-            itemImage: "test/nacho-chips.png",
-            itemName: "Nacho chips",
-            itemPrice: 9.99,
-            itemCount: 2,
-        },
-        {
-            itemImage: "test/nacho-chips.png",
-            itemName: "Nacho chips",
-            itemPrice: 9.99,
-            itemCount: 2,
-        },
-        {
-            itemImage: "test/nacho-chips.png",
-            itemName: "Nacho chips",
-            itemPrice: 9.99,
-            itemCount: 2,
-        },
-        {
-            itemImage: "test/nacho-chips.png",
-            itemName: "Nacho chips",
-            itemPrice: 9.99,
-            itemCount: 2,
-        },
-        {
-            itemImage: "test/nacho-chips.png",
-            itemName: "Nacho chips",
-            itemPrice: 9.99,
-            itemCount: 2,
-        },
-        {
-            itemImage: "test/nacho-chips.png",
-            itemName: "Nacho chips",
-            itemPrice: 9.99,
-            itemCount: 2,
-        },
-        {
-            itemImage: "test/nacho-chips.png",
-            itemName: "Nacho chips",
-            itemPrice: 9.99,
-            itemCount: 2,
-        },
-    ];
-
     // Sign In/Up
     const [selectedLoginItem, setSelectedLoginItem] = useState(null);
     const [selectedSignupItem, setSelectedSignupItem] = useState(null);
@@ -162,7 +82,7 @@ const LpNavBar = () => {
     };
 
     // Shopping Cart
-    const itemCount = 3; // Item Count Here
+    const itemCount = cartSize; // Item Count Here
     const [selectedCartItem, setSelectedCartItem] = useState(null);
     const openCartModal = () => {
         setSelectedCartItem();
@@ -193,11 +113,9 @@ const LpNavBar = () => {
                                 >
                                     <IoCartOutline size={30} />
                                     {/* Adjust Item Count here */}
-                                    {itemCount > 0 && (
-                                        <span className="ml-1">
-                                            {itemCount}
-                                        </span>
-                                    )}
+
+                                    {cartSize > 0 && <span className='ml-1'>{itemCount}</span>}
+
                                 </button>
                                 <Link to={`/profile`}>
                                     <img
@@ -237,6 +155,7 @@ const LpNavBar = () => {
                     </div>
                 )}
             </div>
+
             <Login
                 isOpen={selectedLoginItem !== null}
                 onClose={closeLoginModal}
@@ -254,6 +173,8 @@ const LpNavBar = () => {
                 onClose={closeCartModal}
                 cartItems={cartItems}
             />
+            <LpShoppingCart isOpen={selectedCartItem !== null} onClose={closeCartModal} cartItems={cartItems} cartSize={cartSize} renderCartSize={renderCartSize} removeFromCart={removeFromCart} WebSocketService={WebSocketService}/>
+
         </>
     );
 };

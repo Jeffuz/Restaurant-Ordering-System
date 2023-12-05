@@ -44,6 +44,7 @@ const ShoppingCart = ({ orderNum, tableNum, date, cartItems, setCartItems, WebSo
         setTax(calcTax.toFixed(2));
         const calcTotal = sum + calcTax;
         setTotal(calcTotal.toFixed(2));
+        alert('CART ITEMS:', cartItems);
     }, [cartItems, total]);
 
     const changeCounter = (index, newCount) => {
@@ -54,8 +55,6 @@ const ShoppingCart = ({ orderNum, tableNum, date, cartItems, setCartItems, WebSo
 
     return (
         <div className="bg-white h-screen flex flex-col justify-between">
-
-
             {/* Table and Shopping Cart Div */}
             <div className=''>
                 {/* Table Information */}
@@ -83,18 +82,18 @@ const ShoppingCart = ({ orderNum, tableNum, date, cartItems, setCartItems, WebSo
             {/* Payment and Customer Buttons Div */}
             <div className=''>
                 {/* Payment Amount */}
-                <div class="flex flex-col p-4">
+                <div className="flex flex-col p-4">
                     <div className='flex justify-between'>
                         <div>Subtotal: </div>
                         <div>${subTotal}</div>
                     </div>
                     <div className='flex justify-between'>
-                        <div class="">Tax: </div>
-                        <div class="">${tax}</div>
+                        <div className="">Tax: </div>
+                        <div className="">${tax}</div>
                     </div>
                     <div className='flex justify-between'>
-                        <div class="font-bold text-lg">Total: </div>
-                        <div class="font-bold text-lg">${total}</div>
+                        <div className="font-bold text-lg">Total: </div>
+                        <div className="font-bold text-lg">${total}</div>
                     </div>
                 </div>
 
