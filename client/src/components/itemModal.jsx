@@ -2,13 +2,8 @@ import React from 'react';
 import { AiOutlineClose } from 'react-icons/ai'
 import { FaShoppingCart } from 'react-icons/fa'
 
-const ItemModal = ({ isOpen, onClose, parentCallback, item }) => {
+const ItemModal = ({ isOpen, onClose, item }) => {
     if (!isOpen) return null;
-
-    const addToCart = () => {
-        onClose();
-        parentCallback(item);
-    }
 
     return (
         <div className="fixed inset-0 flex items-center justify-center">
@@ -69,7 +64,7 @@ const ItemModal = ({ isOpen, onClose, parentCallback, item }) => {
                                     <div key={index}>{diet}</div>
                                 ))}
                             </div>
-                            <div className='flex justify-center font-bold bg-[#D9D9D9] uppercase items-center rounded-[12.5px] py-4 px-6 ' role='button' onClick={addToCart}>
+                            <div className='flex justify-center font-bold bg-[#D9D9D9] uppercase items-center rounded-[12.5px] py-4 px-6 ' role='button' onClick={onClose}>
                                 <FaShoppingCart />&nbsp;&nbsp;Add to cart
                             </div>
                         </div>
