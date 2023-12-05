@@ -1,40 +1,25 @@
+import React, { useState, useEffect } from 'react'
+import ItemCard from '../components/itemCard'
+import Filterbar from '../components/filterbar';
+import ItemModal from '../components/itemModal';
+import ShoppingCart from '../components/shoppingCart';
+import LpNavBar from '../components/landing-page/lpNavBar';
+import WebSocketService from '../WebSocketService';
 
-import React, { useState, useEffect } from "react";
-import ItemCard from "../components/itemCard";
-import Filterbar from "../components/filterbar";
-import ItemModal from "../components/itemModal";
-import ShoppingCart from "../components/shoppingCart";
-import LpNavBar from "../components/landing-page/lpNavBar";
-import WebSocketService from "../WebSocketService";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth, readUserData } from "../firebase";
-
-const Menu = (props) => {
-    // Testing
-    // let admin = true;
-    // let admin = false;
-
-    const [admin, setAdmin] = useState(false);
-    const [user, setUser] = useState(null);
+const Menu = () => {
+    let admin = false;
 
     const [items, setItems] = useState([]); // used to save data states
     const [isLoading, setIsLoading] = useState(true); // used to save whether data is loading 
 
-
-    const [menuItems, setMenuItems] = useState([]);
-
-    const menuSet = false;
-
     useEffect(() => {
-
+        // Function invoked when WebSocketService receives a menu update
         const menuUpdateHandler = () => {
             console.log("Menu.js update received!");
             const menuList = WebSocketService.menu;
+            console.log('menuList:', menuList);
             if (menuList) {
-
-                
-      
-      setItems(menuList.map(item => ({
+                setItems(menuList.map(item => ({
                     id: item.menuId,
                     image: item.image,
                     itemFilter: item.filter,
@@ -47,49 +32,44 @@ const Menu = (props) => {
             }
         }
 
-        const authStateChangeHandler = (authUser) => {
-            setAdmin(authUser);
-
-            if (authUser) {
-                readUserData(authUser.uid).then((userData) => {
-                    if (userData && userData.restaurantId !== 0) {
-                        setAdmin(true);
-                    } else {
-                        setAdmin(false);
-                    }
-                });
-            } else {
-                setAdmin(false);
-            }
-        };
-
-        const unsubscribeAuthStateChange = onAuthStateChanged(
-            auth,
-            authStateChangeHandler
-        );
-
-
-
-                
-
         // Connect to server if not already connected
         if (!WebSocketService.socket) {
             WebSocketService.connect('127.0.0.1', '8080', false)
                 .then(
                     alert("Connected!"),
                 );
-
         }
 
         window.addEventListener('menuUpdate', menuUpdateHandler);
     }, []);
 
-
     const [cartItems, renderCartItems] = useState([]);
     const [cartSize, renderCartSize] = useState(0);
 
-
     const [selectedItem, setSelectedItem] = useState(null);
+
+    const getRandomNumber = () => Math.floor(Math.random() * (9999999999 - 1000000000 + 1) + 1000000000);
+    
+    const addItemToCart = (item) => {
+        const hash = getRandomNumber();
+        const updatedCart = [...cartItems, [item, hash]];
+        renderCartItems(updatedCart); 
+        renderCartSize(cartSize + 1);
+    }
+
+    
+
+    const removeItemFromCart = (hash) => {
+        if (hash === 0){
+            closeModal();
+            renderCartSize(0);
+            renderCartItems([]);
+        }else{
+            renderCartSize(cartSize - 1);
+            const newCartItems = cartItems.filter((cartItem) => cartItem[1] !== hash);
+            renderCartItems(newCartItems);
+        }
+    }
 
     const openModal = (item) => {
         setSelectedItem(item);
@@ -99,11 +79,17 @@ const Menu = (props) => {
         setSelectedItem(null);
     };
 
+    // callback listener for itemcard 
+    const handleItemClick = (clickedItem) => {
+        addItemToCart(clickedItem);
+    }
+
     // render the pages if the data is loaded
     if (isLoading) {
         return <div>Loading...</div>; // if data is loading, rending a loading pages
+    }
 
-    } else {
+    else {
 
         return (
             <div className='font-tt-norms-pro'>
@@ -124,16 +110,13 @@ const Menu = (props) => {
                                     </div>
                                 </div>
                             </div>
-
                             <div className='flex flex-col w-[25vw] gap-8'>
                                 <ShoppingCart orderNum="222" tableNum="1" date="October 26, 2023" cartItems={cartItems} setCartItems={renderCartItems} WebSocketService={WebSocketService} />
-
                             </div>
                             <ItemModal isOpen={selectedItem !== null} onClose={closeModal} item={selectedItem} />
                         </div>
                     </>
                 ) : (
-
                     <div className="h-screen">
                         <LpNavBar cartItems={cartItems} cartSize={cartSize} renderCartSize={renderCartSize} removeFromCart={removeItemFromCart} WebSocketService={WebSocketService} />
                         <div className='flex flex-col h-screen p-8'>
