@@ -6,15 +6,14 @@ import { Link } from 'react-router-dom';
 import { MdOutlineDashboard } from "react-icons/md";
 import LpShoppingCart from './lpShoppingCart';
 
-const LpNavBar = () => {
-
+const LpNavBar = ({cartItems, cartSize, renderCartSize, removeFromCart, WebSocketService}) => {
     /* Testing */
     let email = true;
     // let email = false;
     let admin = true;
     // let admin = false;
 
-    const cartItems = [
+    /*const cartItems = [
         {
             itemImage: 'test/nacho-chips.png',
             itemName: 'Nacho chips',
@@ -93,8 +92,7 @@ const LpNavBar = () => {
             itemPrice: 9.99,
             itemCount: 2
         },
-
-    ];
+    ];*/
 
     // Sign In/Up
     const [selectedLoginItem, setSelectedLoginItem] = useState(null);
@@ -117,7 +115,7 @@ const LpNavBar = () => {
     };
 
     // Shopping Cart
-    const itemCount = 3; // Item Count Here
+    const itemCount = cartSize; // Item Count Here
     const [selectedCartItem, setSelectedCartItem] = useState(null);
     const openCartModal = () => {
         setSelectedCartItem();
@@ -145,7 +143,7 @@ const LpNavBar = () => {
                                 <button className='flex items-center text-black rounded-3xl leading-10 px-3' onClick={() => openCartModal()}>
                                     <IoCartOutline size={30} />
                                     {/* Adjust Item Count here */}
-                                    {itemCount > 0 && <span className='ml-1'>{itemCount}</span>}
+                                    {cartSize > 0 && <span className='ml-1'>{itemCount}</span>}
                                 </button>
                                 <Link to="" >
                                     <img src="profile.png" alt='Profile' className='w-10 h-10 rounded-full' />
@@ -174,7 +172,7 @@ const LpNavBar = () => {
             </div>
             <Login isOpen={selectedLoginItem !== null} onClose={closeLoginModal} />
             <Signup isOpen={selectedSignupItem !== null} onClose={closeSignupModal} />
-            <LpShoppingCart isOpen={selectedCartItem !== null} onClose={closeCartModal} cartItems={cartItems} />
+            <LpShoppingCart isOpen={selectedCartItem !== null} onClose={closeCartModal} cartItems={cartItems} cartSize={cartSize} renderCartSize={renderCartSize} removeFromCart={removeFromCart} WebSocketService={WebSocketService}/>
         </>
     )
 }
