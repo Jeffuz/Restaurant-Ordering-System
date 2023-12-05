@@ -12,8 +12,6 @@ const Menu = () => {
     const [items, setItems] = useState([]); // used to save data states
     const [isLoading, setIsLoading] = useState(true); // used to save whether data is loading 
 
-    let menuSet = false;
-
     useEffect(() => {
         // Function invoked when WebSocketService receives a menu update
         const menuUpdateHandler = () => {
@@ -39,21 +37,12 @@ const Menu = () => {
             WebSocketService.connect('127.0.0.1', '8080', false)
                 .then(
                     alert("Connected!"),
-                    //setIsLoading(false),
                 );
         }
 
         window.addEventListener('menuUpdate', menuUpdateHandler);
     }, []);
 
-    /*
-{
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 1
-        },
-    */
     const [cartItems, renderCartItems] = useState([]);
     const [cartSize, renderCartSize] = useState(0);
 
@@ -63,19 +52,23 @@ const Menu = () => {
     
     const addItemToCart = (item) => {
         const hash = getRandomNumber();
-        console.log('assigned hash', hash);
         const updatedCart = [...cartItems, [item, hash]];
         renderCartItems(updatedCart); 
-        console.log(updatedCart);
         renderCartSize(cartSize + 1);
     }
 
     
 
     const removeItemFromCart = (hash) => {
-        renderCartSize(cartSize - 1)
-        const newCartItems = cartItems.filter((cartItem) => cartItem[1] !== hash);
-        renderCartItems(newCartItems);
+        if (hash === 0){
+            closeModal();
+            renderCartSize(0);
+            renderCartItems([]);
+        }else{
+            renderCartSize(cartSize - 1);
+            const newCartItems = cartItems.filter((cartItem) => cartItem[1] !== hash);
+            renderCartItems(newCartItems);
+        }
     }
 
     const openModal = (item) => {
@@ -111,13 +104,7 @@ const Menu = () => {
                                     <div className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8">
                                         {items.map((item) => (
                                             <div onClick={() => openModal(item)} role="button">
-                                                <ItemCard
-                                                    image={item.image}
-                                                    itemName={item.itemName}
-                                                    itemFilter={item.itemFilter}
-                                                    itemPrice={item.itemPrice}
-                                                    itemContent={item.itemContent}
-                                                    itemDiet={item.itemDiet} />
+                                                <ItemCard item={item} onItemClick={openModal} />
                                             </div>
                                         ))}
                                     </div>
@@ -131,7 +118,7 @@ const Menu = () => {
                     </>
                 ) : (
                     <div className="h-screen">
-                        <LpNavBar cartItems={cartItems} cartSize={cartSize} renderCartSize={renderCartSize} removeFromCart={removeItemFromCart}/>
+                        <LpNavBar cartItems={cartItems} cartSize={cartSize} renderCartSize={renderCartSize} removeFromCart={removeItemFromCart} WebSocketService={WebSocketService} />
                         <div className='flex flex-col h-screen p-8'>
                             <div className='text-center mt-27 text-black font-Montserrat text-4xl font-bold px-6 mb-6 '>Menu</div>
                             <div className='scrollbar-hide '><Filterbar /></div>

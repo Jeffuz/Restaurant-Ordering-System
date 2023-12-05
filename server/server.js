@@ -42,6 +42,12 @@ class Server {
         this.clients = []; // array of connected ClientWebSockets
         this.disconnected = []; // array of disconnected ClientWebSockets
         this.master = []; // array of ClientWebSocket
+
+        this.orderLog = []; // array of all processed orders with items [client, orderItem, startTime, finishTime]
+        this.waitingOrders = []; // queue with items [hash, client, orderItem, startTime]
+        this.workingOrders = []; // array with items [hash, client, orderItem, startTime]
+        this.finishedOrders = []; // array with items[hash, client, orderItem, startTime, finishTime];
+
     }
 
     /*********************************
@@ -127,10 +133,53 @@ class Server {
                     });
                     break;
 
+                case 'REQUESTORDERS':
+                    console.log('Received order queue request');
+                    this.fulfillRequestOrder(client);
+                    break;
+
                 case "ORDER":
                     console.log(`Server received ORDER request`);
-                    let orders = payload.cart;
-                    this.sendOrderToKitchen(client, orders);
+                    let orders = payload.order;
+                    const batch = {
+                        client: client.id,
+                        orders: []
+                    }
+                    orders.forEach((order) => {
+                        console.log('order:', order);
+                        batch.orders.push({hash: order[1], item: order[0]});
+                    });
+                    this.queueOrder(client, batch);
+                    break;
+
+                case 'WORKONITEM':
+                    console.log(`Server received WORKONITEM request`);
+                    // Remove item from waitingOrders
+                    this.waitingOrders = this.waitingOrders.filter(order => order.hash !== payload.item.hash);
+                    // Add item to workingOrders
+                    this.workingOrders.push(payload.item);
+                    console.log('waitingOrders:', this.waitingOrders);
+                    console.log('workingOrders:', this.workingOrders);
+                    // Broadcast changes
+                    this.clients.forEach((client) => {
+                        this.fulfillRequestOrder(client);
+                    })
+                   /* this.master.forEach((master) => {
+                        this.fulfillRequestOrder(master);
+                    })*/
+                    this.updateKitchens();
+                    break;
+
+                case 'FINISHITEM':
+                    console.log(`Server received FINISHITEM`);
+                    // Remove item from workingOrders
+                    this.workingOrders = this.workingOrders.filter(order => order.hash !== payload.item.hash);
+                    // Add item to finishedItems
+                    this.finishedOrders.push(payload.item);
+                    this.clients.forEach((client) => {
+                        this.fulfillRequestOrder(client);
+                    })
+                    this.updateKitchens();
                     break;
 
                 // Restaurant
@@ -339,6 +388,11 @@ class Server {
                 action: "INIT",
                 ID: id,
                 menu: menu,
+                allOrders: {
+                    waitingOrders: this.waitingOrders,
+                    workingOrders: this.workingOrders,
+                    finishedOrders: this.finishedOrders,
+                }
             };
             client.send(JSON.stringify(actionObject));
         });
@@ -406,6 +460,67 @@ class Server {
         })
 
         return;
+    }
+
+    /**
+     * Queues the order and sends to the kitchen
+     */
+    queueOrder(client, batch){
+        console.log('Queue order received order', batch, 'for client', client.id);
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+        const day = now.getDate().toString().padStart(2, '0');
+        const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+        const year = now.getFullYear();
+        const formattedDateTime = `${hours}:${minutes}:${seconds} ${day}/${month}/${year}`;
+        /*order.forEach((orderItem) => {
+            console.log('orderItem:', orderItem);
+            //this.waitingOrders.push([orderItem[0][1], client.id, order[0][0], formattedDateTime]);
+        })*/
+
+        // Push items to waitingOrders
+        batch.orders.forEach((order) => {
+            order.orderer = batch.client;
+            order.orderTime = formattedDateTime;
+            console.log('order:', order);
+            this.waitingOrders.push(order);
+        });
+
+        console.log('waitingOrders:', this.waitingOrders);
+
+        this.updateKitchens();
+    }
+
+    /**
+     * Sends current WaitingOrders to kitchen
+     */
+    updateKitchens(){
+        const actionObject = {
+            action: 'ORDERPLACED',
+            allOrders: {
+                waitingOrders: this.waitingOrders,
+                workingOrders: this.workingOrders,
+                finishedOrders: this.finishedOrders,
+            }
+        }
+
+        this.master.forEach((master) => {
+            master.send(JSON.stringify(actionObject));
+        });
+    }
+
+    fulfillRequestOrder(client) {
+        const actionObject = {
+            action: 'ALLORDERS',
+            allOrders: {
+                waitingOrders: this.waitingOrders,
+                workingOrders: this.workingOrders,
+                finishedOrders: this.finishedOrders,
+            }
+        }
+        client.send(JSON.stringify(actionObject));
     }
 }
 

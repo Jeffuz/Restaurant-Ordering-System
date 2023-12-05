@@ -152,7 +152,10 @@ function updateMenu(message) {
             restaurant
                 .save()
                 .then(() => {
-                    resolve({ menuList: getMenus() });
+                    getMenus()
+                    .then((menu) => {
+                        resolve({menuList: menu});
+                    })
                 })
                 .catch((err) => {
                     reject({

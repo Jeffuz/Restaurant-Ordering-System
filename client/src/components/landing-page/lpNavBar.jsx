@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { MdOutlineDashboard } from "react-icons/md";
 import LpShoppingCart from './lpShoppingCart';
 
-const LpNavBar = ({cartItems, cartSize, renderCartSize, removeFromCart}) => {
+const LpNavBar = ({cartItems, cartSize, renderCartSize, removeFromCart, WebSocketService}) => {
     /* Testing */
     let email = true;
     // let email = false;
@@ -172,7 +172,7 @@ const LpNavBar = ({cartItems, cartSize, renderCartSize, removeFromCart}) => {
             </div>
             <Login isOpen={selectedLoginItem !== null} onClose={closeLoginModal} />
             <Signup isOpen={selectedSignupItem !== null} onClose={closeSignupModal} />
-            <LpShoppingCart isOpen={selectedCartItem !== null} onClose={closeCartModal} cartItems={cartItems} cartSize={cartSize} renderCartSize={renderCartSize} removeFromCart={removeFromCart}/>
+            <LpShoppingCart isOpen={selectedCartItem !== null} onClose={closeCartModal} cartItems={cartItems} cartSize={cartSize} renderCartSize={renderCartSize} removeFromCart={removeFromCart} WebSocketService={WebSocketService}/>
         </>
     )
 }
