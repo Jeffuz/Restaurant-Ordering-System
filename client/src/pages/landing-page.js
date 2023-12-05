@@ -23,7 +23,7 @@ function getItemsToShow() {
     }
 }
 
-const Landing_page = () => {
+const Landing_page = ({restaurantInfo}) => {
     const [itemsToShow, setItemsToShow] = useState(getItemsToShow());
 
     useEffect(() => {
@@ -44,10 +44,10 @@ const Landing_page = () => {
         <>
             <div className='font-tt-norms-pro'>
                 <div className='relative'>
-                    <LpNavBar cartItems={items}/>
+                    <LpNavBar cartItems={items} restaurantInfo={restaurantInfo}/>
                     <div className='flex flex-col justify-center items-center h-[85vh] z-10 relative'>
                         <span className='md:text-6xl text-5xl'>Welcome to</span>
-                        <span className='md:text-8xl text-7xl'>115A's Diner</span>
+                        <span className='md:text-8xl text-7xl'>{restaurantInfo.name}</span>
                         <Link to="/menu">
                             <button className='bg-light-secondary text-white rounded-3xl py-2 px-4 mt-7 font-bold text-2xl flex items-center'>
                                 <div>Order Now&nbsp;</div>
@@ -78,19 +78,20 @@ const Landing_page = () => {
                         <div className='flex flex-col items-center'>
                             <div className='text-5xl font-bold text-light-primary mb-6'>About Us</div>
                             <div className='text-2xl text-light-primary max-w-4xl text-center px-5'>
-                                Welcome to 115A's Diner, where passion meets flavor! Our journey began with a simple
+                                {restaurantInfo.description}
+                                {/* Welcome to 115A's Diner, where passion meets flavor! Our journey began with a simple
                                 idea: to create a dining experience that combines the warmth of home-cooked meals with
                                 the excitement of culinary innovation. At 115A's Diner, we source the finest ingredients
                                 to craft delicious dishes that cater to every palate. Whether you're a fan of classic
                                 comfort food or crave bold and adventurous flavors, our menu has something special for you.
                                 Join us on this gastronomic journey and savor the moments at 115A's Diner. We look
-                                forward to serving you with a smile and creating memories that last a lifetime.
+                                forward to serving you with a smile and creating memories that last a lifetime. */}
                             </div>
                         </div>
                     </div>
                 </div>
                 <LpTestimonial />
-                <LpFooter />
+                <LpFooter restaurantInfo={restaurantInfo}/>
             </div>
         </>
     )
