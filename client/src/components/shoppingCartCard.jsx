@@ -1,21 +1,17 @@
 import React from 'react';
-import { useState } from 'react';
-import { AiOutlinePlusCircle, AiOutlineMinusCircle, AiOutlineMessage } from 'react-icons/ai'
+import { AiOutlineMessage } from 'react-icons/ai'
 
-const ShoppingCartCard = ({ itemImage, itemName, itemPrice, itemCounter, ifChangeCounter}) => {
-    const[counter, setCounter] = useState(itemCounter);
 
-    const counterIncrement = () => {
-        setCounter(counter + 1);
-        ifChangeCounter(counter + 1);
-    };
+const ShoppingCartCard = ({item, removeFromCart}) => {
+    const selfItem = item[0];
+    const itemImage = selfItem.image;
+    const itemPrice = selfItem.itemPrice;
+    const itemName = selfItem.itemName;
+    const itemHash = item[1];
 
-    const counterDecrement = () => {
-        if (counter > 1) {
-            setCounter(counter - 1);
-            ifChangeCounter(counter - 1);
-        }
-    };
+    const removeItemFromCart = () => {
+        removeFromCart(itemHash);
+    }
 
     return (
         <div className="flex justify-between md:flex-row flex-col bg-gray-100 rounded-lg shadow-md px-2">
@@ -36,20 +32,14 @@ const ShoppingCartCard = ({ itemImage, itemName, itemPrice, itemCounter, ifChang
                     <AiOutlineMessage size={30} />
                 </button>
                 <div className="flex flex-col">
-                    {/* Item Amount */}
-                    <div className='flex rounded-lg bg-white'>
-                        <button className="mx-4" onClick={counterDecrement}><AiOutlineMinusCircle /></button>
-                        <div className="flex">{counter}</div>
-                        <button className="mx-4" onClick={counterIncrement}><AiOutlinePlusCircle /></button>
-                    </div>
                     {/* Item Remove */}
                     <div className='flex justify-center text-sm text-red-600'>
-                        <button>Remove</button>
+                        <button onClick={removeItemFromCart}>Remove</button>
                     </div>
 
                 </div>
             </div>
         </div>
     );
-};
+} 
 export default ShoppingCartCard;
