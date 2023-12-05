@@ -1,0 +1,39 @@
+[1mdiff --git a/server/models.js b/server/models.js[m
+[1mindex b731773..faf6ff2 100644[m
+[1m--- a/server/models.js[m
+[1m+++ b/server/models.js[m
+[36m@@ -1,5 +1,20 @@[m
+ const mongoose = require("./db");[m
+ [m
+[32m+[m[32mconst menuCustomSchema = new mongoose.Schema({[m
+[32m+[m[32m    name: {[m
+[32m+[m[32m        type: String,[m
+[32m+[m[32m        required: true,[m
+[32m+[m[32m    },[m
+[32m+[m[32m    multipleSelection: {[m
+[32m+[m[32m        type: Boolean,[m
+[32m+[m[32m        required: true,[m
+[32m+[m[32m    },[m
+[32m+[m[32m    option: {[m
+[32m+[m[32m        type: [{ customName: String, price: Number }],[m
+[32m+[m[32m        required: true,[m
+[32m+[m[32m    },[m
+[32m+[m[32m});[m
+[32m+[m
+ const menuItemSchema = new mongoose.Schema({[m
+     menuId: {[m
+         type: String,[m
+[36m@@ -21,6 +36,13 @@[m [mconst menuItemSchema = new mongoose.Schema({[m
+         type: String,[m
+     },[m
+     diet: [String],[m
+[32m+[m[32m    customizable: {[m
+[32m+[m[32m        type: Boolean,[m
+[32m+[m[32m        required: true,[m
+[32m+[m[32m    },[m
+[32m+[m[32m    custom: {[m
+[32m+[m[32m        type: [menuCustomSchema],[m
+[32m+[m[32m    },[m
+ });[m
+ [m
+ const menuSchema = new mongoose.Schema({[m

@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.cdnfonts.com/css/tt-norms-pro');
+/*  https://www.cdnfonts.com/tt-norms-pro.font */
+body {
+    background-color: #D9D9D9;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
