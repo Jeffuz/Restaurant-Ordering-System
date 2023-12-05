@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import AdminNavbar from '../components/adminNavbar'
 import OrderManager from '../components/orderManager'
 
@@ -23,7 +23,7 @@ const Admin_orders = (props) => {
 
     useEffect(() => {
         // Function invoked when WebSocketService receives a order update
-        
+
         const orderUpdateHandler = (orders) => {
             console.log('adminOrders.js received order update!');
             console.log('orders:', orders.detail);
@@ -41,7 +41,7 @@ const Admin_orders = (props) => {
         console.log(workingOrders);
         console.log(finishedOrders);
     }
-    
+
     const workOnItem = (item) => {
         WebSocketService.workOnItem(item);
     }
@@ -53,45 +53,56 @@ const Admin_orders = (props) => {
     return (
         <>
             <div className="flex flex-row">
-                <div className='w-[20%]'><AdminNavbar setPage={setPage}/></div>
+                <div className='w-[20%]'><AdminNavbar setPage={setPage} /></div>
                 <div className="w-[80%] h-screen">
                     <div className='flex flex-col h-screen'>
-                        <div className='text-center mt-27 text-black font-Montserrat text-4xl font-bold py-6 '>Orders</div>
-                        <div className='flex flex-row border-black'>
-                            <div className='flex flex-col'>
-                                Waiting Order
-                                {waitingOrders.map((waitingOrder) => (
-                                    <button onClick={() => workOnItem(waitingOrder)}>
-                                        client: {waitingOrder.orderer} <br />
-                                        Order id: {waitingOrder.hash} <br /> 
-                                        Order: {waitingOrder.item.id}
-                                    </button>
-                                ))} 
-                            </div>
-                            <div className='flex flex-col'>
-                                Working Order
-                                {workingOrders.map((workingOrder) => (
-                                    <button onClick={() => finishItem(workingOrder)}>
-                                        client: {workingOrder.orderer} <br />
-                                        Order id: {workingOrder.hash} <br /> 
-                                        Order: {workingOrder.item.id} <br />
-                                        <br />
-                                    </button>
-                                ))}
-                            </div>
-                            <div className='flex flex-col'>
-                                Finished orders:
-                                {finishedOrders.map((finishedOrder) => (
-                                    <div>
-                                        client: {finishedOrder.orderer} <br />
-                                        Order id: {finishedOrder.hash} <br /> 
-                                        Order: {finishedOrder.item.id}
+                        <div className='text-center h-[10%] text-black font-Montserrat text-4xl font-bold py-6 '>Orders</div>
+
+                        <div className='px-6 pb-6 h-[90%]'>
+                            <div className='flex flex-row gap-6 h-full'>
+                                <div className='flex flex-col w-full bg-white rounded-2xl'>
+                                    <div className='flex justify-center p-3 leading-10 font-bold text-2xl'>Order's Waiting</div>
+                                    <div className='flex flex-col overflow-y-auto'>
+                                        {waitingOrders.map((waitingOrder) => (
+                                            <button onClick={() => workOnItem(waitingOrder)} className='pb-3'>
+                                                client: {waitingOrder.orderer} <br />
+                                                Order id: {waitingOrder.hash} <br />
+                                                Order: {waitingOrder.item.id}
+                                            </button>
+                                        ))}
                                     </div>
-                                ))}
+                                </div>
+                                <div className='flex flex-col w-full bg-white rounded-2xl'>
+                                    <div className='flex justify-center p-3 leading-10 font-bold text-2xl'>
+                                        Working Order's
+                                    </div>
+                                    <div className='flex flex-col overflow-y-auto'>
+                                        {workingOrders.map((workingOrder) => (
+                                            <button onClick={() => finishItem(workingOrder)} className='mb-3'>
+                                                client: {workingOrder.orderer} <br />
+                                                Order id: {workingOrder.hash} <br />
+                                                Order: {workingOrder.item.id} <br />
+                                                <br />
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className='flex flex-col w-full bg-white rounded-2xl'>
+                                    <div className='flex justify-center p-3 leading-10 font-bold text-2xl'>Finished Order's</div>
+                                    <div className='flex flex-col overflow-y-auto'>
+                                        {finishedOrders.map((finishedOrder) => (
+                                            <button className='pb-3'>
+                                                client: {finishedOrder.orderer} <br />
+                                                Order id: {finishedOrder.hash} <br />
+                                                Order: {finishedOrder.item.id}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        
-                        <OrderManager waitingOrders={waitingOrders} workingOrders={workingOrders} finishedOrders={finishedOrders} pq={printQueue}/>
+
+                        {/* <OrderManager waitingOrders={waitingOrders} workingOrders={workingOrders} finishedOrders={finishedOrders} pq={printQueue}/> */}
                     </div>
                 </div>
             </div>
