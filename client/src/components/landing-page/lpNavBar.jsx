@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { MdOutlineDashboard } from "react-icons/md";
 import LpShoppingCart from './lpShoppingCart';
 
-const LpNavBar = ({cartItems, cartSize, renderCartSize, removeFromCart, WebSocketService}) => {
+const LpNavBar = ({cartItems, cartSize, renderCartSize, removeFromCart, WebSocketService, restaurantInfo}) => {
     /* Testing */
     let email = true;
     // let email = false;
