@@ -66,6 +66,7 @@ const MenuCustomization = ({categories, setCategories}) => {
 
     return (
         <div>
+            {categories && categories.length === 0 && (
             <div>
                 Allow Customer Customization? 
                 <input 
@@ -74,6 +75,7 @@ const MenuCustomization = ({categories, setCategories}) => {
                     onChange={handleCustomizationChange}
                 />
             </div>
+            )}
         {customizable && (
             <div className="grid grid-rows-none">
                 <div>
