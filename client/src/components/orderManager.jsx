@@ -80,7 +80,7 @@ const initializeColumns = () => {
     };
 };
 
-const OrderManager = ({pq}) => {
+const OrderManager = () => {
     const [state, setState] = useState({
         tasks: initializeTasks(),
         columns: initializeColumns(),
@@ -134,7 +134,6 @@ const OrderManager = ({pq}) => {
 
     const onDragEnd = (result) => {
         console.log('Drag Result:', result);
-        pq();
         const { destination, source } = result;
 
         // Check if user tries to drop in an unknown destination

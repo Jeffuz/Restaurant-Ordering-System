@@ -13,7 +13,7 @@ function getMenus(message) {
                             "Menus not found for restaurantId: " + restaurantId,
                     });
                 } else {
-                    resolve(restaurant.restaurantMenu.menuList);
+                    resolve({ action: "GETMENUS", menuList: restaurant.restaurantMenu.menuList});
                 }
             })
             .catch((err) => {
@@ -39,7 +39,7 @@ function getMenu(message) {
                     const menuItem = restaurant.restaurantMenu.menuList.find(
                         (menuItem) => menuItem.menuId == menuId
                     );
-                    resolve(menuItem);
+                    resolve({ action: "GETMENU", menuItem: menuItem });
                 }
             })
             .catch((err) => {
@@ -94,8 +94,8 @@ function createMenu(message) {
                     .save()
                     .then(() => {
                         resolve({
-                            //menuList: newMenuItem,
-                            menuList: getMenus(),
+                            action: "CREATEMENU",
+                            menuItem: newMenuItem,
                         });
                     })
                     .catch((err) => {
@@ -152,10 +152,7 @@ function updateMenu(message) {
             restaurant
                 .save()
                 .then(() => {
-                    getMenus()
-                    .then((menu) => {
-                        resolve({menuList: menu});
-                    })
+                    resolve({ action: "UPDATEMENU", menuItem: menuItem });
                 })
                 .catch((err) => {
                     reject({
@@ -202,7 +199,7 @@ function deleteMenu(message) {
             restaurant
                 .save()
                 .then(() => {
-                    resolve({menuList: getMenus()});
+                    resolve({ action: "DELETEMENU", menuItem: menuItem });
                 })
                 .catch((err) => {
                     reject({
