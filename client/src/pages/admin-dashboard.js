@@ -42,7 +42,7 @@ const Admin_dashboard = (props) => {
         return <Admin_analytics WebSocketService={WebSocketService} setPage = {setPage} />;
     }
     else if (page === "Customer"){
-        return <Admin_customer WebSocketService={WebSocketService} setPage = {setPage} restaurantInfo={props.restaurantInfo} updateRestaurantInfo={props.updateRestaurantInfo}/>;
+        return <Admin_customer WebSocketService={WebSocketService} setPage = {setPage} restaurantInfo={props.restaurantInfo} updateRestaurantInfo={props.updateRestaurantInfo} saved={props.saved}/>;
     }
     else if (page === "Orders"){
         return <Admin_orders WebSocketService={WebSocketService} setPage = {setPage} />;

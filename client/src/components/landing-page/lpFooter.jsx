@@ -1,7 +1,7 @@
 import React from 'react'
 import { FaFacebook, FaInstagram, FaTwitterSquare } from 'react-icons/fa';
 
-const LpFooter = (restaurantInfo) => {
+const LpFooter = ({restaurantInfo}) => {
     return (
         <footer className="bg-light-tertiary py-8 ">
             <div className="flex flex-col items-center">

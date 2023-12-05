@@ -129,7 +129,7 @@ const LpNavBar = ({cartItems, cartSize, renderCartSize, removeFromCart, WebSocke
         <>
             <div className='font-tt-norms-pro px-12 relative z-20'>
                 <div className='md:flex absolute items-center font-bold text-4xl text-light-secondary hidden top-4 left-8 '>
-                    <Link to={"/"}>115A's Diner</Link>
+                    <Link to={"/"}>{restaurantInfo.name}</Link>
                 </div>
                 {email ? (
                     <div className='absolute top-4 right-8 '>

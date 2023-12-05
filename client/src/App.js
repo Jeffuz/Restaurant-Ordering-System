@@ -16,14 +16,26 @@ function App() {
 
   const [restaurantInfo, setRestaurantInfo] = useState({
     name: "115A's Diner",
-    description: "Welcome to 115A's Diner, where passion meets flavor!",
+    description:`Welcome to 115A's Diner, where passion meets flavor! Our journey began with a simple
+    idea: to create a dining experience that combines the warmth of home-cooked meals with
+    the excitement of culinary innovation. At 115A's Diner, we source the finest ingredients
+    to craft delicious dishes that cater to every palate. Whether you're a fan of classic
+    comfort food or crave bold and adventurous flavors, our menu has something special for you.
+    Join us on this gastronomic journey and savor the moments at 115A's Diner. We look
+    forward to serving you with a smile and creating memories that last a lifetime.`,
     instagramLink: "https://www.instagram.com/your_instagram",
     facebookLink: "https://www.facebook.com/your_facebook",
     twitterLink: "https://twitter.com/your_twitter",
   });
+  const [isSaved, setIsSaved] = useState(false);
 
   const updateRestaurantInfo = (newInfo) => {
     setRestaurantInfo(newInfo);
+    setIsSaved(true);
+
+    setTimeout(() => {
+      setIsSaved(false);
+    }, 3000);
   };
 
   // Establish a connection if not already connected
@@ -60,7 +72,7 @@ function App() {
           <Route path='/' element={<Landing_page restaurantInfo={restaurantInfo}/>} />
           <Route path='/menu' element={<Menu />} />
           <Route path='/table' element={<Table />} />
-          <Route path='/admin-dashboard' element={<Admin_dashboard WebSocketService={WebSocketService} restaurantInfo={restaurantInfo}  updateRestaurantInfo={updateRestaurantInfo}/>} />
+          <Route path='/admin-dashboard' element={<Admin_dashboard WebSocketService={WebSocketService} restaurantInfo={restaurantInfo}  updateRestaurantInfo={updateRestaurantInfo} saved={isSaved}/>} />
           <Route path='*' element={<NoPage />} />
         </Routes>
       </HashRouter>
