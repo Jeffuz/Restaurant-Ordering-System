@@ -41,7 +41,7 @@ const MenuManager = () => {
         const menuList = WebSocketService.menu;
         console.log("menumanager menu:", menuList);
         setMenuItems(
-            WebSocketService.menu.menuList.map((item) => ({
+            menuList.map((item) => ({
                 id: item.menuId,
                 image: item.image,
                 itemFilter: item.filter,
@@ -57,9 +57,9 @@ const MenuManager = () => {
         const menuUpdateHandler = () => {
             console.log("Menu Update Received!");
             const menuList = WebSocketService.menu;
-            console.log("MenuList.menuList: ", menuList.menuList);
+            console.log("MenuList: ", menuList);
             setMenuItems(
-                menuList.menuList.map((item) => ({
+                menuList.map((item) => ({
                     id: item.menuId,
                     image: item.image,
                     itemFilter: item.filter,

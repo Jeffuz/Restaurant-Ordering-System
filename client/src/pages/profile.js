@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import LpNavBar from "../components/landing-page/lpNavBar";
 import { auth, readUserData } from "../firebase";
+import WebSocketService from "../WebSocketService";
+import { useCartState } from "./cartState";
 
 const Profile = () => {
-    const { username } = useParams();
     const [nickname, setNickname] = useState(null);
+
+    const { cartItems, cartSize, renderCartSize, removeItemFromCart } =
+        useCartState();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -23,7 +26,13 @@ const Profile = () => {
 
     return (
         <div>
-            <LpNavBar />
+            <LpNavBar
+                cartItems={cartItems}
+                cartSize={cartSize}
+                renderCartSize={renderCartSize}
+                removeFromCart={removeItemFromCart}
+                WebSocketService={WebSocketService}
+            />
             <div className="flex flex-col justify-center items-center h-screen">
                 {nickname}'s Profile
             </div>

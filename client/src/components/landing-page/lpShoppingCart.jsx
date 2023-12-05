@@ -18,6 +18,7 @@ const LpShoppingCart = ({
 
     const calculateCosts = () => {
         let sum = 0;
+        console.log("cartItems", cartItems);
         cartItems.forEach((cartItem) => {
             sum += cartItem[0].itemPrice;
         });

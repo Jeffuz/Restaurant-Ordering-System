@@ -7,10 +7,10 @@ import LpNavBar from "../components/landing-page/lpNavBar";
 import WebSocketService from "../WebSocketService";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, readUserData } from "../firebase";
+import { useCartState } from "./cartState";
 
 const Menu = () => {
     const [admin, setAdmin] = useState(false);
-    const [user, setUser] = useState(null);
     const [items, setItems] = useState([]); // used to save data states
     const [isLoading, setIsLoading] = useState(true); // used to save whether data is loading
 
@@ -19,11 +19,11 @@ const Menu = () => {
         const menuUpdateHandler = () => {
             console.log("Menu.js update received!");
             const menuList = WebSocketService.menu;
-            console.log("menuList.menuList:", menuList.menuList);
+            console.log("menuList:", menuList);
 
             if (menuList) {
                 setItems(
-                    menuList.menuList.map((item) => ({
+                    menuList.map((item) => ({
                         id: item.menuId,
                         image: item.image,
                         itemFilter: item.filter,
@@ -73,47 +73,17 @@ const Menu = () => {
         };
     }, []);
 
-    const [cartItems, renderCartItems] = useState([]);
-    const [cartSize, renderCartSize] = useState(0);
-
-    const [selectedItem, setSelectedItem] = useState(null);
-
-    const getRandomNumber = () =>
-        Math.floor(Math.random() * (9999999999 - 1000000000 + 1) + 1000000000);
-
-    const addItemToCart = (item) => {
-        const hash = getRandomNumber();
-        const updatedCart = [...cartItems, [item, hash]];
-        renderCartItems(updatedCart);
-        renderCartSize(cartSize + 1);
-    };
-
-    const removeItemFromCart = (hash) => {
-        if (hash === 0) {
-            closeModal();
-            renderCartSize(0);
-            renderCartItems([]);
-        } else {
-            renderCartSize(cartSize - 1);
-            const newCartItems = cartItems.filter(
-                (cartItem) => cartItem[1] !== hash
-            );
-            renderCartItems(newCartItems);
-        }
-    };
-
-    const openModal = (item) => {
-        setSelectedItem(item);
-    };
-
-    const closeModal = () => {
-        setSelectedItem(null);
-    };
-
-    // callback listener for itemcard
-    const handleItemClick = (clickedItem) => {
-        addItemToCart(clickedItem);
-    };
+    const {
+        cartItems,
+        cartSize,
+        selectedItem,
+        renderCartItems,
+        renderCartSize,
+        openModal,
+        closeModal,
+        removeItemFromCart,
+        handleItemClick,
+    } = useCartState();
 
     // render the pages if the data is loaded
     if (isLoading) {
