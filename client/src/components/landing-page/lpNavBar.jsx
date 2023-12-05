@@ -53,7 +53,7 @@ const LpNavBar = () => {
                 setAdmin(false);
                 setSigninSuccess(false);
                 setSignupSuccess(false);
-                navigate('/');
+                navigate("/");
             })
             .catch((error) => {
                 console.error("Logout error:", error);
@@ -199,7 +199,7 @@ const LpNavBar = () => {
                                         </span>
                                     )}
                                 </button>
-                                <Link to={`/profile/${auth.currentUser.displayName}`}>
+                                <Link to={`/profile`}>
                                     <img
                                         src={
                                             auth.currentUser.photoURL ||

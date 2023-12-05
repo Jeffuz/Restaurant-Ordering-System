@@ -88,7 +88,7 @@ function App() {
                     <Route path="/" element={<Landing_page />} />
                     <Route path="/menu" element={<Menu />} />
                     <Route path="/table" element={<Table />} />
-                    <Route path="/profile/:username" element={<Profile />} />
+                    <Route path="/profile" element={<Profile />} />
                     <Route
                         path="/admin-dashboard"
                         element={<PrivateRoute element={Admin_dashboard} />}
