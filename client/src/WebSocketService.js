@@ -1,5 +1,5 @@
 import { AiOutlineConsoleSql } from "react-icons/ai";
-import { useState } from 'react';
+import { useState } from "react";
 
 /**
  * WebSocketService is what the client systems will use to communicate with the server
@@ -20,30 +20,30 @@ const WebSocketService = {
    * @param {String} hostname Hostname to use to connect to server. Defaults to '127.0.0.1'.
    * @param {String} port Port to use to connect to server. Defaults to 8080.
    */
-  connect(hostname = '127.0.0.1', port = '8080', isMaster = false) {
+  connect(hostname = "127.0.0.1", port = "8080", isMaster = false) {
     return new Promise((resolve, reject) => {
       /**
        * Establishes a connection to the server
-       * @param {ClientWebSocket} socket 
-       * @param {String} hostname 
-       * @param {String} port 
+       * @param {ClientWebSocket} socket
+       * @param {String} hostname
+       * @param {String} port
        * @returns {Promise<[socket: ClientWebSocket, ID: String, isMaster: Bool]>}
        */
 
       function dispatchMenuUpdate(action) {
-        const menuUpdateEvent = new CustomEvent('menuUpdate', {
+        const menuUpdateEvent = new CustomEvent("menuUpdate", {
           detail: { action },
         });
         window.dispatchEvent(menuUpdateEvent);
       }
 
       function dispatchOrderUpdate(orders) {
-        const orderUpdateEvent = new CustomEvent('orderUpdate', {
+        const orderUpdateEvent = new CustomEvent("orderUpdate", {
           detail: {
             waitingOrders: orders.waitingOrders,
             workingOrders: orders.workingOrders,
             finishedOrders: orders.finishedOrders,
-          }
+          },
         });
         window.dispatchEvent(orderUpdateEvent);
       }
@@ -51,23 +51,18 @@ const WebSocketService = {
       function connectToServer(hostname, port) {
         return new Promise((resolve, reject) => {
           const socket = new WebSocket(`ws://${hostname}:${port}`);
-          var id = 'NO_ID';
+          var id = "NO_ID";
           var menu = {};
           var allOrders = null;
 
-          socket.addEventListener('open', (e) => {
-
-          });
+          socket.addEventListener("open", (e) => {});
 
           // Connection message listener
-          socket.addEventListener('message', (e) => {
-
-
-
+          socket.addEventListener("message", (e) => {
             const payload = JSON.parse(e.data);
             let action = payload.action;
             switch (action) {
-              case 'INIT':
+              case "INIT":
                 // Payload format: [id: String, isMaster: Bool]
                 id = payload.ID;
                 menu = payload.menu;
@@ -76,83 +71,74 @@ const WebSocketService = {
                 resolve([socket, id, menu, allOrders]);
                 return;
 
-              case 'BROADCAST':
+              case "BROADCAST":
                 // Payload format: [message]
-                
+
                 break;
 
-              case 'MESSAGE':
+              case "MESSAGE":
                 // Payload format: [message]
-                
+
                 break;
 
-              case 'MENU':
+              case "MENU":
                 WebSocketService.menu = payload.menuList;
 
-                dispatchMenuUpdate('menuUpdate');
+                dispatchMenuUpdate("menuUpdate");
                 break;
 
-              case 'ORDERSUBMIT':
+              case "ORDERSUBMIT":
                 const orders = payload.order;
                 break;
 
-              case 'ORDERPLACED':
+              case "ORDERPLACED":
                 const message = payload.order;
-
 
                 allOrders = payload.allOrders;
                 WebSocketService.waitingOrders = payload.waitingOrders;
                 WebSocketService.workingOrders = payload.workingOrders;
                 WebSocketService.finishedOrders = payload.finishedOrders;
 
-
-
-
                 dispatchOrderUpdate(allOrders);
                 break;
 
-              case 'ALLORDERS':
-
+              case "ALLORDERS":
                 dispatchOrderUpdate(allOrders);
                 break;
 
               default:
-
-
                 break;
             }
           });
         });
-      };
+      }
 
       //this.socket = connectToServer(this.socket, hostname, port);
-      connectToServer(hostname, port)
-        .then(([socket, id, menu, allOrders]) => {
-
-          this.socket = socket;
-          this.id = id;
-          this.menu = menu;
-          this.allOrders = allOrders;
-          console.log(menu)
-          if (isMaster) {
-            this.requestMaster();
-            dispatchOrderUpdate(this.allOrders);
-          }
-          dispatchMenuUpdate('menuUpdate');
-        });
+      connectToServer(hostname, port).then(([socket, id, menu, allOrders]) => {
+        this.socket = socket;
+        this.id = id;
+        this.menu = menu;
+        this.allOrders = allOrders;
+        console.log(menu);
+        if (isMaster) {
+          this.requestMaster();
+          dispatchOrderUpdate(this.allOrders);
+        }
+        dispatchMenuUpdate("menuUpdate");
+      });
     });
   },
 
   /**
    * Client sends a broadcast request to server
-   * @param {String} message 
+   * @param {String} message
    * NOTE: Only master system should be allowed to use this function
    */
   broadcastMessage(message) {
     if (message) {
       const actionObject = {
-        "action": "BROADCAST",
-        "message": message,
+        action: "BROADCAST",
+        message: message,
       };
 
       this.socket.send(JSON.stringify(actionObject));
@@ -161,8 +147,8 @@ const WebSocketService = {
 
   submitOrder(order) {
     const actionObject = {
-      'action': 'ORDER',
-      'order': order,
+      action: "ORDER",
+      order: order,
     };
 
     this.socket.send(JSON.stringify(actionObject));
@@ -171,7 +157,7 @@ const WebSocketService = {
 
   requestMaster() {
     const actionObject = {
-      'action': 'REQUESTMASTER'
+      action: "REQUESTMASTER",
     };
 
     this.socket.send(JSON.stringify(actionObject));
@@ -180,7 +166,7 @@ const WebSocketService = {
 
   requestOrders() {
     const actionObject = {
-      'action': 'REQUESTORDERS'
+      action: "REQUESTORDERS",
     };
     this.socket.send(JSON.stringify(actionObject));
     return;
@@ -193,22 +179,21 @@ const WebSocketService = {
   sendRequest(actionObject) {
     // testing actionObject
 
-
     this.socket.send(JSON.stringify(actionObject));
   },
 
   workOnItem(item) {
     const actionObject = {
-      action: 'WORKONITEM',
-      item: item
+      action: "WORKONITEM",
+      item: item,
     };
     this.socket.send(JSON.stringify(actionObject));
   },
 
   finishItem(item) {
     const actionObject = {
-      action: 'FINISHITEM',
-      item: item
+      action: "FINISHITEM",
+      item: item,
     };
     this.socket.send(JSON.stringify(actionObject));
   },
@@ -218,8 +203,8 @@ const WebSocketService = {
   },
 
   notifyListeners(data) {
-    this.listeners.forEach(callback => callback(data));
-  }
+    this.listeners.forEach((callback) => callback(data));
+  },
 };
 
 export default WebSocketService;

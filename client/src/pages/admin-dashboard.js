@@ -1,61 +1,56 @@
-import React, { useEffect } from 'react'
-import AdminNavbar from '../components/adminNavbar'
-import { useState } from 'react';
-import Admin_Menu from './admin-menu';
-import Admin_analytics from './admin-analytics';
-import Admin_customer from './admin-customer';
-import Admin_table from './admin-table';
-import Admin_orders from './admin-orders';
+import React, { useEffect } from "react";
+import AdminNavbar from "../components/adminNavbar";
+import { useState } from "react";
+import Admin_Menu from "./admin-menu";
+import Admin_analytics from "./admin-analytics";
+import Admin_customer from "./admin-customer";
+import Admin_table from "./admin-table";
+import Admin_orders from "./admin-orders";
 
 const Admin_dashboard = (props) => {
+  const [page, setPage] = useState("Menu");
+  const [loading, setLoading] = useState(true);
 
-    const [page, setPage] = useState("Menu");
-    const [loading, setLoading] = useState(true);
+  const { WebSocketService } = props;
 
-    const {WebSocketService} = props;
+  useEffect(() => {
+    if (!WebSocketService.socket) {
+      WebSocketService.connect("127.0.0.1", "8080", true).then();
+    }
+    const orderUpdateHandler = () => {
+      setLoading(false);
+    };
 
-    useEffect(() => {
-        if (!WebSocketService.socket){
-            WebSocketService.connect('127.0.0.1', '8080', true)
-            .then(
-                
-            );
-        }
-        const orderUpdateHandler = () => {
-            setLoading(false);
-        }
+    window.addEventListener("orderUpdate", orderUpdateHandler);
+  }, []);
 
-        window.addEventListener('orderUpdate', orderUpdateHandler);
-    }, []);
-
-    if (loading){
-        return (
-            <div>
-                loading...
+  if (loading) {
+    return <div>loading...</div>;
+  } else if (page === "Dashboard") {
+    return (
+      <>
+        <div className="flex flex-row">
+          <div className="w-[20%]">
+            <AdminNavbar setPage={setPage} />
+          </div>
+          <div className="w-[80%] h-screen">
+            <div className="flex flex-col">
+              <div className="text-center mt-27 text-black font-Montserrat text-4xl font-bold py-6">
+                Dashboard
+              </div>
+              <div>{/* Component */}</div>
             </div>
-        )
-    }
-    else if (page === "Dashboard"){
-        return (
-            <>
-                <div className="flex flex-row">
-                    <div className='w-[20%]'><AdminNavbar setPage={setPage}/></div>
-                    <div className="w-[80%] h-screen">
-                        <div className='flex flex-col'>
-                            <div className='text-center mt-27 text-black font-Montserrat text-4xl font-bold py-6'>Dashboard</div>
-                            <div>{/* Component */}</div>
-                        </div>
-                    </div>
-                </div>
-            </>
-        )
-    }
-    else if (page === "Menu"){
-        return <Admin_Menu WebSocketService={WebSocketService} setPage = {setPage} />;
-    }
-    else if (page === "Orders"){
-        return <Admin_orders WebSocketService={WebSocketService} setPage = {setPage} />;
-    }
-}
+          </div>
+        </div>
+      </>
+    );
+  } else if (page === "Menu") {
+    return <Admin_Menu WebSocketService={WebSocketService} setPage={setPage} />;
+  } else if (page === "Orders") {
+    return (
+      <Admin_orders WebSocketService={WebSocketService} setPage={setPage} />
+    );
+  }
+};
 
-export default Admin_dashboard
+export default Admin_dashboard;

@@ -1,5 +1,5 @@
-import React from 'react';
-import AddCircle from '../admin-menu/add-circle.png'
+import React from "react";
+import AddCircle from "../admin-menu/add-circle.png";
 const AddButtonCard = ({ onClick }) => {
   return (
     <div
@@ -7,8 +7,7 @@ const AddButtonCard = ({ onClick }) => {
       onClick={onClick}
     >
       <div className="flex items-center justify-center h-full">
-        <img src={AddCircle} className="w-101 h-101"/>
-        
+        <img src={AddCircle} className="w-101 h-101" />
       </div>
     </div>
   );

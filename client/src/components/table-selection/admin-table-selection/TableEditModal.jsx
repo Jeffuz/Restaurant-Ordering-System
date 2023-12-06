@@ -1,21 +1,31 @@
 // TableEditModal.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { BsTrashFill } from "react-icons/bs";
 import { RxCross1 } from "react-icons/rx";
 
-const TableEditModal = ({ table, onClose, onSave, onEdit, onRemove, isNewTable }) => {
+const TableEditModal = ({
+  table,
+  onClose,
+  onSave,
+  onEdit,
+  onRemove,
+  isNewTable,
+}) => {
   const [editedTable, setEditedTable] = useState({ ...table });
-
-
 
   const handleSaveClick = () => {
     if (isNewTable) {
       const newTable = { id: Date.now(), ...editedTable };
       onSave(newTable);
     } else {
-      onEdit(editedTable.id, editedTable.status, editedTable.seats, editedTable.number);
-    }// Update the tableStatus directly
+      onEdit(
+        editedTable.id,
+        editedTable.status,
+        editedTable.seats,
+        editedTable.number
+      );
+    } // Update the tableStatus directly
     onClose();
   };
 
@@ -24,13 +34,10 @@ const TableEditModal = ({ table, onClose, onSave, onEdit, onRemove, isNewTable }
     setEditedTable((prevTable) => ({ ...prevTable, [name]: value }));
   };
 
-
   const handleRemoveClick = () => {
     onRemove(editedTable.id);
     onClose();
   };
-
-
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50  ">
@@ -83,8 +90,7 @@ const TableEditModal = ({ table, onClose, onSave, onEdit, onRemove, isNewTable }
             value={editedTable.seats}
             onChange={handleInputChange}
             className="border border-gray-400 p-2 w-full"
-          >
-          </input>
+          ></input>
         </label>
 
         <div className="buttons flex flex-row">
@@ -103,10 +109,7 @@ const TableEditModal = ({ table, onClose, onSave, onEdit, onRemove, isNewTable }
             <BsTrashFill className="mr-2" />
             Delete
           </button>
-
-
         </div>
-
       </div>
     </div>
   );

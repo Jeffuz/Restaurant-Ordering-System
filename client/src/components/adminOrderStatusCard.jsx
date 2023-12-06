@@ -1,16 +1,16 @@
-import React from 'react';
+import React from "react";
 
 const AdminOrderStatusCard = ({ itemName, itemImage, orderId }) => {
-    return (
-        <div className='bg-gray-100 p-4 mb-4 flex xl:flex-row flex-col items-center justify-between rounded-lg shadow-md'>
-            <img src={itemImage} alt={itemName} className='h-16 object-cover' />
-            <div className="flex flex-col items-center justify-center">
-                <div className="font-semibold text-xl leading-none">{itemName}</div>
-                <div className="text-xl leading-none">Order #{orderId}</div>
-                {/* <div className="text-gray-500 font-normal text-sm leading-tight">Quantity: {item.itemCount}</div>  */}
-            </div>
-        </div>
-    );
+  return (
+    <div className="bg-gray-100 p-4 mb-4 flex xl:flex-row flex-col items-center justify-between rounded-lg shadow-md">
+      <img src={itemImage} alt={itemName} className="h-16 object-cover" />
+      <div className="flex flex-col items-center justify-center">
+        <div className="font-semibold text-xl leading-none">{itemName}</div>
+        <div className="text-xl leading-none">Order #{orderId}</div>
+        {/* <div className="text-gray-500 font-normal text-sm leading-tight">Quantity: {item.itemCount}</div>  */}
+      </div>
+    </div>
+  );
 };
 
 export default AdminOrderStatusCard;

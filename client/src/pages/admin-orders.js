@@ -50,11 +50,11 @@ const Admin_orders = (props) => {
                 <div className='w-[20%]'><AdminNavbar setPage={setPage} /></div>
                 <div className="w-[80%] h-screen">
                     <div className='flex flex-col h-screen'>
-                        <div className='text-center h-[10%] text-black font-Montserrat text-4xl font-bold py-6 '>Orders</div>
+                        <div className='text-center h-[10%] text-black font-Montserrat text-4xl font-bold py-6 '>Order's</div>
                         <div className='px-6 pb-6 h-[90%]'>
                             <div className='flex flex-row gap-6 h-full'>
                                 <div className='flex flex-col w-full bg-white rounded-2xl'>
-                                    <div className='flex justify-center p-3 leading-10 font-bold text-2xl'>Order's Waiting</div>
+                                    <div className='flex justify-center p-3 leading-10 font-bold text-2xl'>Pending</div>
                                     <div className='flex flex-col overflow-y-auto'>
                                         {waitingOrders.map((waitingOrder) => (
                                             <button onClick={() => workOnItem(waitingOrder)} className='mx-5'>
@@ -72,7 +72,7 @@ const Admin_orders = (props) => {
                                 </div>
                                 <div className='flex flex-col w-full bg-white rounded-2xl'>
                                     <div className='flex justify-center p-3 leading-10 font-bold text-2xl'>
-                                        Working Order's
+                                        In-Progress
                                     </div>
                                     <div className='flex flex-col overflow-y-auto'>
                                         {workingOrders.map((workingOrder) => (
@@ -87,7 +87,7 @@ const Admin_orders = (props) => {
                                     </div>
                                 </div>
                                 <div className='flex flex-col w-full bg-white rounded-2xl'>
-                                    <div className='flex justify-center p-3 leading-10 font-bold text-2xl'>Finished Order's</div>
+                                    <div className='flex justify-center p-3 leading-10 font-bold text-2xl'>Finished</div>
                                     <div className='flex flex-col overflow-y-auto'>
                                         {finishedOrders.map((finishedOrder) => (
                                             <button className='mx-5'>

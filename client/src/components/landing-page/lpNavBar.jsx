@@ -1,91 +1,113 @@
-import React, { useState } from 'react';
-import Login from '../login';
-import Signup from '../signup';
-import { IoCartOutline } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import Login from "../login";
+import Signup from "../signup";
+import { IoCartOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 import { MdOutlineDashboard } from "react-icons/md";
-import LpShoppingCart from './lpShoppingCart';
+import LpShoppingCart from "./lpShoppingCart";
 
-const LpNavBar = ({cartItems, cartSize, renderCartSize, removeFromCart, WebSocketService}) => {
-    /* Testing */
-    let email = true;
-    // let email = false;
-    let admin = true;
-    // let admin = false;
+const LpNavBar = ({
+  cartItems,
+  cartSize,
+  renderCartSize,
+  removeFromCart,
+  WebSocketService,
+}) => {
+  /* Testing */
+  let email = true;
+  // let email = false;
+  let admin = true;
+  // let admin = false;
 
+  // Sign In/Up
+  const [selectedLoginItem, setSelectedLoginItem] = useState(null);
+  const [selectedSignupItem, setSelectedSignupItem] = useState(null);
 
-    // Sign In/Up
-    const [selectedLoginItem, setSelectedLoginItem] = useState(null);
-    const [selectedSignupItem, setSelectedSignupItem] = useState(null);
+  const openLoginModal = () => {
+    setSelectedLoginItem();
+  };
 
-    const openLoginModal = () => {
-        setSelectedLoginItem();
-    };
+  const closeLoginModal = () => {
+    setSelectedLoginItem(null);
+  };
 
-    const closeLoginModal = () => {
-        setSelectedLoginItem(null);
-    };
+  const openSignupModal = () => {
+    setSelectedSignupItem();
+  };
 
-    const openSignupModal = () => {
-        setSelectedSignupItem();
-    };
+  const closeSignupModal = () => {
+    setSelectedSignupItem(null);
+  };
 
-    const closeSignupModal = () => {
-        setSelectedSignupItem(null);
-    };
+  // Shopping Cart
+  const itemCount = cartSize; // Item Count Here
+  const [selectedCartItem, setSelectedCartItem] = useState(null);
+  const openCartModal = () => {
+    setSelectedCartItem();
+  };
 
-    // Shopping Cart
-    const itemCount = cartSize; // Item Count Here
-    const [selectedCartItem, setSelectedCartItem] = useState(null);
-    const openCartModal = () => {
-        setSelectedCartItem();
-    };
+  const closeCartModal = () => {
+    setSelectedCartItem(null);
+  };
 
-    const closeCartModal = () => {
-        setSelectedCartItem(null);
-    };
-
-    return (
-        <>
-            <div className='font-tt-norms-pro px-12 relative z-20'>
-                <div className='md:flex absolute items-center font-bold text-4xl text-light-secondary hidden top-4 left-8 '>
-                    <Link to={"/"}>115A's Diner</Link>
-                </div>
-                {email ? (
-                    <div className='absolute top-4 right-8 '>
-                        <div className='flex font-bold items-center gap-3 '>
-                            {admin && (
-                                <Link to="/admin-dashboard">
-                                    <MdOutlineDashboard size={30} />
-                                </Link>
-                            )}
-                            <div className='flex gap-3 items-center '>
-                                <button className='flex items-center text-black rounded-3xl leading-10 px-3' onClick={() => openCartModal()}>
-                                    <IoCartOutline size={30} />
-                                    {/* Adjust Item Count here */}
-                                    {cartSize > 0 && <span className='ml-1'>{itemCount}</span>}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    <div className='absolute top-4 right-8'>
-                        <div className='flex gap-x-2 font-bold'>
-                            <button className='px-3 text-black rounded-3xl leading-10' onClick={() => openLoginModal()}>
-                                Sign In
-                            </button>
-                            <button className='px-3 bg-light-secondary rounded-3xl leading-10 text-white' onClick={() => openSignupModal()}>
-                                Sign Up
-                            </button>
-                        </div>
-                    </div>
-                )}
+  return (
+    <>
+      <div className="font-tt-norms-pro px-12 relative z-20">
+        <div className="md:flex absolute items-center font-bold text-4xl text-light-secondary hidden top-4 left-8 ">
+          <Link to={"/"}>115A's Diner</Link>
+        </div>
+        {email ? (
+          <div className="absolute top-4 right-8 ">
+            <div className="flex font-bold items-center gap-3 ">
+              {admin && (
+                <Link to="/admin-dashboard">
+                  <MdOutlineDashboard size={30} />
+                </Link>
+              )}
+              <div className="flex gap-3 items-center ">
+                <button
+                  className="flex items-center text-black rounded-3xl leading-10 px-3"
+                  onClick={() => openCartModal()}
+                >
+                  <IoCartOutline size={30} />
+                  {/* Adjust Item Count here */}
+                  {cartSize > 0 && <span className="ml-1">{itemCount}</span>}
+                </button>
+              </div>
             </div>
-            <Login isOpen={selectedLoginItem !== null} onClose={closeLoginModal} />
-            <Signup isOpen={selectedSignupItem !== null} onClose={closeSignupModal} />
-            <LpShoppingCart isOpen={selectedCartItem !== null} onClose={closeCartModal} cartItems={cartItems} cartSize={cartSize} renderCartSize={renderCartSize} removeFromCart={removeFromCart} WebSocketService={WebSocketService}/>
-        </>
-    )
-}
+          </div>
+        ) : (
+          <div className="absolute top-4 right-8">
+            <div className="flex gap-x-2 font-bold">
+              <button
+                className="px-3 text-black rounded-3xl leading-10"
+                onClick={() => openLoginModal()}
+              >
+                Sign In
+              </button>
+              <button
+                className="px-3 bg-light-secondary rounded-3xl leading-10 text-white"
+                onClick={() => openSignupModal()}
+              >
+                Sign Up
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+      <Login isOpen={selectedLoginItem !== null} onClose={closeLoginModal} />
+      <Signup isOpen={selectedSignupItem !== null} onClose={closeSignupModal} />
+      <LpShoppingCart
+        isOpen={selectedCartItem !== null}
+        onClose={closeCartModal}
+        cartItems={cartItems}
+        cartSize={cartSize}
+        renderCartSize={renderCartSize}
+        removeFromCart={removeFromCart}
+        WebSocketService={WebSocketService}
+      />
+    </>
+  );
+};
 
-export default LpNavBar
+export default LpNavBar;
