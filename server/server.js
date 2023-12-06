@@ -47,7 +47,6 @@ class Server {
         this.waitingOrders = []; // queue with items [hash, client, orderItem, startTime]
         this.workingOrders = []; // array with items [hash, client, orderItem, startTime]
         this.finishedOrders = []; // array with items[hash, client, orderItem, startTime, finishTime];
-
     }
 
     /*********************************
@@ -133,8 +132,8 @@ class Server {
                     });
                     break;
 
-                case 'REQUESTORDERS':
-                    console.log('Received order queue request');
+                case "REQUESTORDERS":
+                    console.log("Received order queue request");
                     this.fulfillRequestOrder(client);
                     break;
 
@@ -143,42 +142,46 @@ class Server {
                     let orders = payload.order;
                     const batch = {
                         client: client.id,
-                        orders: []
-                    }
+                        orders: [],
+                    };
                     orders.forEach((order) => {
-                        console.log('order:', order);
-                        batch.orders.push({hash: order[1], item: order[0]});
+                        console.log("order:", order);
+                        batch.orders.push({ hash: order[1], item: order[0] });
                     });
                     this.queueOrder(client, batch);
                     break;
 
-                case 'WORKONITEM':
+                case "WORKONITEM":
                     console.log(`Server received WORKONITEM request`);
                     // Remove item from waitingOrders
-                    this.waitingOrders = this.waitingOrders.filter(order => order.hash !== payload.item.hash);
+                    this.waitingOrders = this.waitingOrders.filter(
+                        (order) => order.hash !== payload.item.hash
+                    );
                     // Add item to workingOrders
                     this.workingOrders.push(payload.item);
-                    console.log('waitingOrders:', this.waitingOrders);
-                    console.log('workingOrders:', this.workingOrders);
+                    console.log("waitingOrders:", this.waitingOrders);
+                    console.log("workingOrders:", this.workingOrders);
                     // Broadcast changes
                     this.clients.forEach((client) => {
                         this.fulfillRequestOrder(client);
-                    })
-                   /* this.master.forEach((master) => {
+                    });
+                    /* this.master.forEach((master) => {
                         this.fulfillRequestOrder(master);
                     })*/
                     this.updateKitchens();
                     break;
 
-                case 'FINISHITEM':
+                case "FINISHITEM":
                     console.log(`Server received FINISHITEM`);
                     // Remove item from workingOrders
-                    this.workingOrders = this.workingOrders.filter(order => order.hash !== payload.item.hash);
+                    this.workingOrders = this.workingOrders.filter(
+                        (order) => order.hash !== payload.item.hash
+                    );
                     // Add item to finishedItems
                     this.finishedOrders.push(payload.item);
                     this.clients.forEach((client) => {
                         this.fulfillRequestOrder(client);
-                    })
+                    });
                     this.updateKitchens();
                     break;
 
@@ -213,38 +216,34 @@ class Server {
 
                 case "GETMENU":
                     console.log("Received request GETMENU");
-                    getMenu(payload)
-                    .then((menu) => {
+                    getMenu(payload).then((menu) => {
                         const actionObject = {
-                            action: 'GETMENU',
+                            action: "GETMENU",
                             menuList: menu,
-                        }
+                        };
                         this.sendMenu(client, menu);
                     });
                     break;
 
                 case "CREATEMENU":
                     console.log("Received request CREATEMENU");
-                    createMenu(payload)
-                    .then((updatedMenu) => {
+                    createMenu(payload).then((updatedMenu) => {
                         //console.log('updated menu:', updateMenu);
-                        console.log('updated menu:', updatedMenu);
+                        console.log("updated menu:", updatedMenu);
                         this.pushMenuUpdate(updatedMenu);
                     });
                     break;
 
                 case "DELETEMENU":
                     console.log("Received request DELETEMENU");
-                    deleteMenu(payload)
-                    .then((updatedMenu) => {
+                    deleteMenu(payload).then((updatedMenu) => {
                         this.pushMenuUpdate(updatedMenu);
-                    })
+                    });
                     break;
 
                 case "EDITMENU":
                     console.log("Received request EDITMENU");
-                    updateMenu(payload)
-                    .then((updatedMenu) => {
+                    updateMenu(payload).then((updatedMenu) => {
                         this.pushMenuUpdate(updatedMenu);
                     });
                     break;
@@ -392,7 +391,7 @@ class Server {
                     waitingOrders: this.waitingOrders,
                     workingOrders: this.workingOrders,
                     finishedOrders: this.finishedOrders,
-                }
+                },
             };
             client.send(JSON.stringify(actionObject));
         });
@@ -426,7 +425,7 @@ class Server {
     pushMenuUpdate(menu) {
         this.clients.forEach((client) => {
             this.sendMenu(client, menu);
-        })
+        });
         return;
     }
 
@@ -453,11 +452,11 @@ class Server {
         }*/
         getMenus().then((menu) => {
             const actionObject = {
-                action: 'MENU',
+                action: "MENU",
                 menuList: menu,
-            }
+            };
             client.send(JSON.stringify(actionObject));
-        })
+        });
 
         return;
     }
@@ -465,14 +464,19 @@ class Server {
     /**
      * Queues the order and sends to the kitchen
      */
-    queueOrder(client, batch){
-        console.log('Queue order received order', batch, 'for client', client.id);
+    queueOrder(client, batch) {
+        console.log(
+            "Queue order received order",
+            batch,
+            "for client",
+            client.id
+        );
         const now = new Date();
-        const hours = now.getHours().toString().padStart(2, '0');
-        const minutes = now.getMinutes().toString().padStart(2, '0');
-        const seconds = now.getSeconds().toString().padStart(2, '0');
-        const day = now.getDate().toString().padStart(2, '0');
-        const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+        const hours = now.getHours().toString().padStart(2, "0");
+        const minutes = now.getMinutes().toString().padStart(2, "0");
+        const seconds = now.getSeconds().toString().padStart(2, "0");
+        const day = now.getDate().toString().padStart(2, "0");
+        const month = (now.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-based
         const year = now.getFullYear();
         const formattedDateTime = `${hours}:${minutes}:${seconds} ${day}/${month}/${year}`;
         /*order.forEach((orderItem) => {
@@ -484,11 +488,11 @@ class Server {
         batch.orders.forEach((order) => {
             order.orderer = batch.client;
             order.orderTime = formattedDateTime;
-            console.log('order:', order);
+            console.log("order:", order);
             this.waitingOrders.push(order);
         });
 
-        console.log('waitingOrders:', this.waitingOrders);
+        console.log("waitingOrders:", this.waitingOrders);
 
         this.updateKitchens();
     }
@@ -496,15 +500,15 @@ class Server {
     /**
      * Sends current WaitingOrders to kitchen
      */
-    updateKitchens(){
+    updateKitchens() {
         const actionObject = {
-            action: 'ORDERPLACED',
+            action: "ORDERPLACED",
             allOrders: {
                 waitingOrders: this.waitingOrders,
                 workingOrders: this.workingOrders,
                 finishedOrders: this.finishedOrders,
-            }
-        }
+            },
+        };
 
         this.master.forEach((master) => {
             master.send(JSON.stringify(actionObject));
@@ -513,13 +517,13 @@ class Server {
 
     fulfillRequestOrder(client) {
         const actionObject = {
-            action: 'ALLORDERS',
+            action: "ALLORDERS",
             allOrders: {
                 waitingOrders: this.waitingOrders,
                 workingOrders: this.workingOrders,
                 finishedOrders: this.finishedOrders,
-            }
-        }
+            },
+        };
         client.send(JSON.stringify(actionObject));
     }
 }

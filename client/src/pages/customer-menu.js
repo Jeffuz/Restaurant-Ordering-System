@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
-import MenuManager from '../components/admin-menu/MenuManager'
-import AdminNavbar from '../components/adminNavbar';
+import React, { useEffect } from "react";
+import MenuManager from "../components/admin-menu/MenuManager";
+import AdminNavbar from "../components/adminNavbar";
 
-import WebSocketService from '../WebSocketService';
+import WebSocketService from "../WebSocketService";
 
 const Customer_Menu = (props) => {
     /*useEffect(() => {
@@ -14,17 +14,20 @@ const Customer_Menu = (props) => {
 
     const { WebSocketService, setPage } = props;
 
-    return(
+    return (
         <div>
-            <div className="flex flex-row"> 
-                <div className='w-[20%]'><AdminNavbar setPage={setPage} /></div>
-                <div className="w-[80%] px-8"> {/* Adjust the width as needed */}
+            <div className="flex flex-row">
+                <div className="w-[20%]">
+                    <AdminNavbar setPage={setPage} />
+                </div>
+                <div className="w-[80%] px-8">
+                    {" "}
+                    {/* Adjust the width as needed */}
                     <MenuManager WebSocketService={WebSocketService} />
                 </div>
             </div>
         </div>
-    )
-
-}
+    );
+};
 
 export default Customer_Menu;
