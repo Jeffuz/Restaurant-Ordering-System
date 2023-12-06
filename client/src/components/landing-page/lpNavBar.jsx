@@ -13,6 +13,7 @@ const LpNavBar = ({cartItems, cartSize, renderCartSize, removeFromCart, WebSocke
     let admin = true;
     // let admin = false;
 
+
     // Sign In/Up
     const [selectedLoginItem, setSelectedLoginItem] = useState(null);
     const [selectedSignupItem, setSelectedSignupItem] = useState(null);
@@ -58,6 +59,13 @@ const LpNavBar = ({cartItems, cartSize, renderCartSize, removeFromCart, WebSocke
                                     <MdOutlineDashboard size={30} />
                                 </Link>
                             )}
+                            <div className='flex gap-3 items-center '>
+                                <button className='flex items-center text-black rounded-3xl leading-10 px-3' onClick={() => openCartModal()}>
+                                    <IoCartOutline size={30} />
+                                    {/* Adjust Item Count here */}
+                                    {cartSize > 0 && <span className='ml-1'>{itemCount}</span>}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 ) : (
