@@ -17,7 +17,7 @@ function getMenus(message) {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                (err);
                 reject({
                     error: "Error while retrieving menus",
                     detail: err,
@@ -43,8 +43,8 @@ function getMenu(message) {
                 }
             })
             .catch((err) => {
-                console.log(err);
-                console.log(err);
+                (err);
+                (err);
                 reject({
                     error: "Error while retrieving menu",
                     detail: err,
@@ -95,7 +95,8 @@ function createMenu(message) {
                     .then(() => {
                         resolve({
                             //menuList: newMenuItem,
-                            menuList: getMenus(),
+                            //menuList: getMenus(),
+                            menuList: restaurant.restaurantMenu.menuList,
                         });
                     })
                     .catch((err) => {
@@ -181,7 +182,7 @@ function deleteMenu(message) {
     const menuId = message.menuId;
 
     // // testing message
-    // console.log(restaurantId,menuId);
+    // (restaurantId,menuId);
     // return;
 
     return new Promise((resolve, reject) => {

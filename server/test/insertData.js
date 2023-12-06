@@ -63,7 +63,7 @@ const Menu = mongoose.model("Menu", menuSchema);
 // newMenu
 //     .save()
 //     .then(() => {
-//         console.log("Data inserted into the collection");
+//         ("Data inserted into the collection");
 //         mongoose.connection.close(); // Close the MongoDB connection
 //     })
 //     .catch((error) => {
@@ -86,7 +86,7 @@ Menu.findById("65381ed4030fa645be95b250").then((menu) => {
     menu.totalItemCount++;
 
     menu.save().then(() => {
-        console.log("Data inserted into the collection");
+        ("Data inserted into the collection");
         mongoose.connection.close(); // Close the MongoDB connection
     });
 });

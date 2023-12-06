@@ -12,11 +12,11 @@ db.on("error", (err) => {
 });
 
 db.once("open", () => {
-    console.log("Connected to MongoDB");
+    ("Connected to MongoDB");
 });
 
 db.on("close", () => {
-    console.log("MongoDB connection closed");
+    ("MongoDB connection closed");
 });
 
 module.exports = mongoose;

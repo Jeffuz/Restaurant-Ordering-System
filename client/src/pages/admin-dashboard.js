@@ -10,17 +10,32 @@ import Admin_orders from './admin-orders';
 const Admin_dashboard = (props) => {
 
     const [page, setPage] = useState("Dashboard");
+    const [loading, setLoading] = useState(true);
 
     const {WebSocketService} = props;
 
     useEffect(() => {
         if (!WebSocketService.socket){
             WebSocketService.connect('127.0.0.1', '8080', true)
-            .then(alert("Connected!"));
+            .then(
+                alert("Connected! dashboardd"),
+            );
         }
+        const orderUpdateHandler = () => {
+            setLoading(false);
+        }
+
+        window.addEventListener('orderUpdate', orderUpdateHandler);
     }, []);
 
-    if (page === "Dashboard"){
+    if (loading){
+        return (
+            <div>
+                loading...
+            </div>
+        )
+    }
+    else if (page === "Dashboard"){
         return (
             <>
                 <div className="flex flex-row">
@@ -38,19 +53,9 @@ const Admin_dashboard = (props) => {
     else if (page === "Menu"){
         return <Admin_Menu WebSocketService={WebSocketService} setPage = {setPage} />;
     }
-    else if (page === "Analytics"){
-        return <Admin_analytics WebSocketService={WebSocketService} setPage = {setPage} />;
-    }
-    else if (page === "Customer"){
-        return <Admin_customer WebSocketService={WebSocketService} setPage = {setPage} />;
-    }
     else if (page === "Orders"){
         return <Admin_orders WebSocketService={WebSocketService} setPage = {setPage} />;
     }
-    else if (page === "Table"){
-        return <Admin_table WebSocketService={WebSocketService} setPage = {setPage} />;
-    }
-    
 }
 
 export default Admin_dashboard

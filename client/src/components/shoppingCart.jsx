@@ -3,11 +3,10 @@ import { useState, useEffect } from 'react';
 import ShoppingCartCard from './shoppingCartCard';
 import OrderStatusModal from './orderStatusModal';
 
-const ShoppingCart = ({ orderNum, tableNum, date, cartItems, setCartItems, WebSocketService }) => {
-
+const ShoppingCart = ({ orderNum, tableNum, date, cartItems, cartSize, renderCartSize, removeFromCart, setCartItems, WebSocketService }) => {
     function sendOrder() {
         alert('send order clicked');
-        console.log(cartItems);
+        
         const actionObject = {
             'action': 'ORDER',
             'cart': cartItems,
@@ -53,6 +52,18 @@ const ShoppingCart = ({ orderNum, tableNum, date, cartItems, setCartItems, WebSo
         setCartItems(updatedCart)
     };
 
+    const calculateCosts = () => {
+        let sum = 0;
+        cartItems.forEach((cartItem) => {
+            sum += cartItem[0].itemPrice;
+        });
+        setSubTotal(sum.toFixed(2));
+        const calcTax = 0.07 * sum;
+        setTax(calcTax.toFixed(2));
+        const calcTotal = sum + calcTax;
+        setTotal(calcTotal.toFixed(2));
+    }
+
     return (
         <div className="bg-white h-screen flex flex-col justify-between">
             {/* Table and Shopping Cart Div */}
@@ -67,14 +78,7 @@ const ShoppingCart = ({ orderNum, tableNum, date, cartItems, setCartItems, WebSo
                 {/* Shopping Cart Items */}
                 <div className='grid grid-flow-row auto-row-max gap-y-4 m-4'>
                     {cartItems.map((cartItem, index) => (
-                        <ShoppingCartCard
-                            key={index}
-                            itemImage={cartItem.itemImage}
-                            itemName={cartItem.itemName}
-                            itemPrice={cartItem.itemPrice}
-                            itemCounter={cartItem.itemCount}
-                            ifChangeCounter={(newCount) => changeCounter(index, newCount)}
-                        />
+                        <ShoppingCartCard item={cartItem} calculateCosts={calculateCosts} cartSize={cartSize} renderCartSize={renderCartSize} removeFromCart={removeFromCart}/>
                     ))}
                 </div>
             </div>
