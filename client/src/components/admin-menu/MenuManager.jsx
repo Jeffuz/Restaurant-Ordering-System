@@ -19,7 +19,6 @@ const MenuManager = () => {
 
     //filterbar stuff
     const [filterCategories, setFilterCategories] = useState([
-        "All", "Breakfast", "Lunch", "Dinner"
     ]);
     const [newFilterCategory, setNewFilterCategory] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
@@ -211,12 +210,6 @@ const MenuManager = () => {
                         isAdmin={isAdmin}
                     />
 
-                    {/* {showAddCategoryTextBox ? (
-                        <AddCategoryTextBox onAddCategory={handleAddCategory} />
-                            ) : (
-                                <button onClick={() => setShowAddCategoryTextBox(true)}><IoIosAddCircle /></button>
-                            )}
-                        <button onClick={addFilterCategory}> <IoIosAddCircle /> </button> */}
                 </div>
             </div>
 
@@ -238,7 +231,6 @@ const MenuManager = () => {
                     >
                         <div className='flex justify-end'>
                             <button onClick={closeModal} className="text-xl font-bold">
-                                <AiOutlineClose />
                             </button>
                         </div>
                         <AddEditMenuItemForm
