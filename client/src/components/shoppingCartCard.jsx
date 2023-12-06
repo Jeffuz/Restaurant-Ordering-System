@@ -34,9 +34,9 @@ const ShoppingCartCard = ({ item, removeFromCart }) => {
       {/* Customizaton */}
       <div className="flex items-center md:mt-0 md:mb-0 mt-4 mb-4 justify-center">
         {/* Item Notes */}
-        <button className="mx-2">
+        {/* <button className="mx-2">
           <AiOutlineMessage size={30} />
-        </button>
+        </button> */}
         <div className="flex flex-col">
           {/* Item Remove */}
           <div className="flex justify-center text-sm text-red-600">
