@@ -18,7 +18,7 @@ const ItemModal = ({ isOpen, onClose, parentCallback, item }) => {
                 </div>
                 <div className="flex overflow-hidden">
                     <img
-                        src={item.image}
+                        src={`data:image/png;base64,${item.image}`}
                         alt={item.itemName}
                         loading="lazy"
                         className="w-[50%] h-auto pl-8 object-cover"

@@ -79,6 +79,8 @@ function createMenu(message) {
         custom,
     });
 
+    console.log("newMenuItem:", newMenuItem);
+
     return new Promise((resolve, reject) => {
         Restaurant.findById(restaurantId)
             .then((restaurant) => {
