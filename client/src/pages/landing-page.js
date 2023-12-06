@@ -67,10 +67,10 @@ const Landing_page = () => {
         <div className="bg-light-secondary h-[70vh] flex justify-center items-center">
           <div className="container mx-auto">
             <div className="flex flex-col items-center">
-              <div className="text-5xl font-bold text-light-primary mb-6">
+              <div className="text-5xl font-bold text-light-tertiary mb-6">
                 About Us
               </div>
-              <div className="text-2xl text-light-primary max-w-4xl text-center px-5">
+              <div className="text-2xl text-light-tertiary max-w-4xl text-center px-5">
                 Welcome to 115A's Diner, where passion meets flavor! Our journey
                 began with a simple idea: to create a dining experience that
                 combines the warmth of home-cooked meals with the excitement of
