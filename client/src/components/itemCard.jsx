@@ -15,7 +15,7 @@ import React, { useState, useEffect } from "react";
 const ItemCard = ({ item, onItemClick }) => {
     const [selfItem, setSelfItem] = useState(null);
     const id = item.id;
-    const image = `data:image/png;base64,${item.image}`; //item.image;
+    const image = item.image;
     const itemName = item.itemName;
     const itemPrice = item.itemPrice;
 

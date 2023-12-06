@@ -40,19 +40,17 @@ const MenuManager = () => {
         // Loads the menu items from the menu stored in WebSocketService.menu
         const menuList = WebSocketService.menu;
         console.log("menumanager menu:", menuList);
-        if (menuList !== null) {
-            setMenuItems(
-                menuList.map((item) => ({
-                    id: item.menuId,
-                    image: item.image,
-                    itemFilter: item.filter,
-                    itemName: item.name,
-                    itemContent: item.description,
-                    itemPrice: item.price,
-                    itemDiet: item.diet,
-                }))
-            );
-        }
+        setMenuItems(
+            menuList.map((item) => ({
+                id: item.menuId,
+                image: item.image,
+                itemFilter: item.filter,
+                itemName: item.name,
+                itemContent: item.description,
+                itemPrice: item.price,
+                itemDiet: item.diet,
+            }))
+        );
 
         // This code should thoeretically update the menu whenever a event is dispatched
         // Couldn't figure out how to test it though so it will remain like this for now
@@ -88,7 +86,7 @@ const MenuManager = () => {
             description: newItem.itemContent,
             diet: [], // havent support
             customizable: false, // haven't support in frontend
-            custom: [], // haven't support in frontend
+            custom: [], // haven;t support in frontend
         };
 
         WebSocketService.sendRequest(actionObject);
