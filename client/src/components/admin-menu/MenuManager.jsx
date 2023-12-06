@@ -197,11 +197,11 @@ const MenuManager = () => {
 
     return (
         <div className='flex flex-col h-screen'>
-            <div className='mb-8'>
+            <div className=''>
                 <h1 className="text-center mt-27 text-black font-Montserrat text-4xl font-bold py-6">Menu</h1>
 
                 {/* Filter Bar */}
-                <div className="">
+                {/* <div className="">
                     <FilterBar
                         filterCategories={filterCategories}
                         onEdit={onEditCategory}
@@ -210,7 +210,7 @@ const MenuManager = () => {
                         isAdmin={isAdmin}
                     />
 
-                </div>
+                </div> */}
             </div>
 
             <div className="flex">

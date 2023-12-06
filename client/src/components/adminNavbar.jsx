@@ -13,7 +13,7 @@ const AdminNavbar = ({ setPage }) => {
 
     return (
         <div className='bg-white flex flex-col h-screen'>
-            <div className='p-4 mx-auto text-4xl font-medium'><Link to='/'>115A's Diner</Link></div>
+            <div className='p-4 mx-auto text-4xl font-bold text-light-secondary'><Link to='/'>115A's Diner</Link></div>
             <div className='flex flex-col gap-8 p-7'>
                 {menuItems.map((item, index) => (
                     <button className='flex items-center' onClick={()=>setPage(item.label)} key={index}>
