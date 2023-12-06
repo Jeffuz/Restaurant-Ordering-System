@@ -77,7 +77,7 @@ const Landing_page = () => {
                             {items.slice(0, itemsToShow).map((item) => (
                                 <div key={item.id} role="button">
                                     <LpPopularItemCards
-                                        image={item.image}
+                                        image={`data:image/png;base64,${item.image}`}
                                         itemName={item.itemName}
                                         itemPrice={item.itemPrice}
                                     />
