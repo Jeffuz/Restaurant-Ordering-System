@@ -98,7 +98,6 @@ class Server {
         // Close handler
         client.on("close", () => {
             if (client === this.master) {
-                this.sendBroadcast("
             }
 
             this.clients = this.clients.filter((item) => item !== client);
