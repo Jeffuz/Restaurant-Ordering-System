@@ -9,7 +9,7 @@ const SetNumTables = ({ onTotalTablesSubmit }) => {
     if (totalTables > 0) {
       onTotalTablesSubmit(totalTables);
     } else {
-      alert('Please enter a valid number of tables.');
+      
     }
   };
 

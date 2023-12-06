@@ -26,8 +26,8 @@ const Admin_orders = (props) => {
         // Function invoked when WebSocketService receives a order update
 
         const orderUpdateHandler = (orders) => {
-            console.log('adminOrders.js received order update!');
-            console.log('orders:', orders.detail);
+            
+            
             setWaitingOrders(orders.detail.waitingOrders);
             setWorkingOrders(orders.detail.workingOrders);
             setFinishedOrders(orders.detail.finishedOrders);
@@ -35,13 +35,6 @@ const Admin_orders = (props) => {
         WebSocketService.requestOrders();
         window.addEventListener('orderUpdate', orderUpdateHandler);
     }, [WebSocketService, WebSocketService.finishedOrders, WebSocketService.waitingOrders, WebSocketService.workingOrders, waitingOrders]);
-
-    const printQueue = () => {
-        console.log('printing queue');
-        console.log(waitingOrders);
-        console.log(workingOrders);
-        console.log(finishedOrders);
-    }
 
     const workOnItem = (item) => {
         WebSocketService.workOnItem(item);

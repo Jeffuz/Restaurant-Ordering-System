@@ -57,23 +57,7 @@ const Landing_page = () => {
                     </div>
                     <div className='bg-light-tertiary h-[85vh] absolute inset-0' style={{ backgroundImage: `url(${backgroundImagePath})`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: -1 }}></div>
                 </div>
-                <div className=' h-screen flex flex-col item-center bg-light-secondary'>
-                    <div className='mx-auto'>
-                        <div className='font-bold text-4xl py-6 text-white'>Popular Items</div>
-                        <div className={`grid 2xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-8`}>
-                            {items.slice(0, itemsToShow).map((item) => (
-                                <div key={item.id} role="button">
-                                    <LpPopularItemCards
-                                        image={item.image}
-                                        itemName={item.itemName}
-                                        itemPrice={item.itemPrice}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-                <div className='bg-light-tertiary h-[70vh] flex justify-center items-center'>
+                <div className='bg-light-secondary h-[70vh] flex justify-center items-center'>
                     <div className='container mx-auto'>
                         <div className='flex flex-col items-center'>
                             <div className='text-5xl font-bold text-light-primary mb-6'>About Us</div>

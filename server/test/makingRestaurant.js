@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const Restaurant = require("../models/restaurantModel");
 const dbUrl = process.env.DB_URL;
 
-console.log(dbUrl);
+(dbUrl);
 
 mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -41,6 +41,6 @@ const newRestaurant = new Restaurant({
 });
 
 newRestaurant.save().then(() => {
-    console.log("Data inserted into the collection");
+    ("Data inserted into the collection");
     mongoose.connection.close(); // Close the MongoDB connection
 });

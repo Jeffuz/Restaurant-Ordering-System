@@ -26,7 +26,7 @@ const LpTestimonial = () => {
     ];
 
     return (
-        <div className="bg-light-secondary sm:h-[70vh] h-[90vh] flex justify-center items-center">
+        <div className="sm:h-[70vh] h-[90vh] flex justify-center items-center">
             <div className="container mx-auto px-5">
                 <div className="flex flex-col items-center">
                     <div className="text-5xl font-bold text-light-primary mb-6">Customer Reviews</div>

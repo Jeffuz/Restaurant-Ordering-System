@@ -29,7 +29,7 @@ const WebSocketService = {
        * @param {String} port 
        * @returns {Promise<[socket: ClientWebSocket, ID: String, isMaster: Bool]>}
        */
-      
+
       function dispatchMenuUpdate(action) {
         const menuUpdateEvent = new CustomEvent('menuUpdate', {
           detail: { action },
@@ -47,7 +47,7 @@ const WebSocketService = {
         });
         window.dispatchEvent(orderUpdateEvent);
       }
-        
+
       function connectToServer(hostname, port) {
         return new Promise((resolve, reject) => {
           const socket = new WebSocket(`ws://${hostname}:${port}`);
@@ -56,45 +56,39 @@ const WebSocketService = {
           var allOrders = null;
 
           socket.addEventListener('open', (e) => {
-            console.log('WebSocket connection is open (connected).');
+
           });
 
           // Connection message listener
           socket.addEventListener('message', (e) => {
 
-            
+
 
             const payload = JSON.parse(e.data);
             let action = payload.action;
-            console.log('ACTION:', payload);
             switch (action) {
               case 'INIT':
                 // Payload format: [id: String, isMaster: Bool]
-                console.log('Received INIT from server');
                 id = payload.ID;
                 menu = payload.menu;
                 allOrders = payload.allOrders;
-
-                console.log("Received menu", menu);
 
                 resolve([socket, id, menu, allOrders]);
                 return;
 
               case 'BROADCAST':
                 // Payload format: [message]
-                console.log('Received BROADCAST from server');
-                alert(payload);
+                
                 break;
 
               case 'MESSAGE':
                 // Payload format: [message]
-                console.log('Received MESSAGE from server');
-                alert(payload);
+                
                 break;
 
               case 'MENU':
                 WebSocketService.menu = payload.menuList;
-                console.log("RECEIVED MENU:", payload);
+
                 dispatchMenuUpdate('menuUpdate');
                 break;
 
@@ -104,27 +98,27 @@ const WebSocketService = {
 
               case 'ORDERPLACED':
                 const message = payload.order;
-                console.log('order:', payload);
-                console.log(payload.waitingOrders);
+
+
                 allOrders = payload.allOrders;
                 WebSocketService.waitingOrders = payload.waitingOrders;
                 WebSocketService.workingOrders = payload.workingOrders;
                 WebSocketService.finishedOrders = payload.finishedOrders;
-                console.log("all queues:");
-                console.log('Waiting orders:', WebSocketService.waitingOrders);
-                console.log('Working orders:', WebSocketService.workingOrders);
-                console.log('FInished orders:', WebSocketService.finishedOrders);
+
+
+
+
                 dispatchOrderUpdate(allOrders);
                 break;
 
               case 'ALLORDERS':
-                console.log('ALLORDERS payload:', payload.allOrders);
+
                 dispatchOrderUpdate(allOrders);
                 break;
 
               default:
-                console.log('ERROR: NO METHOD DETECTED IN MESSAGE');
-                console.log(payload.message);
+
+
                 break;
             }
           });
@@ -134,13 +128,13 @@ const WebSocketService = {
       //this.socket = connectToServer(this.socket, hostname, port);
       connectToServer(hostname, port)
         .then(([socket, id, menu, allOrders]) => {
-          console.log("PROMISE RESOLVED", socket, id);
+
           this.socket = socket;
           this.id = id;
           this.menu = menu;
           this.allOrders = allOrders;
           console.log(menu)
-          if (isMaster){
+          if (isMaster) {
             this.requestMaster();
             dispatchOrderUpdate(this.allOrders);
           }
@@ -160,7 +154,7 @@ const WebSocketService = {
         "action": "BROADCAST",
         "message": message,
       };
-      console.log(this.socket);
+
       this.socket.send(JSON.stringify(actionObject));
     }
   },
@@ -198,7 +192,7 @@ const WebSocketService = {
    */
   sendRequest(actionObject) {
     // testing actionObject
-    console.log(actionObject);
+
 
     this.socket.send(JSON.stringify(actionObject));
   },

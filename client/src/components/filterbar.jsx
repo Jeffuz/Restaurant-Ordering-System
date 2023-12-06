@@ -12,18 +12,7 @@ const Filterbar = ({ filterCategories, onEdit, onDelete, onAddCategory, isAdmin 
 
 
     const filter = [
-        {
-            id: "1",
-            filtered: "Breakfast"
-        },
-        {
-            id: "2",
-            filtered: "Lunch"
-        },
-        {
-            id: "3",
-            filtered: "Dinner"
-        }
+
     ]
 
     //edit and delete function

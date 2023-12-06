@@ -24,8 +24,7 @@ const ItemCard = ({ item, onItemClick }) => {
     }, [item]);
 
     const handleItemClick = () => {
-        console.log("itemcard handleItemClick clicked!");
-        console.log(selfItem);
+        ("itemcard handleItemClick clicked!");
         if (onItemClick) {
             onItemClick(selfItem);
         }

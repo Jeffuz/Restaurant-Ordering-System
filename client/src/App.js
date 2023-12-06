@@ -13,31 +13,6 @@ import Landing_page from './pages/landing-page';
 import WebSocketService from './WebSocketService';
 
 function App() {
-  // Establish a connection if not already connected
-  /*useEffect(() => {
-    if (!WebSocketService.socket) {
-      WebSocketService.connect();
-    }
-  }, []);*/
-
-  // broadcastMessage() and crashConnection() are testing functions, don't use them in implementation
-  function broadcastMessage() {
-    const userInput = prompt('Input message');
-    WebSocketService.broadcastMessage(userInput);
-  }
-  function crashConnection() {
-    WebSocketService.socket.close(3333, 'Abnormal Disconnect Test');
-    return;
-  }
-
-  function submitOrder() {
-    WebSocketService.submitOrder('Test order');
-    return;
-  }
-
-  function testId() {
-    alert(WebSocketService.id);
-  }
 
   return (
     <div className="App font-tt-norms-pro">

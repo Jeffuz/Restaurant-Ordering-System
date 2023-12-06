@@ -81,7 +81,7 @@ class Server {
         this.sendMenu(client);
 
         this.sendInit(client, client.id);
-        console.log(
+        (
             `Client ${client.id} connected. Total clients: ${this.clients.length}`
         );
         return;
@@ -98,13 +98,13 @@ class Server {
         // Close handler
         client.on("close", () => {
             if (client === this.master) {
-                this.sendBroadcast("ALERT: MASTER SYSTEM DISCONNECTED");
+                this.sendBroadcast("
             }
 
             this.clients = this.clients.filter((item) => item !== client);
             this.master = this.master.filter((item) => item !== client);
 
-            console.log(
+            (
                 `${client.id} disconnected. Connected clients: ${this.clients.length}`
             );
             return;
@@ -129,7 +129,7 @@ class Server {
                     this.master.push(client);
                     console.log("Current masters:");
                     this.master.forEach((master) => {
-                        console.log(master.id);
+                        (master.id);
                     });
                     break;
 
@@ -146,8 +146,10 @@ class Server {
                         orders: []
                     }
                     orders.forEach((order) => {
-                        console.log('order:', order);
-                        batch.orders.push({hash: order[1], item: order[0]});
+                        ('order:', order);
+                        // Removing image until compressed images are added
+                        order.image = '';
+                        batch.orders.push({ hash: order[1], item: order[0] });
                     });
                     this.queueOrder(client, batch);
                     break;
@@ -164,9 +166,6 @@ class Server {
                     this.clients.forEach((client) => {
                         this.fulfillRequestOrder(client);
                     })
-                   /* this.master.forEach((master) => {
-                        this.fulfillRequestOrder(master);
-                    })*/
                     this.updateKitchens();
                     break;
 
@@ -214,39 +213,39 @@ class Server {
                 case "GETMENU":
                     console.log("Received request GETMENU");
                     getMenu(payload)
-                    .then((menu) => {
-                        const actionObject = {
-                            action: 'GETMENU',
-                            menuList: menu,
-                        }
-                        this.sendMenu(client, menu);
-                    });
+                        .then((menu) => {
+                            const actionObject = {
+                                action: 'GETMENU',
+                                menuList: menu,
+                            }
+                            this.sendMenu(client, menu);
+                        });
                     break;
 
                 case "CREATEMENU":
                     console.log("Received request CREATEMENU");
                     createMenu(payload)
-                    .then((updatedMenu) => {
-                        //console.log('updated menu:', updateMenu);
-                        console.log('updated menu:', updatedMenu);
-                        this.pushMenuUpdate(updatedMenu);
-                    });
+                        .then((updatedMenu) => {
+                            //('updated menu:', updateMenu);
+                            ('updated menu:', updatedMenu);
+                            this.pushMenuUpdate(updatedMenu);
+                        });
                     break;
 
                 case "DELETEMENU":
                     console.log("Received request DELETEMENU");
                     deleteMenu(payload)
-                    .then((updatedMenu) => {
-                        this.pushMenuUpdate(updatedMenu);
-                    })
+                        .then((updatedMenu) => {
+                            this.pushMenuUpdate(updatedMenu);
+                        })
                     break;
 
                 case "EDITMENU":
                     console.log("Received request EDITMENU");
                     updateMenu(payload)
-                    .then((updatedMenu) => {
-                        this.pushMenuUpdate(updatedMenu);
-                    });
+                        .then((updatedMenu) => {
+                            this.pushMenuUpdate(updatedMenu);
+                        });
                     break;
 
                 // Table
@@ -436,21 +435,6 @@ class Server {
      * @returns
      */
     sendMenu(client, menu) {
-        /*if(!menu){
-            getMenus().then((menu) => {
-                const actionObject = {
-                    action: 'MENU',
-                    menuList: menu,
-                }
-                client.send(JSON.stringify(actionObject));
-            });
-        }else{
-            const actionObject = {
-                action: "MENU",
-                menuList: menu,
-            }
-            client.send(JSON.stringify(actionObject));
-        }*/
         getMenus().then((menu) => {
             const actionObject = {
                 action: 'MENU',
@@ -465,7 +449,7 @@ class Server {
     /**
      * Queues the order and sends to the kitchen
      */
-    queueOrder(client, batch){
+    queueOrder(client, batch) {
         console.log('Queue order received order', batch, 'for client', client.id);
         const now = new Date();
         const hours = now.getHours().toString().padStart(2, '0');
@@ -475,20 +459,13 @@ class Server {
         const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
         const year = now.getFullYear();
         const formattedDateTime = `${hours}:${minutes}:${seconds} ${day}/${month}/${year}`;
-        /*order.forEach((orderItem) => {
-            console.log('orderItem:', orderItem);
-            //this.waitingOrders.push([orderItem[0][1], client.id, order[0][0], formattedDateTime]);
-        })*/
 
         // Push items to waitingOrders
         batch.orders.forEach((order) => {
             order.orderer = batch.client;
             order.orderTime = formattedDateTime;
-            console.log('order:', order);
             this.waitingOrders.push(order);
         });
-
-        console.log('waitingOrders:', this.waitingOrders);
 
         this.updateKitchens();
     }
@@ -496,7 +473,7 @@ class Server {
     /**
      * Sends current WaitingOrders to kitchen
      */
-    updateKitchens(){
+    updateKitchens() {
         const actionObject = {
             action: 'ORDERPLACED',
             allOrders: {

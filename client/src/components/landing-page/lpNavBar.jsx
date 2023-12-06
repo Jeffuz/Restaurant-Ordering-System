@@ -13,87 +13,6 @@ const LpNavBar = ({cartItems, cartSize, renderCartSize, removeFromCart, WebSocke
     let admin = true;
     // let admin = false;
 
-    /*const cartItems = [
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 1
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-        {
-            itemImage: 'test/nacho-chips.png',
-            itemName: 'Nacho chips',
-            itemPrice: 9.99,
-            itemCount: 2
-        },
-    ];*/
-
     // Sign In/Up
     const [selectedLoginItem, setSelectedLoginItem] = useState(null);
     const [selectedSignupItem, setSelectedSignupItem] = useState(null);
@@ -139,22 +58,6 @@ const LpNavBar = ({cartItems, cartSize, renderCartSize, removeFromCart, WebSocke
                                     <MdOutlineDashboard size={30} />
                                 </Link>
                             )}
-                            <div className='flex gap-3 items-center '>
-                                <button className='flex items-center text-black rounded-3xl leading-10 px-3' onClick={() => openCartModal()}>
-                                    <IoCartOutline size={30} />
-                                    {/* Adjust Item Count here */}
-                                    {cartSize > 0 && <span className='ml-1'>{itemCount}</span>}
-                                </button>
-                                <Link to="" >
-                                    <img src="profile.png" alt='Profile' className='w-10 h-10 rounded-full' />
-                                </Link>
-                                <button
-                                    className='px-3 text-black rounded-3xl leading-10'
-                                // onClick = {}
-                                >
-                                    Logout
-                                </button>
-                            </div>
                         </div>
                     </div>
                 ) : (

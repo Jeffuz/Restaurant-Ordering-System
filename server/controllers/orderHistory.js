@@ -19,7 +19,7 @@ function getOrderHistory(message) {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                (err);
                 reject({
                     error: "Error finidng restaurant",
                     detail: err,
@@ -70,7 +70,7 @@ function createOrderHistory(message) {
                             });
                         })
                         .catch((err) => {
-                            console.log(err);
+                            (err);
                             reject({
                                 error: "Error while saving restaurant",
                                 detail: err,
@@ -79,7 +79,7 @@ function createOrderHistory(message) {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                (err);
                 reject({
                     error: "Error finding restaurant",
                     detail: err,
@@ -142,7 +142,7 @@ function updateOrderHistory(message) {
                                     });
                                 })
                                 .catch((err) => {
-                                    console.log(err);
+                                    (err);
                                     reject({
                                         error: "Error while saving restaurant",
                                         detail: err,
@@ -153,7 +153,7 @@ function updateOrderHistory(message) {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                (err);
                 reject({
                     error: "Error finding restaurant",
                     detail: err,
@@ -215,7 +215,7 @@ function deleteOrderHistory(message) {
                                 });
                             })
                             .catch((err) => {
-                                console.log(err);
+                                (err);
                                 reject({
                                     error: "Error while saving restaurant",
                                     detail: err,
@@ -226,7 +226,7 @@ function deleteOrderHistory(message) {
             }
         })
         .catch((err) => {
-            console.log(err);
+            (err);
             reject({
                 error: "Error finding restaurant",
                 detail: err,

@@ -18,7 +18,7 @@ function getRestaurant(message) {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                (err);
                 reject({
                     error: "Error while retrieving restaurant",
                     detail: err,
@@ -54,7 +54,7 @@ function createRestaurant(message) {
                 resolve({ action: "CREATERESTAURANT", restaurant: restaurant });
             })
             .catch((err) => {
-                console.log(err);
+                (err);
                 reject({
                     error: "Error while creating restaurant",
                     detail: err,
@@ -83,7 +83,7 @@ function updateRestaurantName(message) {
             }
         })
         .catch((err) => {
-            console.log(err);
+            (err);
             reject({
                 error: "Error while updating restaurant name",
                 detail: err,
@@ -103,7 +103,7 @@ function deleteRestaurant(message) {
             }
         })
         .catch((err) => {
-            console.log(err);
+            (err);
             reject({
                 error: "Error while deleting restaurant",
                 detail: err,

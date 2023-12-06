@@ -122,8 +122,6 @@ const OrderManager = ({pq}) => {
                 },
             };
 
-            console.log('Updated Item Status:', updatedTasks[taskId].item.itemStatus);
-
             return {
                 ...prevState,
                 tasks: updatedTasks,
@@ -133,7 +131,6 @@ const OrderManager = ({pq}) => {
     };
 
     const onDragEnd = (result) => {
-        console.log('Drag Result:', result);
         pq();
         const { destination, source } = result;
 

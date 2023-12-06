@@ -34,7 +34,7 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
     };
 
     const handleEditToggle = (field) => {
-        console.log("making edits")
+        ("making edits")
         setEditMode({ ...editMode, [field]: !editMode[field] });
     };
 
