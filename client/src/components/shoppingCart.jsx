@@ -5,7 +5,7 @@ import OrderStatusModal from './orderStatusModal';
 
 const ShoppingCart = ({ orderNum, tableNum, date, cartItems, cartSize, renderCartSize, removeFromCart, setCartItems, WebSocketService }) => {
     function sendOrder() {
-        alert('send order clicked');
+        
         
         const actionObject = {
             'action': 'ORDER',
@@ -16,9 +16,9 @@ const ShoppingCart = ({ orderNum, tableNum, date, cartItems, cartSize, renderCar
     }
 
     function checkOut() {
-        alert('Checkout clicked');
+        
         cartItems.push(cartItems[0]);
-        alert(cartItems);
+        
     }
 
     const [selectedItem, setSelectedItem] = useState(null);
@@ -43,7 +43,7 @@ const ShoppingCart = ({ orderNum, tableNum, date, cartItems, cartSize, renderCar
         setTax(calcTax.toFixed(2));
         const calcTotal = sum + calcTax;
         setTotal(calcTotal.toFixed(2));
-        alert('CART ITEMS:', cartItems);
+        
     }, [cartItems, total]);
 
     const changeCounter = (index, newCount) => {

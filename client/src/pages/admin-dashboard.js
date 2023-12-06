@@ -9,7 +9,7 @@ import Admin_orders from './admin-orders';
 
 const Admin_dashboard = (props) => {
 
-    const [page, setPage] = useState("Dashboard");
+    const [page, setPage] = useState("Menu");
     const [loading, setLoading] = useState(true);
 
     const {WebSocketService} = props;
@@ -18,7 +18,7 @@ const Admin_dashboard = (props) => {
         if (!WebSocketService.socket){
             WebSocketService.connect('127.0.0.1', '8080', true)
             .then(
-                alert("Connected! dashboardd"),
+                
             );
         }
         const orderUpdateHandler = () => {

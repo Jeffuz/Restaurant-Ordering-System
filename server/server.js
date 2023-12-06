@@ -98,7 +98,7 @@ class Server {
         // Close handler
         client.on("close", () => {
             if (client === this.master) {
-                this.sendBroadcast("ALERT: MASTER SYSTEM DISCONNECTED");
+                this.sendBroadcast("
             }
 
             this.clients = this.clients.filter((item) => item !== client);
@@ -121,25 +121,25 @@ class Server {
                     break;
 
                 case "MESSAGE":
-                    (`Server received message ${message.message}`);
+                    console.log(`Server received message ${message.message}`);
                     break;
 
                 case "REQUESTMASTER":
-                    ("Received master request");
+                    console.log("Received master request");
                     this.master.push(client);
-                    ("Current masters:");
+                    console.log("Current masters:");
                     this.master.forEach((master) => {
                         (master.id);
                     });
                     break;
 
                 case 'REQUESTORDERS':
-                    ('Received order queue request');
+                    console.log('Received order queue request');
                     this.fulfillRequestOrder(client);
                     break;
 
                 case "ORDER":
-                    (`Server received ORDER request`);
+                    console.log(`Server received ORDER request`);
                     let orders = payload.order;
                     const batch = {
                         client: client.id,
@@ -155,13 +155,13 @@ class Server {
                     break;
 
                 case 'WORKONITEM':
-                    (`Server received WORKONITEM request`);
+                    console.log(`Server received WORKONITEM request`);
                     // Remove item from waitingOrders
                     this.waitingOrders = this.waitingOrders.filter(order => order.hash !== payload.item.hash);
                     // Add item to workingOrders
                     this.workingOrders.push(payload.item);
-                    ('waitingOrders:', this.waitingOrders);
-                    ('workingOrders:', this.workingOrders);
+                    console.log('waitingOrders:', this.waitingOrders);
+                    console.log('workingOrders:', this.workingOrders);
                     // Broadcast changes
                     this.clients.forEach((client) => {
                         this.fulfillRequestOrder(client);
@@ -170,7 +170,7 @@ class Server {
                     break;
 
                 case 'FINISHITEM':
-                    (`Server received FINISHITEM`);
+                    console.log(`Server received FINISHITEM`);
                     // Remove item from workingOrders
                     this.workingOrders = this.workingOrders.filter(order => order.hash !== payload.item.hash);
                     // Add item to finishedItems
@@ -183,35 +183,35 @@ class Server {
 
                 // Restaurant
                 case "GETRESTAURANT":
-                    ("Received request GETRESTAURANT");
+                    console.log("Received request GETRESTAURANT");
                     getRestaurant(payload);
                     break;
 
                 case "CREATERESTAURANT":
-                    ("Received request CREATERESTAURANT");
+                    console.log("Received request CREATERESTAURANT");
                     createRestaurant(payload);
                     break;
 
                 case "UPDATERESTAURANTNAME":
-                    ("Received request UPDATERESTAURANTNAME");
+                    console.log("Received request UPDATERESTAURANTNAME");
                     updateRestaurantName(payload);
                     break;
 
                 case "DELETERESTAURANT":
-                    ("Received request DELETERESTAURANT");
+                    console.log("Received request DELETERESTAURANT");
                     // flying a little too close to the sun here no?
                     //deleteRestaurant(payload);
                     break;
 
                 // Menu
                 case "GETMENUS":
-                    ("Received request GETMENUS");
+                    console.log("Received request GETMENUS");
                     this.sendMenu(client);
                     //this.sendMenu(client);
                     break;
 
                 case "GETMENU":
-                    ("Received request GETMENU");
+                    console.log("Received request GETMENU");
                     getMenu(payload)
                         .then((menu) => {
                             const actionObject = {
@@ -223,7 +223,7 @@ class Server {
                     break;
 
                 case "CREATEMENU":
-                    ("Received request CREATEMENU");
+                    console.log("Received request CREATEMENU");
                     createMenu(payload)
                         .then((updatedMenu) => {
                             //('updated menu:', updateMenu);
@@ -233,7 +233,7 @@ class Server {
                     break;
 
                 case "DELETEMENU":
-                    ("Received request DELETEMENU");
+                    console.log("Received request DELETEMENU");
                     deleteMenu(payload)
                         .then((updatedMenu) => {
                             this.pushMenuUpdate(updatedMenu);
@@ -241,7 +241,7 @@ class Server {
                     break;
 
                 case "EDITMENU":
-                    ("Received request EDITMENU");
+                    console.log("Received request EDITMENU");
                     updateMenu(payload)
                         .then((updatedMenu) => {
                             this.pushMenuUpdate(updatedMenu);
@@ -250,68 +250,68 @@ class Server {
 
                 // Table
                 case "GETTABLES":
-                    ("Received request GETTABLES");
+                    console.log("Received request GETTABLES");
                     getTables(payload);
                     break;
 
                 case "CREATETABLE":
-                    ("Received request CREATETABLE");
+                    console.log("Received request CREATETABLE");
                     createTable(payload);
                     break;
 
                 case "DELETETABLE":
-                    ("Received request DELETETABLE");
+                    console.log("Received request DELETETABLE");
                     deleteTable(payload);
                     break;
 
                 case "UPDATETABLEOCCUPANCY":
-                    ("Received request UPDATETABLEOCCUPANCY");
+                    console.log("Received request UPDATETABLEOCCUPANCY");
                     updateTableOccupancy(payload);
                     break;
 
                 case "UPDATETABLESEATCAPACITY":
-                    ("Received request UPDATETABLESEATCAPACITY");
+                    console.log("Received request UPDATETABLESEATCAPACITY");
                     updateTableSeatCapacity(payload);
                     break;
 
                 case "UPDATETABLEORDER":
-                    ("Received request UPDATETABLEORDER");
+                    console.log("Received request UPDATETABLEORDER");
                     updateTableOrder(payload);
                     break;
 
                 case "CREATETABLEORDER":
-                    ("Received request CREATETABLEORDER");
+                    console.log("Received request CREATETABLEORDER");
                     createTableOrder(payload);
                     break;
 
                 case "DELETETABLEORDER":
-                    ("Received request DELETETABLEORDER");
+                    console.log("Received request DELETETABLEORDER");
                     deleteTableOrder(payload);
                     break;
 
                 // Order History
                 case "GETORDERHISTORY":
-                    ("Received request GETORDERHISTORY");
+                    console.log("Received request GETORDERHISTORY");
                     getOrderHistory(payload);
                     break;
 
                 case "CREATEORDERHISTORY":
-                    ("Received request CREATEORDERHISTORY");
+                    console.log("Received request CREATEORDERHISTORY");
                     createOrderHistory(client, payload);
                     break;
 
                 case "UPDATEORDERHISTORY":
-                    ("Received request UPDATEORDERHISTORY");
+                    console.log("Received request UPDATEORDERHISTORY");
                     updateOrderHistory(client, payload);
                     break;
 
                 case "DELETEORDERHISTORY":
-                    ("Received request DELETEORDERHISTORY");
+                    console.log("Received request DELETEORDERHISTORY");
                     deleteOrderHistory(client, payload);
                     break;
 
                 default:
-                    (
+                    console.log(
                         `Server received unsupported request "${action}" with payload "${payload}"`
                     );
             }
@@ -405,7 +405,7 @@ class Server {
      * @param {*} order
      */
     sendOrderToKitchen(client, order) {
-        ("Received order", order);
+        console.log("Received order", order);
         const actionObject = {
             action: "ORDERPLACED",
             order: order,
@@ -435,21 +435,6 @@ class Server {
      * @returns
      */
     sendMenu(client, menu) {
-        /*if(!menu){
-            getMenus().then((menu) => {
-                const actionObject = {
-                    action: 'MENU',
-                    menuList: menu,
-                }
-                client.send(JSON.stringify(actionObject));
-            });
-        }else{
-            const actionObject = {
-                action: "MENU",
-                menuList: menu,
-            }
-            client.send(JSON.stringify(actionObject));
-        }*/
         getMenus().then((menu) => {
             const actionObject = {
                 action: 'MENU',
@@ -465,7 +450,7 @@ class Server {
      * Queues the order and sends to the kitchen
      */
     queueOrder(client, batch) {
-        ('Queue order received order', batch, 'for client', client.id);
+        console.log('Queue order received order', batch, 'for client', client.id);
         const now = new Date();
         const hours = now.getHours().toString().padStart(2, '0');
         const minutes = now.getMinutes().toString().padStart(2, '0');
@@ -517,4 +502,4 @@ class Server {
 }
 
 const server = new Server(8080);
-("WebSocket server listening on Port 8080");
+console.log("WebSocket server listening on Port 8080");

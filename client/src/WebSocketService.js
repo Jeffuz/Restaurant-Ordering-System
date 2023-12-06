@@ -78,12 +78,12 @@ const WebSocketService = {
 
               case 'BROADCAST':
                 // Payload format: [message]
-                alert(payload);
+                
                 break;
 
               case 'MESSAGE':
                 // Payload format: [message]
-                alert(payload);
+                
                 break;
 
               case 'MENU':

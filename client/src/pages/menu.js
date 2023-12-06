@@ -33,7 +33,7 @@ const Menu = () => {
         if (!WebSocketService.socket) {
             WebSocketService.connect('127.0.0.1', '8080', false)
                 .then(
-                    alert("Connected!"),
+                    
                 );
         }
 
