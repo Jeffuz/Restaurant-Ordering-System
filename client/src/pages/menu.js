@@ -17,9 +17,7 @@ const Menu = () => {
     useEffect(() => {
         // Function invoked when WebSocketService receives a menu update
         const menuUpdateHandler = () => {
-            console.log("Menu.js update received!");
             const menuList = WebSocketService.menu;
-            console.log("menuList:", menuList);
 
             if (menuList) {
                 setItems(
@@ -60,9 +58,7 @@ const Menu = () => {
 
         // Connect to server if not already connected
         if (!WebSocketService.socket) {
-            WebSocketService.connect("127.0.0.1", "8080", false).then(
-                alert("Connected!")
-            );
+            WebSocketService.connect("127.0.0.1", "8080", false).then();
         }
 
         window.addEventListener("menuUpdate", menuUpdateHandler);

@@ -17,7 +17,7 @@ function getTables(message) {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                (err);
                 reject({
                     error: "Error while retrieving tables",
                     detail: err,
@@ -49,7 +49,7 @@ function createTable(message) {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                (err);
                 reject({
                     error: "Error while creating table",
                     detail: err,
@@ -86,7 +86,7 @@ function deleteTable(message) {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                (err);
                 reject({
                     error: "Error while deleting table",
                     detail: err,
@@ -168,7 +168,7 @@ function updateTableSeatCapacity(message) {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                (err);
                 reject({
                     error: "Error finding restaurant",
                     detail: err,
@@ -230,7 +230,7 @@ function updateTableOrder(message) {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                (err);
                 reject({
                     error: "Error finding restaurant",
                     detail: err,
@@ -274,7 +274,7 @@ function createTableOrder(message) {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                (err);
                 reject({
                     error: "Error finding restaurant",
                     detail: err,
@@ -328,7 +328,7 @@ function deleteTableOrder(message) {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                (err);
                 reject({
                     error: "Error finding restaurant",
                     detail: err,
