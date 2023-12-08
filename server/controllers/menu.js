@@ -79,7 +79,9 @@ function createMenu(message) {
         custom,
     });
 
-    return new Promise((resolve, reject) => {  
+    console.log("newMenuItem:", newMenuItem);
+
+    return new Promise((resolve, reject) => {
         Restaurant.findById(restaurantId)
             .then((restaurant) => {
                 if (!restaurant) {
@@ -105,14 +107,15 @@ function createMenu(message) {
                             details: err,
                         });
                     });
-            }).catch((err) => {
+            })
+            .catch((err) => {
                 reject({
                     error: "Error finding restaurant",
                     details: err,
                 });
             });
     }).catch((err) => {
-        console.error('Unhandled error:', err);
+        console.error("Unhandled error:", err);
     });
 }
 
@@ -131,53 +134,52 @@ function updateMenu(message) {
     } = message;
 
     return new Promise((resolve, reject) => {
-        Restaurant.findById(restaurantId).then((restaurant) => {
-            if (!restaurant) {
-                reject({ error: "Restaurant not found" });
-            }
-            const menuItem = restaurant.restaurantMenu.menuList.find(
-                (menuItem) => String(menuItem.menuId) == menuId
-            );
-            if (!menuItem) {
-                reject({ error: "Menu item not found" });
-            }
-            if (image) menuItem.image = image;
-            if (filter) menuItem.filter = filter;
-            if (name) menuItem.name = name;
-            if (price) menuItem.price = price;
-            if (description) menuItem.description = description;
-            if (diet) menuItem.diet = diet;
-            if (customizable) menuItem.customizable = customizable;
-            if (custom) menuItem.custom = custom;
+        Restaurant.findById(restaurantId)
+            .then((restaurant) => {
+                if (!restaurant) {
+                    reject({ error: "Restaurant not found" });
+                }
+                const menuItem = restaurant.restaurantMenu.menuList.find(
+                    (menuItem) => String(menuItem.menuId) == menuId
+                );
+                if (!menuItem) {
+                    reject({ error: "Menu item not found" });
+                }
+                if (image) menuItem.image = image;
+                if (filter) menuItem.filter = filter;
+                if (name) menuItem.name = name;
+                if (price) menuItem.price = price;
+                if (description) menuItem.description = description;
+                if (diet) menuItem.diet = diet;
+                if (customizable) menuItem.customizable = customizable;
+                if (custom) menuItem.custom = custom;
 
-            restaurant
-                .save()
-                .then(() => {
-                    getMenus()
-                    .then((menu) => {
-                        resolve({menuList: menu});
+                restaurant
+                    .save()
+                    .then(() => {
+                        getMenus().then((menu) => {
+                            resolve({ menuList: menu });
+                        });
                     })
-                })
-                .catch((err) => {
-                    reject({
-                        error: "Error updating menu",
-                        details: err,
+                    .catch((err) => {
+                        reject({
+                            error: "Error updating menu",
+                            details: err,
+                        });
                     });
+            })
+            .catch((err) => {
+                reject({
+                    error: "Error finding restaurant",
+                    details: err,
                 });
-        }).catch((err) => {
-            reject({
-                error: "Error finding restaurant",
-                details: err,
             });
-        });
     }).catch((err) => {
-        console.error('Unhandled error:', err);
+        console.error("Unhandled error:", err);
     });
 }
 
 function deleteMenu(message) {
-
-
     const restaurantId = message.restaurantId;
     const menuId = message.menuId;
 
@@ -186,37 +188,39 @@ function deleteMenu(message) {
     // return;
 
     return new Promise((resolve, reject) => {
-        Restaurant.findById(restaurantId).then((restaurant) => {
-            if (!restaurant) {
-                reject({ error: "Restaurant not found" });
-            }
-            const menuItem = restaurant.restaurantMenu.menuList.find(
-                (menuItem) => menuItem.menuId == menuId
-            );
-            restaurant.restaurantMenu.menuList =
-                restaurant.restaurantMenu.menuList.filter(
-                    (menuItem) => menuItem.menuId !== menuId
+        Restaurant.findById(restaurantId)
+            .then((restaurant) => {
+                if (!restaurant) {
+                    reject({ error: "Restaurant not found" });
+                }
+                const menuItem = restaurant.restaurantMenu.menuList.find(
+                    (menuItem) => menuItem.menuId == menuId
                 );
-            restaurant.restaurantMenu.totalItemCount =
-                restaurant.restaurantMenu.menuList.length;
+                restaurant.restaurantMenu.menuList =
+                    restaurant.restaurantMenu.menuList.filter(
+                        (menuItem) => menuItem.menuId !== menuId
+                    );
+                restaurant.restaurantMenu.totalItemCount =
+                    restaurant.restaurantMenu.menuList.length;
 
-            restaurant
-                .save()
-                .then(() => {
-                    resolve({menuList: getMenus()});
-                })
-                .catch((err) => {
-                    reject({
-                        error: "Error deleting menu",
-                        details: err,
+                restaurant
+                    .save()
+                    .then(() => {
+                        resolve({ menuList: getMenus() });
+                    })
+                    .catch((err) => {
+                        reject({
+                            error: "Error deleting menu",
+                            details: err,
+                        });
                     });
+            })
+            .catch((err) => {
+                reject({
+                    error: "Error finding restaurant",
+                    details: err,
                 });
-        }).catch((err) => {
-            reject({
-                error: "Error finding restaurant",
-                details: err,
             });
-        });
     });
 }
 
