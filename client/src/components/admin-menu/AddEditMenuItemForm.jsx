@@ -74,40 +74,40 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
         setItemData({...itemData, categories: updatedCategories});
     }
 
-    // const handleImageUpload = (files) => {
-    //     const file = files[0];
-    //     if (file) {
-    //         const reader = new FileReader();
-    //         reader.onload = (e) => {
-    //             setItemData({
-    //                 ...itemData,
-    //                 image: e.target.result,
-    //             });
-    //         };
-    //         reader.readAsDataURL(file);
-    //     }
-    // };
     const handleImageUpload = (files) => {
         const file = files[0];
         if (file) {
-            const relativePath = `test/${file.name}`;
-            setItemData({
-                ...itemData,
-                image: relativePath,
-                
-            });
-           
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setItemData({
+                    ...itemData,
+                    image: e.target.result,
+                });
+            };
+            reader.readAsDataURL(file);
         }
     };
-    const handleImageChange = (e) => {
-        setItemData({ ...itemData, image: e.target.value }); // update image as a string
-    };
+    // const handleImageUpload = (files) => {
+    //     const file = files[0];
+    //     if (file) {
+    //         const relativePath = `test/${file.name}`;
+    //         setItemData({
+    //             ...itemData,
+    //             image: relativePath,
+                
+    //         });
+           
+    //     }
+    // };
+    // const handleImageChange = (e) => {
+    //     setItemData({ ...itemData, image: e.target.value }); // update image as a string
+    // };
 
     return (
         <div className="flex flex-col ">
             <div className="flex">
                 <div className="w-3/5 p-8 bg-gray-100 relative">
-                    {/* {itemData.image ? (
+                    {itemData.image ? (
                         <div>
                             <img src={itemData.image} alt="Selected Image" className="w-full h-auto" />
                             <button
@@ -128,15 +128,15 @@ const AddEditMenuItemForm = ({ selectedItem, addMenuItem, editMenuItem, deleteMe
                                 className="custom-file-input"
                             />
                         </label>
-                    )} */}
-                    <input
+                    )}
+                    {/* <input
                         type="text"
                         name="image"
                         placeholder="Image Path"
                         value={itemData.image}
                         onChange={handleImageChange}
                         className="w-full break-all p-2 border border-gray-300 rounded"
-                    />
+                    /> */}
                 </div>
 
                 <div className="w-1/2 p-4">
